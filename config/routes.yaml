@@ -1,3 +1,18 @@
 index:
     path: /
-    controller: App\Controller\DefaultController::index
+    controller: App\UI\Web\Action\ShowDashboardAction
+
+training.create.page:
+    path: /training/create
+    controller: App\UI\Web\Action\Training\ShowTrainingCreatePageAction
+    methods: GET
+
+training.create:
+    path: /training/create
+    controller: App\UI\Web\Action\Training\CreateTrainingAction
+    methods: POST
+
+api.training.maps:
+    path: /api/maps
+    controller: App\UI\Api\Action\Training\GetAllMapsAction
+    methods: [ GET, OPTIONS ]

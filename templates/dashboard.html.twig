@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} CS Training {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-grid gap-2 mt-3 mb-3">
+            <a class="btn btn-primary" href="{{ path('training.create.page') }}">Добавить тренировку</a>
+        </div>
+        <br>
+
+        {% for training in trainings %}
+            <h1>Тренировка #{{ training.id }}</h1>
+            <h3>День: {{ training.date }}</h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col" class="align-middle text-center">Название</th>
+                    <th scope="col" class="align-middle text-center">Мод</th>
+                    <th scope="col" class="align-middle text-center">Кол-во</th>
+                    <th scope="col" class="align-middle text-center">Карта</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for part in training.parts %}
+                        <tr {% if part.isEnded == true %} class="table-success" {% else %} class="table-danger" {% endif %}>
+                            <th scope="row" class="align-middle text-center">{{ part.name }}</th>
+
+                            {% if part.mode == 'kill' %}
+                                <td class="align-middle text-center">Убийства</td>
+                                <td class="align-middle text-center">{{ part.value }} убийств</td>
+                            {% elseif part.mode == 'minute' %}
+                                <td class="align-middle text-center">Минут</td>
+                                <td class="align-middle text-center">{{ part.value }} минут</td>
+                            {% endif %}
+
+                            <td class="align-middle text-center">{{ part.map }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+{% endblock %}

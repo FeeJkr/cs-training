@@ -23,9 +23,22 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller/'
+    App\UI\Web\Action\:
+        resource: '../src/UI/Web/Action/'
         tags: ['controller.service_arguments']
+
+    Doctrine\DBAL\Connection:
+        factory: [ 'Doctrine\DBAL\DriverManager', getConnection ]
+        arguments:
+            $params:
+                driver: '%env(DB_DRIVER)%'
+                dbname: '%env(DB_NAME)%'
+                user: '%env(DB_USER)%'
+                password: '%env(DB_PASS)%'
+                host: '%env(DB_HOST)%'
+                port: '%env(DB_PORT)%'
+
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

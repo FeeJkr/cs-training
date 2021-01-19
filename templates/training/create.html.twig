@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="text-align: center;">Создание новой тренировки</h1>
+        <form class="mt-5" action="{{ path('training.create') }}" method="POST">
+            <div class="mb-3">
+                <label for="date" class="form-label">Дата тренировки</label>
+                <input type="date" name="training_date" class="form-control" id="date">
+            </div>
+
+            <div id="parts"></div>
+
+            <div class="d-grid gap-2 mt-3">
+                <button class="btn btn-outline-success" type="button" id="add-training-button">Добавить новую часть тренировки</button>
+            </div>
+
+            <div class="d-grid gap-2 col-6 mx-auto mt-2">
+                <input type="submit" class="btn btn-outline-warning" value="Сохранить тренировку">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        let partsCounter = 0;
+        const html = `
+            <div class="row mt-3">
+                <div class="col">
+                    <input type="text" name="parts[[{index}]][name]" class="form-control" placeholder="Название" aria-label="Название">
+                </div>
+                <div class="col">
+                    <select class="form-select" aria-label="Мод" name="parts[[{index}]][mod]">
+                        <option selected value="kill">Киллы</option>
+                        <option value="minute">Минуты</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="number" step="1" class="form-control" placeholder="Значение" aria-label="Значение" name="parts[[{index}]][value]">
+                </div>
+                <div class="col">
+                    <select class="form-control map-select" name="parts[[{index}]][map]" placeholder="Карта">
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-danger form-control delete-part">Удалить</button>
+                </div>
+            </div>
+        `;
+
+        $('#parts').append(html.replaceAll('[{index}]', partsCounter.toString()));
+
+        $('#add-training-button').on('click', function () {
+            partsCounter++;
+            $('#parts').append(html.replaceAll('[{index}]', partsCounter.toString()));
+            $('.map-select').select2({
+                tags: true,
+                ajax: {
+                    url: window.location.protocol + '//' + window.location.host + '/api/maps',
+                    dataType: 'json'
+                }
+            });
+        });
+
+        $(document).on('click', '.delete-part', function () {
+            if ($('#parts').children().length === 1) {
+                return;
+            }
+
+            $(this).parent('div').parent('div').remove();
+        });
+
+        Date.prototype.toDateInputValue = (function() {
+            const local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0,10);
+        });
+
+        $('#date').val(new Date().toDateInputValue());
+
+        $(document).ready(function() {
+            $('.map-select').select2({
+                tags: true,
+                ajax: {
+                    url: window.location.protocol + '//' + window.location.host + '/api/maps',
+                    dataType: 'json'
+                }
+            });
+        });
+    </script>
+{% endblock %}
