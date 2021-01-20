@@ -7,12 +7,15 @@ use App\Domain\Training\Training;
 use App\Domain\Training\TrainingMap;
 use App\Domain\Training\TrainingPart;
 use App\Domain\Training\TrainingRepository as TrainingRepositoryInterface;
-use DateTime;
 use Doctrine\DBAL\Connection;
 
 final class TrainingRepository implements TrainingRepositoryInterface
 {
-    public function __construct(private Connection $connection) {}
+    private Connection $connection;
+
+    public function __construct(Connection $connection) {
+        $this->connection = $connection;
+    }
 
     public function getAll(): array
     {

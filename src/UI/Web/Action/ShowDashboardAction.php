@@ -10,10 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ShowDashboardAction extends AbstractAction
 {
+    private TrainingService $trainingService;
+    private TrainingPresenter $presenter;
+
     public function __construct(
-        private TrainingService $trainingService,
-        private TrainingPresenter $presenter,
-    ) {}
+        TrainingService $trainingService,
+        TrainingPresenter $presenter
+    ) {
+        $this->presenter = $presenter;
+        $this->trainingService = $trainingService;
+    }
 
     public function __invoke(Request $request): Response
     {

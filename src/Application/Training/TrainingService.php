@@ -12,7 +12,11 @@ use DateTime;
 
 final class TrainingService
 {
-    public function __construct(private TrainingRepository $repository) {}
+    private TrainingRepository $repository;
+
+    public function __construct(TrainingRepository $repository) {
+        $this->repository = $repository;
+    }
 
     public function getAll(): array
     {
@@ -35,6 +39,7 @@ final class TrainingService
                 }
 
                 return new TrainingPart(
+                    null,
                     new TrainingMode($data['mod']),
                     (int)$data['value'],
                     $data['name'],
@@ -80,6 +85,7 @@ final class TrainingService
                 }
 
                 return new TrainingPart(
+                    null,
                     new TrainingMode($data['mod']),
                     (int)$data['value'],
                     $data['name'],

@@ -8,11 +8,19 @@ use DateTimeInterface;
 
 final class Training
 {
+    private ?int $id;
+    private array $parts;
+    private DateTimeInterface $date;
+
     public function __construct(
-        private ?int $id,
-        private array $parts,
-        private DateTimeInterface $date,
-    ) {}
+        ?int $id,
+        array $parts,
+        DateTimeInterface $date
+    ) {
+        $this->date = $date;
+        $this->parts = $parts;
+        $this->id = $id;
+    }
 
     public static function createFromRow(array $row): self
     {

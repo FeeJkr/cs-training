@@ -12,12 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class GetAllMapsAction extends AbstractAction
 {
-    public function __construct(private TrainingService $trainingService) {}
+    private TrainingService $trainingService;
+
+    public function __construct(TrainingService $trainingService) {
+        $this->trainingService = $trainingService;
+    }
 
     public function __invoke(Request $request): Response
     {
         $maps = $this->trainingService->getAllMaps();
 
-        return new JsonResponse(GetAllMapsPresenter::present($maps), headers: ['Access-Control-Allow-Origin' => '*']);
+        return new JsonResponse(GetAllMapsPresenter::present($maps), 200, ['Access-Control-Allow-Origin' => '*']);
     }
 }

@@ -3,20 +3,31 @@ declare(strict_types=1);
 
 namespace App\Domain\Training;
 
-use JetBrains\PhpStorm\Pure;
-
 final class TrainingPart
 {
-    public function __construct(
-        private ?int $id,
-        private TrainingMode $mode,
-        private int $value,
-        private string $name,
-        private TrainingMap $map,
-        private bool $isEnded,
-    ) {}
+    private ?int $id;
+    private TrainingMode $mode;
+    private int $value;
+    private string $name;
+    private TrainingMap $map;
+    private bool $isEnded;
 
-    #[Pure]
+    public function __construct(
+        ?int $id,
+        TrainingMode $mode,
+        int $value,
+        string $name,
+        TrainingMap $map,
+        bool $isEnded
+    ) {
+        $this->isEnded = $isEnded;
+        $this->map = $map;
+        $this->name = $name;
+        $this->value = $value;
+        $this->mode = $mode;
+        $this->id = $id;
+    }
+
     public static function createFromRow(array $data): self
     {
         return new self(

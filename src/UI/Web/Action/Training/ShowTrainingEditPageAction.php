@@ -10,7 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ShowTrainingEditPageAction extends AbstractAction
 {
-    public function __construct(private TrainingService $trainingService) {}
+    private TrainingService $trainingService;
+
+    public function __construct(TrainingService $trainingService) {
+        $this->trainingService = $trainingService;
+    }
 
     public function __invoke(Request $request): Response
     {
