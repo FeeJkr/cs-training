@@ -63,4 +63,45 @@ final class TrainingService
     {
         return $this->repository->createMap($mapName);
     }
+
+    public function getTrainingById(int $id): Training
+    {
+        return $this->repository->getTrainingById($id);
+    }
+
+    public function updateTraining(int $trainingId, string $date, array $parts): void
+    {
+        $parts = array_map(
+            function (array $data): TrainingPart {
+                if (is_numeric ($data['map'])) {
+                    $map = $this->getMapById((int)$data['map']);
+                } else {
+                    $map = $this->addMap($data['map']);
+                }
+
+                return new TrainingPart(
+                    new TrainingMode($data['mod']),
+                    (int)$data['value'],
+                    $data['name'],
+                    $map,
+                    false,
+                );
+            },
+            $parts
+        );
+
+        $training = new Training($trainingId, $parts, DateTime::createFromFormat('Y-m-d', $date));
+
+        $this->repository->update($training);
+    }
+
+    public function endTrainingPart(int $id): void
+    {
+        $this->repository->endTrainingPart($id);
+    }
+
+    public function reopenTrainingPart(int $id): void
+    {
+        $this->repository->reopenTrainingPart($id);
+    }
 }

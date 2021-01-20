@@ -10,8 +10,17 @@
         <br>
 
         {% for training in trainings %}
-            <h1>Тренировка #{{ training.id }}</h1>
-            <h3>День: {{ training.date }}</h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <h1>Тренировка #{{ training.id }}</h1>
+                        <h3>День: {{ training.date }}</h3>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="{{ path('training.edit.page', {'id': training.id}) }}" style="float: right;" class="btn btn-warning">Редактировать</a>
+                    </div>
+                </div>
+            </div>
 
             <table class="table">
                 <thead>
@@ -20,6 +29,7 @@
                     <th scope="col" class="align-middle text-center">Мод</th>
                     <th scope="col" class="align-middle text-center">Кол-во</th>
                     <th scope="col" class="align-middle text-center">Карта</th>
+                    <th scope="col" class="align-middle text-center">Действия</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,6 +46,13 @@
                             {% endif %}
 
                             <td class="align-middle text-center">{{ part.map }}</td>
+                            <td class="align-middle text-center">
+                                {% if part.isEnded == true %}
+                                    <a class="btn btn-danger" href="{{ path('training.part.reopen', {'id': part.id}) }}">Не выполнено</a>
+                                {% else %}
+                                    <a class="btn btn-success" href="{{ path('training.part.end', {'id': part.id}) }}">Выполнено</a>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

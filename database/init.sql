@@ -67,7 +67,7 @@ CREATE TRIGGER update_trainings_table
     FOR EACH ROW
 EXECUTE PROCEDURE set_update_at_now_on_trainings_table();
 
-CREATE TYPE training_mode AS ENUM ('kill', 'minute');
+CREATE TYPE training_mode AS ENUM ('kill', 'minute', 'bhop');
 
 create table training_parts
 (

@@ -8,6 +8,7 @@ use JetBrains\PhpStorm\Pure;
 final class TrainingPart
 {
     public function __construct(
+        private ?int $id,
         private TrainingMode $mode,
         private int $value,
         private string $name,
@@ -19,6 +20,7 @@ final class TrainingPart
     public static function createFromRow(array $data): self
     {
         return new self(
+            (int) $data['training_part_id'],
             new TrainingMode($data['training_part_mode']),
             (int) $data['training_part_value'],
             $data['training_part_name'],
@@ -50,5 +52,10 @@ final class TrainingPart
     public function isEnded(): bool
     {
         return $this->isEnded;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -16,3 +16,23 @@ api.training.maps:
     path: /api/maps
     controller: App\UI\Api\Action\Training\GetAllMapsAction
     methods: [ GET, OPTIONS ]
+
+training.edit.page:
+    path: /training/{id}/edit
+    controller: App\UI\Web\Action\Training\ShowTrainingEditPageAction
+    methods: GET
+
+training.edit:
+    path: /training/{id}/edit
+    controller: App\UI\Web\Action\Training\EditTrainingAction
+    methods: POST
+
+training.part.end:
+    path: /training/part/{id}/end
+    controller: App\UI\Web\Action\Training\EndTrainingPartAction
+    methods: GET
+
+training.part.reopen:
+    path: /training/part/{id}/reopen
+    controller: App\UI\Web\Action\Training\ReopenTrainingPartAction
+    methods: GET

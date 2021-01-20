@@ -24,6 +24,7 @@ final class TrainingRepository implements TrainingRepositoryInterface
                 trainings.date as training_date,
                 training_maps.id as map_id,
                 training_maps.name as map_name,
+                training_parts.id as training_part_id,
                 training_parts.name as training_part_name,
                 training_parts.is_ended as training_part_is_ended,
                 training_parts.mode as training_part_mode,
@@ -96,5 +97,62 @@ final class TrainingRepository implements TrainingRepositoryInterface
         ", ['name' => $mapName])->fetchOne();
 
         return new TrainingMap($id, $mapName);
+    }
+
+    public function getTrainingById(int $id): Training
+    {
+        $result = $this->connection->executeQuery("
+            SELECT
+                trainings.id as training_id,
+                trainings.date as training_date,
+                training_maps.id as map_id,
+                training_maps.name as map_name,
+                training_parts.id as training_part_id,
+                training_parts.name as training_part_name,
+                training_parts.is_ended as training_part_is_ended,
+                training_parts.mode as training_part_mode,
+                training_parts.value as training_part_value
+            FROM trainings
+                JOIN training_parts ON training_parts.training_id = trainings.id
+                JOIN training_maps ON training_parts.map_id = training_maps.id
+            WHERE trainings.id = :id
+        ", ['id' => $id])->fetchAllAssociative();
+
+        return Training::createFromRow($result);
+    }
+
+    public function update(Training $training): void
+    {
+        $this->connection->executeQuery(
+            "UPDATE trainings SET date = :date WHERE id = :id",
+            [
+                'date' => $training->getDate()->format('Y-m-d 00:00:00'),
+                'id' => $training->getId(),
+            ]
+        );
+
+        $this->connection->executeQuery("
+            DELETE FROM training_parts WHERE training_id = :id;
+        ", ['id' => $training->getId()]);
+
+        foreach ($training->getParts() as $part) {
+            $this->createPart($part, $training->getId());
+        }
+    }
+
+    public function endTrainingPart(int $id): void
+    {
+        $this->connection->executeQuery(
+            "UPDATE training_parts SET is_ended = true WHERE id = :id",
+            ['id' => $id]
+        );
+    }
+
+    public function reopenTrainingPart(int $id): void
+    {
+        $this->connection->executeQuery(
+            "UPDATE training_parts SET is_ended = false WHERE id = :id",
+            ['id' => $id]
+        );
     }
 }

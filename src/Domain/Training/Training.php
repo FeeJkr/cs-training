@@ -22,13 +22,13 @@ final class Training
         );
 
         return new self(
-            $row[0]['training_id'],
+            (int)$row[0]['training_id'],
             $parts,
             DateTime::createFromFormat('Y-m-d H:i:s', $row[0]['training_date'])
         );
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

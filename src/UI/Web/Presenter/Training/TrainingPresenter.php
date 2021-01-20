@@ -15,6 +15,7 @@ final class TrainingPresenter
                 'id' => $training->getId(),
                 'parts' => array_map(static function (TrainingPart $part): array {
                         return [
+                            'id' => $part->getId(),
                             'mode' => $part->getMode()->getValue(),
                             'value' => $part->getValue(),
                             'name' => $part->getName(),
@@ -22,7 +23,7 @@ final class TrainingPresenter
                             'isEnded' => $part->isEnded(),
                         ];
                     }, $training->getParts()),
-                'date' => $training->getDate()->format('d-m-Y H:i:s'),
+                'date' => $training->getDate()->format('d-m-Y (l)'),
             ];
         }, $trainings);
     }
