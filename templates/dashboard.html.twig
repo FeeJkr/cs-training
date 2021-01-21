@@ -43,6 +43,9 @@
                             {% elseif part.mode == 'minute' %}
                                 <td class="align-middle text-center">Минут</td>
                                 <td class="align-middle text-center">{{ part.value }} минут</td>
+                            {% elseif part.mode == 'bhop' %}
+                                <td class="align-middle text-center">Минут</td>
+                                <td class="align-middle text-center">{{ part.value }} минут</td>
                             {% endif %}
 
                             <td class="align-middle text-center">{{ part.map }}</td>
