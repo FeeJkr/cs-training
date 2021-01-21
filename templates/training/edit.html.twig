@@ -32,7 +32,8 @@
                         <div class="col">
                             <select class="form-select" aria-label="Мод" name="parts[{{ loop.index }}][mod]">
                                 <option value="kill" {% if part.mode == 'kill' %}selected{% endif %}>Киллы</option>
-                                <option value="minute" {% if part.mode == 'kill' %}selected{% endif %}>Минуты</option>
+                                <option value="minute" {% if part.mode == 'minute' %}selected{% endif %}>Минуты</option>
+                                <option value="bhop" {% if part.mode == 'bhop' %}selected{% endif %}>Банихоп</option>
                             </select>
                         </div>
                         <div class="col">
@@ -77,6 +78,7 @@
                     <select class="form-select" aria-label="Мод" name="parts[[{index}]][mod]">
                         <option selected value="kill">Киллы</option>
                         <option value="minute">Минуты</option>
+                        <option value="bhop">Банихоп</option>
                     </select>
                 </div>
                 <div class="col">
