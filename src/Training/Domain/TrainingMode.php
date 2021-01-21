@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Training;
+namespace App\Training\Domain;
 
 use MyCLabs\Enum\Enum;
 
@@ -15,4 +15,13 @@ final class TrainingMode extends Enum
     private const MINUTE = 'minute';
     private const KILL = 'kill';
     private const BHOP = 'bhop';
+
+    public function getModePrefix(): string
+    {
+        if ($this->value === self::KILL) {
+            return 'Убийств';
+        }
+
+        return 'Минут';
+    }
 }
