@@ -42,7 +42,7 @@
                         <div class="col">
                             <select class="form-control map-select" name="parts[{{ loop.index }}][map]" placeholder="Карта">
                                 {% for map in maps %}
-                                    <option value="{{ map.id }}" {% if part.map.id == map.id %} selected {% endif %}>{{ map.name }}</option>
+                                    <option value="{{ map.name }}" {% if part.map.name == map.name %} selected {% endif %}>{{ map.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
