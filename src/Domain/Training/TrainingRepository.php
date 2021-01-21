@@ -14,4 +14,6 @@ interface TrainingRepository
     public function update(Training $training): void;
     public function endTrainingPart(int $id): void;
     public function reopenTrainingPart(int $id): void;
+    public function isMapExists(string $name): bool;
+    public function getMapByName(string $name): TrainingMap;
 }

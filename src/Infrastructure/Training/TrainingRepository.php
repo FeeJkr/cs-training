@@ -93,6 +93,25 @@ final class TrainingRepository implements TrainingRepositoryInterface
         return new TrainingMap((int)$result['id'], $result['name']);
     }
 
+    public function getMapByName(string $name): TrainingMap
+    {
+        $result = $this->connection->executeQuery("
+            SELECT id, name FROM training_maps WHERE name = :name;
+        ", ['name' => $name])->fetchAssociative();
+
+        return new TrainingMap((int)$result['id'], $result['name']);
+    }
+
+    public function isMapExists(string $name): bool
+    {
+        $result = $this->connection->executeQuery(
+            "SELECT 1 FROM training_maps WHERE name = :name",
+            ['name' => $name]
+        )->fetchOne();
+
+        return $result !== false;
+    }
+
     public function createMap(string $mapName): TrainingMap
     {
         $id = $this->connection->executeQuery("

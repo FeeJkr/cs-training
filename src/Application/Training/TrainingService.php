@@ -32,8 +32,8 @@ final class TrainingService
     {
         $parts = array_map(
             function (array $data): TrainingPart {
-                if (is_numeric ($data['map'])) {
-                    $map = $this->getMapById((int)$data['map']);
+                if ($this->repository->isMapExists($data['map'])) {
+                    $map = $this->repository->getMapByName($data['map']);
                 } else {
                     $map = $this->addMap($data['map']);
                 }
@@ -78,8 +78,8 @@ final class TrainingService
     {
         $parts = array_map(
             function (array $data): TrainingPart {
-                if (is_numeric ($data['map'])) {
-                    $map = $this->getMapById((int)$data['map']);
+                if ($this->repository->isMapExists($data['map'])) {
+                    $map = $this->repository->getMapByName($data['map']);
                 } else {
                     $map = $this->addMap($data['map']);
                 }

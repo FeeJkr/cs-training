@@ -12,7 +12,7 @@ final class GetAllMapsPresenter
         $maps = array_map(
             static function (TrainingMap $map): array {
                 return [
-                    'id' => $map->getId(),
+                    'id' => $map->getName(),
                     'text' => $map->getName(),
                 ];
             },
