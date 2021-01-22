@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Web\Action;
+namespace App\Training\UI\Web\Action;
 
-use App\Application\Training\TrainingService;
-use App\UI\Web\Presenter\Training\TrainingPresenter;
+use App\Training\Application\TrainingService;
+use App\Training\UI\Web\Presenter\TrainingPresenter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

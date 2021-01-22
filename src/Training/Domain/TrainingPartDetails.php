@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Training\Application;
+namespace App\Training\Domain;
 
 use App\Training\Domain\TrainingMode;
 

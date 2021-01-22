@@ -12,9 +12,20 @@ final class TrainingPartsCollection
         $this->parts = $parts;
     }
 
-    public function update(TrainingPartsCollection $partsCollection): void
+    public function update(TrainingPartDetailsCollection $detailsCollection): void
     {
+        $parts = [];
 
+        foreach ($detailsCollection->getDetails() as $partDetails) {
+            $parts[] = TrainingPart::create(
+                new TrainingMode($partDetails->getMode()),
+                $partDetails->getMap(),
+                $partDetails->getName(),
+                $partDetails->getValue()
+            );
+        }
+
+        $this->parts = $parts;
     }
 
     public function getParts(): array

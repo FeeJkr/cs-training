@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Web\Presenter\Training;
+namespace App\Training\UI\Web\Presenter;
 
 use App\Domain\Training\Training;
 use App\Domain\Training\TrainingPart;

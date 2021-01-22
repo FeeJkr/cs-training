@@ -1,10 +1,10 @@
 index:
     path: /
-    controller: App\UI\Web\Action\ShowDashboardAction
+    controller: App\Training\UI\Web\Action\ShowDashboardAction
 
 training.create.page:
     path: /training/create
-    controller: App\UI\Web\Action\Training\ShowTrainingCreatePageAction
+    controller: App\Training\UI\Web\Action\ShowTrainingCreatePageAction
     methods: GET
 
 training.create:

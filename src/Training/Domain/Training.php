@@ -3,27 +3,24 @@ declare(strict_types=1);
 
 namespace App\Training\Domain;
 
-use App\Training\Application\TrainingPartDetailsCollection;
 use DateTime;
 use DateTimeInterface;
 
 final class Training
 {
     private Id $id;
-    private array $parts;
+    private TrainingPartsCollection $parts;
     private DateTimeInterface $date;
 
-    public function __construct(Id $id, array $parts, DateTimeInterface $date)
+    public function __construct(Id $id, TrainingPartsCollection $parts, DateTimeInterface $date)
     {
         $this->id = $id;
         $this->date = $date;
         $this->parts = $parts;
     }
 
-    public static function create(
-        DateTimeInterface $date,
-        TrainingPartDetailsCollection $detailsCollection
-    ): self {
+    public static function create(DateTimeInterface $date, TrainingPartDetailsCollection $detailsCollection): self
+    {
         $parts = [];
 
         foreach ($detailsCollection->getDetails() as $partDetails) {
@@ -37,14 +34,15 @@ final class Training
 
         return new self(
             Id::nullable(),
-            $parts,
+            new TrainingPartsCollection(...$parts),
             DateTime::createFromFormat('Y-m-d', $date)
         );
     }
 
-    public function update(DateTimeInterface $date): void
+    public function update(DateTimeInterface $date, TrainingPartDetailsCollection $detailsCollection): void
     {
         $this->date = $date;
+        $this->parts->update($detailsCollection);
     }
 
     public static function fromRow(array $row): self
@@ -56,7 +54,7 @@ final class Training
 
         return new self(
             Id::fromInt((int)$row[0]['training_id']),
-            $parts,
+            new TrainingPartsCollection(...$parts),
             DateTime::createFromFormat('Y-m-d H:i:s', $row[0]['training_date'])
         );
     }
@@ -66,7 +64,7 @@ final class Training
         return $this->id;
     }
 
-    public function getParts(): array
+    public function getParts(): TrainingPartsCollection
     {
         return $this->parts;
     }

@@ -1,20 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Infrastructure\Training;
+namespace App\Training\Infrastructure;
 
-use App\Domain\Training\Training;
-use App\Domain\Training\TrainingMap;
-use App\Domain\Training\TrainingPart;
-use App\Domain\Training\TrainingRepository as TrainingRepositoryInterface;
+use App\Training\Domain\Id;
+use App\Training\Domain\Training;
+use App\Training\Domain\TrainingRepository as TrainingRepositoryInterface;
 use Doctrine\DBAL\Connection;
+use Throwable;
+use Twig\Node\IfNode;
 
 final class TrainingRepository implements TrainingRepositoryInterface
 {
     private Connection $connection;
+    private TrainingPartRepository $trainingPartRepository;
 
-    public function __construct(Connection $connection) {
+    public function __construct(Connection $connection, TrainingPartRepository $trainingPartRepository)
+    {
         $this->connection = $connection;
+        $this->trainingPartRepository = $trainingPartRepository;
     }
 
     public function getAll(): array
@@ -42,86 +46,12 @@ final class TrainingRepository implements TrainingRepositoryInterface
         }
 
         return array_map(
-            static function (array $data): Training { return Training::createFromRow($data); },
+            static function (array $data): Training { return Training::fromRow($data); },
             $groupedTrainings
         );
     }
 
-    public function getAllMaps(): array
-    {
-        $result = $this->connection->executeQuery("
-            SELECT id, name FROM training_maps;
-        ")->fetchAllAssociative();
-
-        return array_map(
-            static function (array $data): TrainingMap { return new TrainingMap((int)$data['id'], $data['name']); },
-            $result
-        );
-    }
-
-    public function create(Training $training): void
-    {
-        $id = $this->connection->executeQuery("
-            INSERT INTO trainings (date) VALUES (:date) RETURNING id;
-        ", ['date' => $training->getDate()->format('Y-m-d 00:00:00')])->fetchOne();
-
-        foreach ($training->getParts() as $part) {
-            $this->createPart($part, $id);
-        }
-    }
-
-    public function createPart(TrainingPart $part, int $trainingId): void
-    {
-        $this->connection->executeQuery("
-            INSERT INTO training_parts (map_id, training_id, name, is_ended, mode, value)
-            VALUES (:mapId, :trainingId, :name, false, :mode, :value);
-        ", [
-            'mapId' => $part->getMap()->getId(),
-            'trainingId' => $trainingId,
-            'name' => $part->getName(),
-            'mode' => $part->getMode()->getValue(),
-            'value' => $part->getValue(),
-        ]);
-    }
-
-    public function getMapById(int $id): TrainingMap
-    {
-        $result = $this->connection->executeQuery("
-            SELECT id, name FROM training_maps WHERE id = :id;
-        ", ['id' => $id])->fetchAssociative();
-
-        return new TrainingMap((int)$result['id'], $result['name']);
-    }
-
-    public function getMapByName(string $name): TrainingMap
-    {
-        $result = $this->connection->executeQuery("
-            SELECT id, name FROM training_maps WHERE name = :name;
-        ", ['name' => $name])->fetchAssociative();
-
-        return new TrainingMap((int)$result['id'], $result['name']);
-    }
-
-    public function isMapExists(string $name): bool
-    {
-        $result = $this->connection->executeQuery(
-            "SELECT 1 FROM training_maps WHERE name = :name",
-            ['name' => $name]
-        )->fetchOne();
-
-        return $result !== false;
-    }
-
-    public function createMap(string $mapName): TrainingMap
-    {
-        $id = $this->connection->executeQuery("
-            INSERT INTO training_maps(name) VALUES (:name) RETURNING id;
-        ", ['name' => $mapName])->fetchOne();
-
-        return new TrainingMap($id, $mapName);
-    }
-
-    public function getTrainingById(int $id): Training
+    public function getById(Id $id): Training
     {
         $result = $this->connection->executeQuery("
             SELECT
@@ -138,43 +68,55 @@ final class TrainingRepository implements TrainingRepositoryInterface
                 JOIN training_parts ON training_parts.training_id = trainings.id
                 JOIN training_maps ON training_parts.map_id = training_maps.id
             WHERE trainings.id = :id
-        ", ['id' => $id])->fetchAllAssociative();
+        ", ['id' => $id->toInt()])->fetchAllAssociative();
 
-        return Training::createFromRow($result);
+        return Training::fromRow($result);
+    }
+
+    public function create(Training $training): void
+    {
+        try {
+            $this->connection->beginTransaction();
+
+            $id = $this->connection->executeQuery(
+                "INSERT INTO trainings (date) VALUES (:date) RETURNING id;",
+                ['date' => $training->getDate()->format('Y-m-d 00:00:00')]
+            )->fetchOne();
+
+            $trainingId = Id::fromInt($id);
+
+            foreach ($training->getParts() as $part) {
+                $this->trainingPartRepository->create($trainingId, $part);
+            }
+
+            $this->connection->commit();
+        } catch (Throwable $exception) {
+            $this->connection->rollBack();
+        }
     }
 
     public function update(Training $training): void
     {
-        $this->connection->executeQuery(
-            "UPDATE trainings SET date = :date WHERE id = :id",
-            [
-                'date' => $training->getDate()->format('Y-m-d 00:00:00'),
-                'id' => $training->getId(),
-            ]
-        );
+        try {
+            $this->connection->beginTransaction();
 
-        $this->connection->executeQuery("
-            DELETE FROM training_parts WHERE training_id = :id;
-        ", ['id' => $training->getId()]);
+            $this->connection->executeQuery(
+                "UPDATE trainings SET date = :date WHERE id = :id",
+                [
+                    'id' => $training->getId()->toInt(),
+                    'date' => $training->getDate()->format('Y-m-d 00:00:00'),
+                ]
+            );
 
-        foreach ($training->getParts() as $part) {
-            $this->createPart($part, $training->getId());
+            foreach ($training->getParts() as $part) {
+                $this->trainingPartRepository->delete($part);
+                $this->trainingPartRepository->create($training->getId(), $part);
+            }
+
+            $this->connection->commit();
+        } catch (Throwable $exception) {
+            $this->connection->rollBack();
         }
-    }
 
-    public function endTrainingPart(int $id): void
-    {
-        $this->connection->executeQuery(
-            "UPDATE training_parts SET is_ended = true WHERE id = :id",
-            ['id' => $id]
-        );
-    }
-
-    public function reopenTrainingPart(int $id): void
-    {
-        $this->connection->executeQuery(
-            "UPDATE training_parts SET is_ended = false WHERE id = :id",
-            ['id' => $id]
-        );
     }
 }

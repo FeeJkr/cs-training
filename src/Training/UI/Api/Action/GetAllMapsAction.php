@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Api\Action\Training;
+namespace App\Training\UI\Api\Action;
 
 use App\Application\Training\TrainingService;
 use App\UI\Api\Action\AbstractAction;

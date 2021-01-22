@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Web\Action;
+namespace App\Training\UI\Web\Action;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -10,24 +10,20 @@ final class TrainingMap
 
     public function __construct(Id $id, string $name)
     {
-        $this->name = $name;
         $this->id = $id;
+        $this->name = $name;
     }
 
     public static function create(string $mapName): self
     {
         return new self(
-            Id::nullable(),
-            $mapName
+            Id::nullable(), $mapName
         );
     }
 
     public static function fromRow(array $data): self
     {
-        return new self(
-            Id::fromInt((int)$data['map_id']),
-            $data['map_name']
-        );
+        return new self(Id::fromInt((int)$data['map_id']), $data['map_name']);
     }
 
     public function getId(): Id

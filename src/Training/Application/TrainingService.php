@@ -5,8 +5,8 @@ namespace App\Training\Application;
 
 use App\Training\Domain\Id;
 use App\Training\Domain\Training;
+use App\Training\Domain\TrainingPartDetailsCollection;
 use App\Training\Domain\TrainingRepository;
-use DateTime;
 use DateTimeInterface;
 
 final class TrainingService
@@ -23,6 +23,11 @@ final class TrainingService
         return $this->repository->getAll();
     }
 
+    public function getById(int $id): Training
+    {
+        return $this->repository->getById(Id::fromInt($id));
+    }
+
     public function create(DateTimeInterface $date, TrainingPartDetailsCollection $detailsCollection): void
     {
         $training = Training::create($date, $detailsCollection);
@@ -30,16 +35,11 @@ final class TrainingService
         $this->repository->create($training);
     }
 
-    public function getById(int $id): Training
-    {
-        return $this->repository->getById(Id::fromInt($id));
-    }
-
     public function update(int $id, DateTimeInterface $date, TrainingPartDetailsCollection $detailsCollection): void
     {
         $training = $this->repository->getById(Id::fromInt($id));
 
-        $training->update();
+        $training->update($date, $detailsCollection);
 
         $this->repository->update($training);
     }
