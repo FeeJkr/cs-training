@@ -45,8 +45,6 @@ final class Training
     public function update(DateTimeInterface $date): void
     {
         $this->date = $date;
-
-
     }
 
     public static function fromRow(array $row): self
