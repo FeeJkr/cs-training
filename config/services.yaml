@@ -33,6 +33,9 @@ services:
     App\Faceit\UI\Web\FaceitMatchController:
         tags: ['controller.service_arguments']
 
+    App\Faceit\UI\Console\AddFaceitMatchesCommand:
+        tags: ['console.command']
+
     Doctrine\DBAL\Connection:
         factory: [ 'Doctrine\DBAL\DriverManager', getConnection ]
         arguments:

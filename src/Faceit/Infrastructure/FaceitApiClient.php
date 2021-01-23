@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 final class FaceitApiClient implements FaceitApi
 {
     private const PLAYER_INFO_URI = 'https://open.faceit.com/data/v4/players?nickname=%s';
-    private const PLAYER_MATCHES_URI = 'https://open.faceit.com/data/v4/players/%s/history?game=csgo&offset=0&limit=%d';
+    private const PLAYER_MATCHES_URI = 'https://open.faceit.com/data/v4/players/%s/history?game=csgo&offset=%d&limit=%d';
     private const MATCH_INFO_URI = 'https://open.faceit.com/data/v4/matches/%s/stats';
     private const PLAYER_STATISTICS_URI = 'https://open.faceit.com/data/v4/players/%s/stats/csgo';
 
@@ -34,9 +34,9 @@ final class FaceitApiClient implements FaceitApi
         return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
-    public function getMatches(string $faceitId, int $limit): array
+    public function getMatches(string $faceitId, int $limit, int $offset): array
     {
-        $response = $this->httpClient->get(sprintf(self::PLAYER_MATCHES_URI, $faceitId, $limit), [
+        $response = $this->httpClient->get(sprintf(self::PLAYER_MATCHES_URI, $faceitId, $offset, $limit), [
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->faceitApiToken,
             ]

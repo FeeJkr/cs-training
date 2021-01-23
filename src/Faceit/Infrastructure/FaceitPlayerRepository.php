@@ -146,4 +146,11 @@ final class FaceitPlayerRepository implements FaceitPlayerRepositoryInterface
             $this->connection->rollBack();
         }
     }
+
+    public function getAllPlayersNicknames(): array
+    {
+        return $this->connection->executeQuery("
+            SELECT nickname FROM faceit_players;
+        ")->fetchAllAssociative();
+    }
 }

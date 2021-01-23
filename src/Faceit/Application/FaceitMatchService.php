@@ -36,7 +36,20 @@ final class FaceitMatchService
             ? $matchesCount
             : 30;
 
-        foreach ($this->faceitApi->getMatches($player->getFaceitId(), $limit) as $match) {
+        if ($limit > 50) {
+            $rounds = (int) floor($limit / 50);
+
+            for ($i = 0; $i <= $rounds; $i++) {
+                $this->processMatches($player->getFaceitId(), 50, $i * 50);
+            }
+        } else {
+            $this->processMatches($player->getFaceitId(), $limit, 0);
+        }
+    }
+
+    private function processMatches(string $faceitPlayerId, int $limit, int $offset): void
+    {
+        foreach ($this->faceitApi->getMatches($faceitPlayerId, $limit, $offset) as $match) {
             if ($match['status'] === 'finished' && ! $this->repository->matchExists($match['match_id'])) {
                 $this->repository->add(FaceitMatch::createFromApi($match, $this->faceitApi));
             }

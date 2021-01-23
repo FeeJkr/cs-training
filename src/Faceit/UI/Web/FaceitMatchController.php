@@ -16,13 +16,4 @@ final class FaceitMatchController extends AbstractController
     {
         $this->service = $service;
     }
-
-    public function update(Request $request): Response
-    {
-        $nickname = $request->get('nickname');
-
-        $this->service->update($nickname);
-
-        return $this->redirectToRoute('faceit.dashboard', ['nickname' => $nickname]);
-    }
 }

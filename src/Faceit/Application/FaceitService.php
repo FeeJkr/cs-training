@@ -24,6 +24,11 @@ final class FaceitService
         return $this->playerRepository->getByNickname($nickname);
     }
 
+    public function getAllPlayersNicknames(): array
+    {
+        return $this->playerRepository->getAllPlayersNicknames();
+    }
+
     public function addPlayer(string $nickname): void
     {
         if ($this->playerRepository->userExists($nickname)) {
@@ -46,10 +51,5 @@ final class FaceitService
         );
 
         $this->playerRepository->updateStatistics($player->getId(), $statistics);
-    }
-
-    public function getPlayerTotalMatches(FaceitPlayer $player): int
-    {
-
     }
 }
