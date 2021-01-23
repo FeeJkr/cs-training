@@ -32,3 +32,23 @@ training.part.toggleIsEnded:
     path: /training/part/{id}/toggle
     controller: App\Training\UI\Web\TrainingPartController:toggleIsEnded
     methods: GET
+
+faceit.dashboard:
+    path: /faceit/{nickname}
+    controller: App\Faceit\UI\Web\FaceitController::dashboard
+    methods: GET
+
+faceit.player.add:
+    path: /faceit/player/{nickname}/add
+    controller: App\Faceit\UI\Web\FaceitController::addPlayer
+    methods: GET
+
+faceit.player.matches.update:
+    path: /faceit/{nickname}/matches/update
+    controller: App\Faceit\UI\Web\FaceitMatchController::update
+    methods: GET
+
+faceit.player.updateStatistics:
+    path: /faceit/player/{nickname}/update-statistics
+    controller: App\Faceit\UI\Web\FaceitController::updatePlayerStatistics
+    methods: GET
