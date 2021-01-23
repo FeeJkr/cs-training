@@ -45,13 +45,20 @@ final class FaceitPlayer
 
     public static function createFromRow(array $row): self
     {
+        $statistics = null;
+
+        if (isset($row['statistics_id']) && $row['statistics_id'] !== null) {
+            $statistics = FaceitPlayerStatistics::createFromRow($row);
+        }
+
         return new self(
             Id::fromInt($row['id']),
             FaceitPlayerGame::createFromRow($row),
             $row['faceit_id'],
             $row['nickname'],
             $row['avatar'],
-            $row['faceit_url']
+            $row['faceit_url'],
+            $statistics
         );
     }
 

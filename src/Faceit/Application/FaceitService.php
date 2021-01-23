@@ -41,8 +41,15 @@ final class FaceitService
     public function updatePlayerStatistics(string $nickname): void
     {
         $player = $this->playerRepository->getByNickname($nickname);
+        $statistics = FaceitPlayerStatistics::createFromApi(
+            $this->apiClient->getPlayerStatistics($player->getFaceitId())
+        );
 
-        FaceitPlayerStatistics::createFromApi($player);
-        dd($this->apiClient->getPlayerStatistics($player->getFaceitId()));
+        $this->playerRepository->updateStatistics($player->getId(), $statistics);
+    }
+
+    public function getPlayerTotalMatches(FaceitPlayer $player): int
+    {
+
     }
 }

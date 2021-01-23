@@ -14,7 +14,24 @@ final class FaceitPlayerStatisticsSegmentsCollection
 
     public static function createFromApi(array $body): self
     {
+        $segments = [];
 
+        foreach ($body as $segment) {
+            $segments[] = FaceitPlayerStatisticsSegment::createFromApi($segment);
+        }
+
+        return new self(...$segments);
+    }
+
+    public static function createFromRows(array $rows): self
+    {
+        $segments = [];
+
+        foreach ($rows as $row) {
+            $segments[] = FaceitPlayerStatisticsSegment::createFromRow($row);
+        }
+
+        return new self(...$segments);
     }
 
     public function getSegments(): array
