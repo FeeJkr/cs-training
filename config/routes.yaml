@@ -1,6 +1,12 @@
-index:
+dashboard:
     path: /
+    controller: App\Common\UI\Web\IndexController::dashboard
+    methods: GET
+
+training.dashboard:
+    path: /training
     controller: App\Training\UI\Web\TrainingController::dashboard
+    methods: GET
 
 training.create.page:
     path: /training/create
