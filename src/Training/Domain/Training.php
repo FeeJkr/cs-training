@@ -26,7 +26,7 @@ final class Training
         foreach ($detailsCollection->getDetails() as $partDetails) {
             $parts[] = TrainingPart::create(
                 new TrainingMode($partDetails->getMode()),
-                $partDetails->getMap(),
+                $partDetails->getMapId(),
                 $partDetails->getName(),
                 $partDetails->getValue()
             );
@@ -35,7 +35,7 @@ final class Training
         return new self(
             Id::nullable(),
             new TrainingPartsCollection(...$parts),
-            DateTime::createFromFormat('Y-m-d', $date)
+            $date
         );
     }
 

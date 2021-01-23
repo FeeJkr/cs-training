@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-sm">
                         <h1>Тренировка #{{ training.id }}</h1>
-                        <h3>День: {{ training.date }}</h3>
+                        <h3>День: {{ training.formatDate }}</h3>
                     </div>
                     <div class="col-sm-2">
                         <a href="{{ path('training.edit.page', {'id': training.id}) }}" style="float: right;" class="btn btn-warning">Редактировать</a>
@@ -36,25 +36,16 @@
                     {% for part in training.parts %}
                         <tr {% if part.isEnded == true %} class="table-success" {% else %} class="table-danger" {% endif %}>
                             <th scope="row" class="align-middle text-center">{{ part.name }}</th>
-
-                            {% if part.mode == 'kill' %}
-                                <td class="align-middle text-center">Убийства</td>
-                                <td class="align-middle text-center">{{ part.value }} убийств</td>
-                            {% elseif part.mode == 'minute' %}
-                                <td class="align-middle text-center">Минут</td>
-                                <td class="align-middle text-center">{{ part.value }} минут</td>
-                            {% elseif part.mode == 'bhop' %}
-                                <td class="align-middle text-center">Минут</td>
-                                <td class="align-middle text-center">{{ part.value }} минут</td>
-                            {% endif %}
-
-                            <td class="align-middle text-center">{{ part.map }}</td>
+                            <td class="align-middle text-center">{{ part.modePrefix }}</td>
+                            <td class="align-middle text-center">{{ part.value }} {{ part.modePrefix|lower }}</td>
+                            <td class="align-middle text-center">{{ part.map.name }}</td>
                             <td class="align-middle text-center">
-                                {% if part.isEnded == true %}
-                                    <a class="btn btn-danger" href="{{ path('training.part.reopen', {'id': part.id}) }}">Не выполнено</a>
-                                {% else %}
-                                    <a class="btn btn-success" href="{{ path('training.part.end', {'id': part.id}) }}">Выполнено</a>
-                                {% endif %}
+                                <a
+                                    class="btn {% if part.isEnded == true %}btn-danger{% else %}btn-success{% endif %}"
+                                    href="{{ path('training.part.toggleIsEnded', {'id': part.id}) }}"
+                                >
+                                    {% if part.isEnded == true %}Открыть{% else %}Закрыть{% endif %}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

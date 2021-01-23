@@ -1,19 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    <style>
-        .select2-selection__rendered {
-            line-height: 35px !important;
-        }
-        .select2-container .select2-selection--single {
-            height: 37px !important;
-        }
-        .select2-selection__arrow {
-            height: 34px !important;
-        }
-    </style>
-{% endblock %}
-
 {% block body %}
     <div class="container">
         <h1 style="text-align: center;">Создание новой тренировки</h1>
@@ -45,23 +31,27 @@
             mapSelect += '<option value="{{ map.id }}">{{ map.name }}</option>';
         {% endfor %}
 
+        let modeSelect = '';
+
+        {% for mode in modes %}
+            modeSelect += '<option value="{{ mode.key }}">{{ mode.value }}</option>';
+        {% endfor %}
+
         const html = `
             <div class="row mt-3">
                 <div class="col">
                     <input type="text" name="parts[[{index}]][name]" class="form-control" placeholder="Название" aria-label="Название">
                 </div>
                 <div class="col">
-                    <select class="form-select" aria-label="Мод" name="parts[[{index}]][mod]">
-                        <option selected value="kill">Киллы</option>
-                        <option value="minute">Минуты</option>
-                        <option value="bhop">Банихоп</option>
+                    <select class="form-select" aria-label="Мод" name="parts[[{index}]][mode]">
+                        ${modeSelect}
                     </select>
                 </div>
                 <div class="col">
                     <input type="number" step="1" class="form-control" placeholder="Значение" aria-label="Значение" name="parts[[{index}]][value]">
                 </div>
                 <div class="col">
-                    <select class="form-control map-select" name="parts[[{index}]][map]" placeholder="Карта">
+                    <select class="form-control map-select" name="parts[[{index}]][mapId]">
                         ${mapSelect}
                     </select>
                 </div>
@@ -76,13 +66,6 @@
         $('#add-training-button').on('click', function () {
             partsCounter++;
             $('#parts').append(html.replaceAll('[{index}]', partsCounter.toString()));
-            $('.map-select').select2({
-                tags: true,
-                ajax: {
-                    url: window.location.protocol + '//' + window.location.host + '/api/maps',
-                    dataType: 'json'
-                }
-            });
         });
 
         $(document).on('click', '.delete-part', function () {

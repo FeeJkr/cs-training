@@ -21,6 +21,14 @@ final class TrainingMap
         );
     }
 
+    public static function createWithId(int $id): self
+    {
+        return new self(
+            Id::fromInt($id),
+            'random string'
+        );
+    }
+
     public static function fromRow(array $data): self
     {
         return new self(Id::fromInt((int)$data['map_id']), $data['map_name']);

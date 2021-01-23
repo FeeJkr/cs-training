@@ -17,10 +17,10 @@
 {% block body %}
     <div class="container">
         <h1 style="text-align: center;">Редактирование тренировки #{{ training.id }}</h1>
-        <form class="mt-5" action="{{ path('training.edit', {'id': training.id}) }}" method="POST">
+        <form class="mt-5" action="{{ path('training.update', {'id': training.id}) }}" method="POST">
             <div class="mb-3">
                 <label for="date" class="form-label">Дата тренировки</label>
-                <input type="date" name="training_date" class="form-control" id="date" value="{{ training.date.format('Y-m-d') }}">
+                <input type="date" name="training_date" class="form-control" id="date" value="{{ training.date }}">
             </div>
 
             <div id="parts">
@@ -30,19 +30,19 @@
                             <input type="text" name="parts[{{ loop.index }}][name]" value="{{ part.name }}" class="form-control" placeholder="Название" aria-label="Название">
                         </div>
                         <div class="col">
-                            <select class="form-select" aria-label="Мод" name="parts[{{ loop.index }}][mod]">
-                                <option value="kill" {% if part.mode == 'kill' %}selected{% endif %}>Киллы</option>
-                                <option value="minute" {% if part.mode == 'minute' %}selected{% endif %}>Минуты</option>
-                                <option value="bhop" {% if part.mode == 'bhop' %}selected{% endif %}>Банихоп</option>
+                            <select class="form-select" aria-label="Мод" name="parts[{{ loop.index }}][mode]">
+                                {% for mode in modes %}
+                                    <option value="{{ mode.key }}" {% if mode.key == part.mode %}selected{% endif %}>{{ mode.value }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="col">
                             <input type="number" step="1" class="form-control" placeholder="Значение" value="{{ part.value }}" aria-label="Значение" name="parts[{{ loop.index }}][value]">
                         </div>
                         <div class="col">
-                            <select class="form-control map-select" name="parts[{{ loop.index }}][map]" placeholder="Карта">
+                            <select class="form-control map-select" name="parts[{{ loop.index }}][mapId]">
                                 {% for map in maps %}
-                                    <option value="{{ map.name }}" {% if part.map.name == map.name %} selected {% endif %}>{{ map.name }}</option>
+                                    <option value="{{ map.id }}" {% if part.map.id == map.id %} selected {% endif %}>{{ map.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -69,23 +69,34 @@
 {% block javascripts %}
     <script type="text/javascript">
         let partsCounter = $('#parts').children().length;
+        let mapSelect = '';
+
+        {% for map in maps %}
+            mapSelect += '<option value="{{ map.id }}">{{ map.name }}</option>';
+        {% endfor %}
+
+        let modeSelect = '';
+
+        {% for mode in modes %}
+            modeSelect += '<option value="{{ mode.key }}">{{ mode.value }}</option>';
+        {% endfor %}
+
         const html = `
             <div class="row mt-3">
                 <div class="col">
                     <input type="text" name="parts[[{index}]][name]" class="form-control" placeholder="Название" aria-label="Название">
                 </div>
                 <div class="col">
-                    <select class="form-select" aria-label="Мод" name="parts[[{index}]][mod]">
-                        <option selected value="kill">Киллы</option>
-                        <option value="minute">Минуты</option>
-                        <option value="bhop">Банихоп</option>
+                    <select class="form-select" aria-label="Мод" name="parts[[{index}]][mode]">
+                        ${modeSelect}
                     </select>
                 </div>
                 <div class="col">
                     <input type="number" step="1" class="form-control" placeholder="Значение" aria-label="Значение" name="parts[[{index}]][value]">
                 </div>
                 <div class="col">
-                    <select class="form-control map-select" name="parts[[{index}]][map]" placeholder="Карта">
+                    <select class="form-control map-select" name="parts[[{index}]][mapId]">
+                        ${mapSelect}
                     </select>
                 </div>
                 <div class="col">
@@ -97,13 +108,6 @@
         $('#add-training-button').on('click', function () {
             partsCounter++;
             $('#parts').append(html.replaceAll('[{index}]', partsCounter.toString()));
-            $('.map-select').select2({
-                tags: true,
-                ajax: {
-                    url: window.location.protocol + '//' + window.location.host + '/api/maps',
-                    dataType: 'json'
-                }
-            });
         });
 
         $(document).on('click', '.delete-part', function () {
@@ -118,12 +122,6 @@
             const local = new Date(this);
             local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
             return local.toJSON().slice(0,10);
-        });
-
-        $(document).ready(function() {
-            $('.map-select').select2({
-                tags: true
-            });
         });
     </script>
 {% endblock %}

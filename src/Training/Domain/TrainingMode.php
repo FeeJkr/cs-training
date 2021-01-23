@@ -16,12 +16,25 @@ final class TrainingMode extends Enum
     private const KILL = 'kill';
     private const BHOP = 'bhop';
 
+    private static array $languageRU = [
+        self::MINUTE => 'Минуты',
+        self::KILL => 'Убийства',
+        self::BHOP => 'БХоп',
+    ];
+
+    private static array $prefixRU = [
+        self::MINUTE => 'Минут',
+        self::KILL => 'Убийств',
+        self::BHOP => 'Минут (БХоп)',
+    ];
+
     public function getModePrefix(): string
     {
-        if ($this->value === self::KILL) {
-            return 'Убийств';
-        }
+        return self::$prefixRU[$this->value];
+    }
 
-        return 'Минут';
+    public function getValueRU(): string
+    {
+        return self::$languageRU[$this->value];
     }
 }

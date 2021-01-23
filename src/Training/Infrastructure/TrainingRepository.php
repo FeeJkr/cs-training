@@ -7,6 +7,7 @@ use App\Training\Domain\Id;
 use App\Training\Domain\Training;
 use App\Training\Domain\TrainingRepository as TrainingRepositoryInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Throwable;
 use Twig\Node\IfNode;
 
@@ -38,7 +39,8 @@ final class TrainingRepository implements TrainingRepositoryInterface
                 training_parts.value as training_part_value
             FROM trainings
                 JOIN training_parts ON training_parts.training_id = trainings.id
-                JOIN training_maps ON training_parts.map_id = training_maps.id;
+                JOIN training_maps ON training_parts.map_id = training_maps.id
+            ORDER BY trainings.created_at DESC, training_parts.is_ended ASC;
         ")->fetchAllAssociative();
 
         foreach ($result as $data) {
@@ -85,12 +87,12 @@ final class TrainingRepository implements TrainingRepositoryInterface
 
             $trainingId = Id::fromInt($id);
 
-            foreach ($training->getParts() as $part) {
+            foreach ($training->getParts()->getParts() as $part) {
                 $this->trainingPartRepository->create($trainingId, $part);
             }
 
             $this->connection->commit();
-        } catch (Throwable $exception) {
+        } catch (Exception $exception) {
             $this->connection->rollBack();
         }
     }
@@ -108,13 +110,14 @@ final class TrainingRepository implements TrainingRepositoryInterface
                 ]
             );
 
-            foreach ($training->getParts() as $part) {
-                $this->trainingPartRepository->delete($part);
+            $this->trainingPartRepository->deleteByTrainingId($training->getId());
+
+            foreach ($training->getParts()->getParts() as $part) {
                 $this->trainingPartRepository->create($training->getId(), $part);
             }
 
             $this->connection->commit();
-        } catch (Throwable $exception) {
+        } catch (Exception $exception) {
             $this->connection->rollBack();
         }
 

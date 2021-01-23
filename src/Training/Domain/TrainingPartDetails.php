@@ -3,19 +3,17 @@ declare(strict_types=1);
 
 namespace App\Training\Domain;
 
-use App\Training\Domain\TrainingMode;
-
 final class TrainingPartDetails
 {
     private string $mode;
-    private string $map;
+    private int $mapId;
     private string $name;
     private int $value;
 
-    public function __construct(string $mode, string $map, string $name, int $value)
+    public function __construct(string $mode, int $mapId, string $name, int $value)
     {
         $this->mode = $mode;
-        $this->map = $map;
+        $this->mapId = $mapId;
         $this->name = $name;
         $this->value = $value;
     }
@@ -25,9 +23,9 @@ final class TrainingPartDetails
         return $this->mode;
     }
 
-    public function getMap(): string
+    public function getMapId(): int
     {
-        return $this->map;
+        return $this->mapId;
     }
 
     public function getName(): string

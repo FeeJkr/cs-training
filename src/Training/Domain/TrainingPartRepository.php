@@ -5,6 +5,6 @@ namespace App\Training\Domain;
 
 interface TrainingPartRepository
 {
-    public function close(int $id): void;
-    public function open(int $id): void;
+    public function getById(Id $id): TrainingPart;
+    public function save(TrainingPart $part): void;
 }

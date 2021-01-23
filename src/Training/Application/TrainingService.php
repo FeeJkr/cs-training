@@ -7,7 +7,7 @@ use App\Training\Domain\Id;
 use App\Training\Domain\Training;
 use App\Training\Domain\TrainingPartDetailsCollection;
 use App\Training\Domain\TrainingRepository;
-use DateTimeInterface;
+use DateTime;
 
 final class TrainingService
 {
@@ -28,18 +28,24 @@ final class TrainingService
         return $this->repository->getById(Id::fromInt($id));
     }
 
-    public function create(DateTimeInterface $date, TrainingPartDetailsCollection $detailsCollection): void
+    public function create(string $date, array $details): void
     {
-        $training = Training::create($date, $detailsCollection);
+        $training = Training::create(
+            DateTime::createFromFormat('Y-m-d', $date),
+            TrainingPartDetailsCollection::createFromArray($details)
+        );
 
         $this->repository->create($training);
     }
 
-    public function update(int $id, DateTimeInterface $date, TrainingPartDetailsCollection $detailsCollection): void
+    public function update(int $id, string $date, array $details): void
     {
         $training = $this->repository->getById(Id::fromInt($id));
 
-        $training->update($date, $detailsCollection);
+        $training->update(
+            DateTime::createFromFormat('Y-m-d', $date),
+            TrainingPartDetailsCollection::createFromArray($details)
+        );
 
         $this->repository->update($training);
     }

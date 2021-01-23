@@ -1,38 +1,28 @@
 index:
     path: /
-    controller: App\Training\UI\Web\Action\ShowDashboardAction
+    controller: App\Training\UI\Web\TrainingController::dashboard
 
 training.create.page:
     path: /training/create
-    controller: App\Training\UI\Web\Action\ShowTrainingCreatePageAction
+    controller: App\Training\UI\Web\TrainingController::createPage
     methods: GET
 
 training.create:
     path: /training/create
-    controller: App\UI\Web\Action\Training\CreateTrainingAction
+    controller: App\Training\UI\Web\TrainingController::create
     methods: POST
-
-api.training.maps:
-    path: /api/maps
-    controller: App\UI\Api\Action\Training\GetAllMapsAction
-    methods: [ GET, OPTIONS ]
 
 training.edit.page:
     path: /training/{id}/edit
-    controller: App\UI\Web\Action\Training\ShowTrainingEditPageAction
+    controller: App\Training\UI\Web\TrainingController::editPage
     methods: GET
 
-training.edit:
+training.update:
     path: /training/{id}/edit
-    controller: App\UI\Web\Action\Training\EditTrainingAction
+    controller: App\Training\UI\Web\TrainingController::update
     methods: POST
 
-training.part.end:
-    path: /training/part/{id}/end
-    controller: App\UI\Web\Action\Training\EndTrainingPartAction
-    methods: GET
-
-training.part.reopen:
-    path: /training/part/{id}/reopen
-    controller: App\UI\Web\Action\Training\ReopenTrainingPartAction
+training.part.toggleIsEnded:
+    path: /training/part/{id}/toggle
+    controller: App\Training\UI\Web\TrainingPartController:toggleIsEnded
     methods: GET

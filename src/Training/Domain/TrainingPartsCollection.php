@@ -19,7 +19,7 @@ final class TrainingPartsCollection
         foreach ($detailsCollection->getDetails() as $partDetails) {
             $parts[] = TrainingPart::create(
                 new TrainingMode($partDetails->getMode()),
-                $partDetails->getMap(),
+                $partDetails->getMapId(),
                 $partDetails->getName(),
                 $partDetails->getValue()
             );

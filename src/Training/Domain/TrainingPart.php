@@ -30,14 +30,14 @@ final class TrainingPart
 
     public static function create(
         TrainingMode $mode,
-        string $mapName,
+        int $mapId,
         string $name,
         int $value
     ): self {
         return new self(
             Id::nullable(),
             $mode,
-            TrainingMap::create($mapName),
+            TrainingMap::createWithId($mapId),
             $name,
             $value,
             false
@@ -54,6 +54,11 @@ final class TrainingPart
             (int) $data['training_part_value'],
             $data['training_part_is_ended']
         );
+    }
+
+    public function toggleIsEnded(): void
+    {
+        $this->isEnded = !$this->isEnded;
     }
 
     public function getId(): Id
