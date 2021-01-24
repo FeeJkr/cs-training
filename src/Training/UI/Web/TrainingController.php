@@ -50,7 +50,7 @@ final class TrainingController extends AbstractController
     {
         $this->service->create($request->get('training_date'), $request->get('parts'));
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('training.dashboard');
     }
 
     public function editPage(Request $request): Response
@@ -72,6 +72,6 @@ final class TrainingController extends AbstractController
             $request->get('parts')
         );
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('training.dashboard');
     }
 }

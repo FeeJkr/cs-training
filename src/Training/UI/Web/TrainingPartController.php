@@ -21,6 +21,6 @@ final class TrainingPartController extends AbstractController
     {
         $this->service->toggleIsEnded((int) $request->get('id'));
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('training.dashboard');
     }
 }
