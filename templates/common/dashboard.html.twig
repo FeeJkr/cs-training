@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} CS Training {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-grid gap-2 mt-3 mb-3">
+            <p class="btn btn-primary">Список доступных аккаунтов</p>
+        </div>
+        <br>
+
+        <div class="list-group">
+            {% for player in players %}
+                <a href="{{ path('faceit.dashboard', {'nickname': player.nickname}) }}" class="list-group-item list-group-item-action">{{ player.nickname }}</a>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
