@@ -94,8 +94,9 @@ final class FaceitMatchRepository implements FaceitMatchRepositoryInterface
                 fmt.is_win AS is_win
             FROM faceit_matches fm
             JOIN faceit_matches_teams fmt ON fmt.faceit_matches_id = fm.id
-            JOIN faceit_matches_teams_players fmtp ON fmtp.faceit_matches_teams_id = fmt.id 
+            JOIN faceit_matches_teams_players fmtp ON fmtp.faceit_matches_teams_id = fmt.id
             WHERE fmtp.nickname = :nickname
+            ORDER BY fm.finished_at DESC;
         ", ['nickname' => $player->getNickname()])->fetchAllAssociative();
 
         $rows = array_map(function (array $row): array {
