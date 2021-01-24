@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Faceit\Application;
 
 use App\Faceit\Domain\FaceitPlayer;
+use App\Faceit\Domain\FaceitPlayerGame;
 use App\Faceit\Domain\FaceitPlayerRepository;
 use App\Faceit\Domain\FaceitPlayerStatistics;
 use App\Faceit\Infrastructure\FaceitApiClient;
@@ -49,7 +50,11 @@ final class FaceitService
         $statistics = FaceitPlayerStatistics::createFromApi(
             $this->apiClient->getPlayerStatistics($player->getFaceitId())
         );
+        $playerGame = FaceitPlayerGame::createFromApi(
+            $this->apiClient->getPlayerInformationByNickname($nickname)['games']['csgo']
+        );
 
+        $this->playerRepository->updateGameInformation($player->getId(), $playerGame);
         $this->playerRepository->updateStatistics($player->getId(), $statistics);
     }
 }

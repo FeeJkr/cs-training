@@ -331,4 +331,44 @@ final class FaceitPlayerStatisticsSegment
     {
         return $this->rounds;
     }
+
+    public function isGoodAverageKills(): bool
+    {
+        return $this->averageKills > 20.0;
+    }
+
+    public function isGoodAverageAssists(): bool
+    {
+        return $this->averageAssists < 6.0;
+    }
+
+    public function isGoodAverageDeaths(): bool
+    {
+        return $this->averageDeaths < 20.0;
+    }
+
+    public function isGoodAverageHeadshots(): bool
+    {
+        return $this->averageHeadshots > 40.0;
+    }
+
+    public function isGoodAverageKrRatio(): bool
+    {
+        return $this->averageKrRatio >= 0.8;
+    }
+
+    public function isGoodAverageKdRatio(): bool
+    {
+        return $this->averageKdRatio > 1.0;
+    }
+
+    public function isGoodAverageMvps(): bool
+    {
+        return $this->averageMvps > 4.0;
+    }
+
+    public function isGoodWinRate(): bool
+    {
+        return $this->winRate > 50.0;
+    }
 }

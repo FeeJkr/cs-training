@@ -103,7 +103,7 @@ final class FaceitPlayerStatisticsSegmentRepository
             'krRatio' => $segment->getKrRatio(),
             'averageKrRatio' => $segment->getAverageKrRatio(),
             'kdRatio' => $segment->getKdRatio(),
-            'averageKdRatio' => $segment->getKdRatio(),
+            'averageKdRatio' => $segment->getAverageKdRatio(),
             'tripleKills' => $segment->getTripleKills(),
             'quadroKills' => $segment->getQuadroKills(),
             'pentaKills' => $segment->getPentaKills(),

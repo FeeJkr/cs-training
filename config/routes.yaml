@@ -42,3 +42,8 @@ faceit.player.add:
     path: /faceit/player/{nickname}/add
     controller: App\Faceit\UI\Web\FaceitController::addPlayer
     methods: GET
+
+api.faceit.player.matches:
+    path: /api/faceit/{nickname}/matches
+    controller: App\Faceit\UI\Web\FaceitMatchController::getPlayerMatches
+    methods: GET

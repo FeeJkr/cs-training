@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Faceit\Infrastructure;
 
 use App\Faceit\Domain\FaceitPlayer;
+use App\Faceit\Domain\FaceitPlayerGame;
 use App\Faceit\Domain\FaceitPlayerRepository as FaceitPlayerRepositoryInterface;
 use App\Faceit\Domain\FaceitPlayerStatistics;
 use App\Faceit\Domain\Id;
@@ -152,5 +153,15 @@ final class FaceitPlayerRepository implements FaceitPlayerRepositoryInterface
         return $this->connection->executeQuery("
             SELECT nickname FROM faceit_players;
         ")->fetchAllAssociative();
+    }
+
+    public function updateGameInformation(Id $playerId, FaceitPlayerGame $game): void
+    {
+        $this->connection->executeQuery(
+            "DELETE FROM faceit_players_games WHERE faceit_players_id = :playerId",
+            ['playerId' => $playerId->toInt()]
+        );
+
+        $this->gameRepository->add($playerId->toInt(), $game);
     }
 }

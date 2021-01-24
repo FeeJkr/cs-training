@@ -6,6 +6,7 @@ namespace App\Faceit\Application;
 use App\Faceit\Domain\FaceitApi;
 use App\Faceit\Domain\FaceitMatch;
 use App\Faceit\Domain\FaceitMatchRepository;
+use App\Faceit\Domain\FaceitPlayerMatchResultsCollection;
 
 final class FaceitMatchService
 {
@@ -54,5 +55,12 @@ final class FaceitMatchService
                 $this->repository->add(FaceitMatch::createFromApi($match, $this->faceitApi));
             }
         }
+    }
+
+    public function getMatchesForPlayer(string $nickname): FaceitPlayerMatchResultsCollection
+    {
+        $player = $this->faceitService->getPlayerByNickname($nickname);
+
+        return $this->repository->getByPlayer($player);
     }
 }

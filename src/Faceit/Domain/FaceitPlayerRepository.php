@@ -10,4 +10,5 @@ interface FaceitPlayerRepository
     public function getByNickname(string $nickname): FaceitPlayer;
     public function updateStatistics(Id $playerId, FaceitPlayerStatistics $statistics): void;
     public function getAllPlayersNicknames(): array;
+    public function updateGameInformation(Id $playerId, FaceitPlayerGame $game): void;
 }

@@ -82,6 +82,11 @@ final class FaceitPlayerStatistics
         return $this->winRate;
     }
 
+    public function isGoodWinRate(): bool
+    {
+        return $this->winRate > 50.0;
+    }
+
     public function getKdRatio(): float
     {
         return $this->kdRatio;
@@ -92,6 +97,11 @@ final class FaceitPlayerStatistics
         return $this->averageKdRatio;
     }
 
+    public function isGoodAverageKdRatio(): bool
+    {
+        return $this->averageKdRatio > 1.0;
+    }
+
     public function getHeadshots(): int
     {
         return $this->headshots;
@@ -100,6 +110,11 @@ final class FaceitPlayerStatistics
     public function getAverageHeadshots(): float
     {
         return $this->averageHeadshots;
+    }
+
+    public function isGoodAverageHeadshots(): bool
+    {
+        return $this->averageHeadshots > 40.0;
     }
 
     public function getId(): Id
