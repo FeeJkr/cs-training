@@ -12,6 +12,12 @@
                         <h3> {{ player.nickname }}</h3>
                         <h5 style="font-size: 14px;">Level: <span class="h5" style="text-align: center">{{ player.game.skillLevel }}</span></h5>
                         <h5 style="font-size: 14px;">Elo: <span class="h5" style="text-align: center">{{ player.game.elo }}</span></h5>
+
+                        <hr>
+                        <h5 style="font-size: 14px;">To level {{ player.game.skillLevel + 1 }}:</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ player.game.eloPercentageToNextLevel }}%;" aria-valuenow="{{ player.game.eloPercentageToNextLevel }}" aria-valuemin="0" aria-valuemax="100">+{{ player.game.eloToNextLevel }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
