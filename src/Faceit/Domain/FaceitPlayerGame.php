@@ -97,6 +97,11 @@ final class FaceitPlayerGame
         return self::LEVELS[$this->skillLevel + 1] - $this->faceitElo;
     }
 
+    public function getEloToPrevisionLevel(): int
+    {
+        return self::LEVELS[$this->skillLevel] - $this->faceitElo;
+    }
+
     public function getEloPercentageToNextLevel(): float
     {
         $eloLevelDiff = self::LEVELS[$this->skillLevel + 1] - self::LEVELS[$this->skillLevel];

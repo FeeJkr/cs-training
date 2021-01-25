@@ -23,6 +23,7 @@ final class FaceitPlayerPresenter
                 'elo' => $player->getGame()->getFaceitElo(),
                 'eloPercentageToNextLevel' => $player->getGame()->getEloPercentageToNextLevel(),
                 'eloToNextLevel' => $player->getGame()->getEloToNextLevel(),
+                'eloToPrevisionLevel' => $player->getGame()->getEloToPrevisionLevel(),
             ],
             'faceitId' => $player->getFaceitId(),
             'nickname' => $player->getNickname(),
