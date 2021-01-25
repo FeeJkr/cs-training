@@ -147,9 +147,9 @@
                 <tbody>
                 {% for match in matchesStatistics.matches %}
                     <tr>
-                        <th style="font-size: 8px;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center" scope="row" style="font-size: 10px;">{{ match.finishedAt }}</th>
+                        <th style="font-size: 12px; border-left: 2px solid black; text-align: center;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center" style="font-size: 10px;">{{ match.finishedAt }}</th>
                         <td style="font-size: 12px; font-weight: bold;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.map }}</td>
-                        <td style="font-size: 12px; font-weight: bold;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.score }}</td>
+                        <td style="font-size: 12px; font-weight: bold; border-right: 2px solid black;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.score }}</td>
                         <td style="font-size: 12px;" align="center">{{ match.kills }} - {{ match.assists }} - {{ match.deaths }}</td>
                         <td style="font-size: 12px;" align="center">{{ match.headshots }} ({{ match.headshotsPercentage }}%)</td>
                         <td style="font-size: 12px;" align="center">{{ match.tripleKills }} / {{ match.quadroKills }} / {{ match.pentaKills }}</td>
