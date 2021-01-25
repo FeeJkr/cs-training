@@ -91,7 +91,8 @@ final class FaceitMatchRepository implements FaceitMatchRepositoryInterface
                 fmtp.mvps AS mvps,
                 fmtp.kd_ratio AS kd_ratio,
                 fmtp.kr_ratio AS kr_ratio,
-                fmt.is_win AS is_win
+                fmt.is_win AS is_win,
+                fm.finished_at AS finished_at
             FROM faceit_matches fm
             JOIN faceit_matches_teams fmt ON fmt.faceit_matches_id = fm.id
             JOIN faceit_matches_teams_players fmtp ON fmtp.faceit_matches_teams_id = fmt.id

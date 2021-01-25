@@ -5,6 +5,7 @@ namespace App\Faceit\Domain;
 
 final class FaceitPlayerMatchResult
 {
+    private \DateTimeInterface $finishedAt;
     private string $team;
     private string $map;
     private string $mode;
@@ -23,6 +24,7 @@ final class FaceitPlayerMatchResult
     private bool $isWin;
 
     public function __construct(
+        \DateTimeInterface $finishedAt,
         string $team,
         string $map,
         string $mode,
@@ -40,6 +42,7 @@ final class FaceitPlayerMatchResult
         float $krRatio,
         bool $isWin
     ) {
+        $this->finishedAt = $finishedAt;
         $this->team = $team;
         $this->map = $map;
         $this->mode = $mode;
@@ -61,6 +64,7 @@ final class FaceitPlayerMatchResult
     public static function createFromRow(array $row): self
     {
         return new self(
+            \DateTime::createFromFormat('Y-m-d H:i:s', $row['finished_at']),
             $row['team'],
             $row['map'],
             $row['mode'],
@@ -168,5 +172,10 @@ final class FaceitPlayerMatchResult
     public function isGoodKdRatio(): bool
     {
         return $this->kdRatio > 1.0;
+    }
+
+    public function getFinishedAt(): \DateTimeInterface
+    {
+        return $this->finishedAt;
     }
 }

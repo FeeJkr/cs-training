@@ -5,12 +5,38 @@ namespace App\Faceit\UI\Web\Presenter;
 
 use App\Faceit\Domain\FaceitPlayerMatchResult;
 use App\Faceit\Domain\FaceitPlayerMatchResultsCollection;
+use function array_merge;
 
 final class FaceitMatchPresenter
 {
     public function presentPlayerResults(FaceitPlayerMatchResultsCollection $resultsCollection): array
     {
-        return array_map(static function (FaceitPlayerMatchResult $result): array {
+        $todayMatches = $resultsCollection->getTodayMatches();
+        $yesterdayMatches = $resultsCollection->getYesterdayMatches();
+        $monthMatches = $resultsCollection->getThisMonthMatches();
+
+        $data = [
+            'today' => [
+                'total' => $todayMatches->getTotalCount(),
+                'wins' => $todayMatches->getWins(),
+                'loses' => $todayMatches->getLoses(),
+                'averageKd' => $todayMatches->getAverageKd(),
+            ],
+            'yesterday' => [
+                'total' => $yesterdayMatches->getTotalCount(),
+                'wins' => $yesterdayMatches->getWins(),
+                'loses' => $yesterdayMatches->getLoses(),
+                'averageKd' => $yesterdayMatches->getAverageKd(),
+            ],
+            'month' => [
+                'total' => $monthMatches->getTotalCount(),
+                'wins' => $monthMatches->getWins(),
+                'loses' => $monthMatches->getLoses(),
+                'averageKd' => $monthMatches->getAverageKd(),
+            ],
+        ];
+
+        $data['matches'] = array_map(static function (FaceitPlayerMatchResult $result): array {
             return [
                 'team' => $result->getTeam(),
                 'map' => $result->getMap(),
@@ -30,7 +56,10 @@ final class FaceitMatchPresenter
                 'isWin' => $result->isWin(),
                 'isGoodKdRatio' => $result->isGoodKdRatio(),
                 'isGoodKrRatio' => $result->isGoodKrRatio(),
+                'finishedAt' => $result->getFinishedAt()->format('d-m-Y'),
             ];
         }, $resultsCollection->getMatches());
+
+        return $data;
     }
 }

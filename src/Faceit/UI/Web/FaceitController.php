@@ -38,7 +38,7 @@ final class FaceitController extends AbstractController
 
         return $this->render('faceit/dashboard.html.twig', [
             'player' => $this->playerPresenter->present($player),
-            'matches' => $this->faceitMatchPresenter->presentPlayerResults(
+            'matchesStatistics' => $this->faceitMatchPresenter->presentPlayerResults(
                 $this->faceitMatchService->getMatchesForPlayer($request->get('nickname'))
             ),
         ]);

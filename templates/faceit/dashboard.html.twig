@@ -3,15 +3,69 @@
 {% block body %}
     <div class="container mt-5">
         <div class="row">
-            <div class="col-2">
-                <img src="{{ player.avatar }}" class="img-thumbnail" alt="...">
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-6">
+                        <img src="{{ player.avatar }}" width="100%" height="100%" alt="...">
+                    </div>
+                    <div class="col-6">
+                        <h3>Nickname: <span class="h5">{{ player.nickname }}</span></h3>
+                        <h3>Level: <span class="h5" style="text-align: center">{{ player.game.skillLevel }}</span></h3>
+                        <h3>Elo: <span class="h5" style="text-align: center">{{ player.game.elo }}</span></h3>
+                    </div>
+                </div>
             </div>
-            <div class="col-10">
-                <h3>Nickname: <span class="h5">{{ player.nickname }}</span></h3>
-                <h3>Level: <span class="h5" style="text-align: center">{{ player.game.skillLevel }}</span></h3>
-                <h3>Elo: <span class="h5" style="text-align: center">{{ player.game.elo }}</span></h3>
+            <div class="col-7">
+                <div class="card-group">
+                    <div class="card border-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header bg-transparent border-success" style="text-align: center; font-weight: bold;">Статистика (сегодня)</div>
+                        <div class="card-body">
+                            <div style="text-align: center">
+                                <h5 style="font-size: 14px;">Сыгранно матчей: </h5>
+                                <p style="font-size: 20px;">{{ matchesStatistics.today.total }}</p>
+                            </div>
+                            <hr>
+                            <div style="text-align: center">
+                                <h5 style="font-size: 14px;">Побед / Поражений</h5>
+                                <p style="font-size: 20px;">{{ matchesStatistics.today.wins }} / {{ matchesStatistics.today.loses }}</p>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matchesStatistics.today.averageKd }}</span></div>
+                    </div>
+                    <div class="card border-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header bg-transparent border-success" style="text-align: center; font-weight: bold;">Статистика (вчера)</div>
+                        <div class="card-body">
+                            <div style="text-align: center">
+                                <h5 style="font-size: 14px;">Сыгранно матчей: </h5>
+                                <p style="font-size: 20px;">{{ matchesStatistics.yesterday.total }}</p>
+                            </div>
+                            <hr>
+                            <div style="text-align: center">
+                                <h5 style="font-size: 14px;">Побед / Поражений</h5>
+                                <p style="font-size: 20px;">{{ matchesStatistics.yesterday.wins }} / {{ matchesStatistics.yesterday.loses }}</p>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matchesStatistics.yesterday.averageKd }}</span></div>
+                    </div>
+                    <div class="card border-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header bg-transparent border-success" style="text-align: center; font-weight: bold;">Статистика (месяц)</div>
+                        <div class="card-body">
+                            <div style="text-align: center">
+                                <h5 style="font-size: 14px;">Сыгранно матчей:</h5>
+                                <p style="font-size: 20px;">{{ matchesStatistics.month.total }}</p>
+                            </div>
+                            <hr>
+                            <div style="text-align: center">
+                                <h5 style="font-size: 14px;">Побед / Поражений</h5>
+                                <p style="font-size: 20px;">{{ matchesStatistics.month.wins }} / {{ matchesStatistics.month.loses }}</p>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matchesStatistics.month.averageKd }}</span></div>
+                    </div>
+                </div>
             </div>
         </div>
+
 
         <div class="row row-cols-1 row-cols-md-6 g-4 mt-2">
             <div class="col">
@@ -68,41 +122,29 @@
             <table class="table" id="maps-table">
                 <thead>
                 <tr>
-                    <th scope="col">Команда</th>
-                    <th scope="col">Карта</th>
-                    <th scope="col">Мод</th>
-                    <th scope="col">Счет карты</th>
-                    <th scope="col">Убийства</th>
-                    <th scope="col">Помощи</th>
-                    <th scope="col">Смерти</th>
-                    <th scope="col">Попаданий в голову</th>
-                    <th scope="col">Процент попаданий в голову</th>
-                    <th scope="col">3х убийств</th>
-                    <th scope="col">4х убийств</th>
-                    <th scope="col">5х убийств</th>
-                    <th scope="col">MVPs</th>
-                    <th scope="col">K/D Рейтинг</th>
-                    <th scope="col">K/R Рейтинг</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">Дата</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">Карта</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">Счет карты</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">K - A - D</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">В голову ( % в голову )</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">3х / 4х / 5х убийств</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">MVPs</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">K/D Рейтинг</th>
+                    <th style="font-size: 10px; text-align: center;" scope="col">K/R Рейтинг</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for match in matches %}
+                {% for match in matchesStatistics.matches %}
                     <tr>
-                        <th class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center" scope="row" style="font-size: 10px;">{{ match.team }}</th>
-                        <td class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.map }}</td>
-                        <td align="center">{{ match.mode }}</td>
-                        <td align="center">{{ match.score }}</td>
-                        <td align="center">{{ match.kills }}</td>
-                        <td align="center">{{ match.assists }}</td>
-                        <td align="center">{{ match.deaths }}</td>
-                        <td align="center">{{ match.headshots }}</td>
-                        <td align="center">{{ match.headshotsPercentage }}</td>
-                        <td align="center">{{ match.tripleKills }}</td>
-                        <td align="center">{{ match.quadroKills }}</td>
-                        <td align="center">{{ match.pentaKills }}</td>
-                        <td align="center">{{ match.mvps }}</td>
-                        <td style="border-left: 2px solid black;" class="{% if match.isGoodKdRatio %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.kdRatio }}</td>
-                        <td style="border-left: 2px solid black; border-right: 2px solid black;" class="{% if match.isGoodKrRatio %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.krRatio }}</td>
+                        <th style="font-size: 8px;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center" scope="row" style="font-size: 10px;">{{ match.finishedAt }}</th>
+                        <td style="font-size: 12px; font-weight: bold;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.map }}</td>
+                        <td style="font-size: 12px; font-weight: bold;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.score }}</td>
+                        <td style="font-size: 12px;" align="center">{{ match.kills }} - {{ match.assists }} - {{ match.deaths }}</td>
+                        <td style="font-size: 12px;" align="center">{{ match.headshots }} ({{ match.headshotsPercentage }}%)</td>
+                        <td style="font-size: 12px;" align="center">{{ match.tripleKills }} / {{ match.quadroKills }} / {{ match.pentaKills }}</td>
+                        <td style="font-size: 12px;" align="center">{{ match.mvps }}</td    >
+                        <td style="border-left: 2px solid black;font-size: 13px;" class="{% if match.isGoodKdRatio %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.kdRatio }}</td>
+                        <td style="border-left: 2px solid black; border-right: 2px solid black; font-size: 13px;" class="{% if match.isGoodKrRatio %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.krRatio }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -225,6 +267,8 @@
 
 {% block javascripts %}
     <script>
+        (new bootstrap.Tab(document.querySelector('#list-tab a:first-child'))).show();
+
         $('#maps-table').DataTable({
             'searching': false,
             'lengthChange': false,
