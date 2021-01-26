@@ -57,6 +57,7 @@ final class FaceitMatchPresenter
                 'isGoodKdRatio' => $result->isGoodKdRatio(),
                 'isGoodKrRatio' => $result->isGoodKrRatio(),
                 'finishedAt' => $result->getFinishedAt()->format('d-m-Y H:i'),
+                'faceitUrl' => $result->getFaceitUrl(),
             ];
         }, $resultsCollection->getMatches());
 

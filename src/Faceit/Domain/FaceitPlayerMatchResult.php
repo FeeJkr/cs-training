@@ -22,6 +22,7 @@ final class FaceitPlayerMatchResult
     private float $kdRatio;
     private float $krRatio;
     private bool $isWin;
+    private string $faceitUrl;
 
     public function __construct(
         \DateTimeInterface $finishedAt,
@@ -40,7 +41,8 @@ final class FaceitPlayerMatchResult
         int $mvps,
         float $kdRatio,
         float $krRatio,
-        bool $isWin
+        bool $isWin,
+        string $faceitUrl
     ) {
         $this->finishedAt = $finishedAt;
         $this->team = $team;
@@ -59,6 +61,7 @@ final class FaceitPlayerMatchResult
         $this->kdRatio = $kdRatio;
         $this->krRatio = $krRatio;
         $this->isWin = $isWin;
+        $this->faceitUrl = $faceitUrl;
     }
 
     public static function createFromRow(array $row): self
@@ -80,7 +83,8 @@ final class FaceitPlayerMatchResult
             (int) $row['mvps'],
             (float) $row['kd_ratio'],
             (float) $row['kr_ratio'],
-            $row['is_win']
+            $row['is_win'],
+            $row['faceit_url']
         );
     }
 
@@ -177,5 +181,10 @@ final class FaceitPlayerMatchResult
     public function getFinishedAt(): \DateTimeInterface
     {
         return $this->finishedAt;
+    }
+
+    public function getFaceitUrl(): string
+    {
+        return $this->faceitUrl;
     }
 }

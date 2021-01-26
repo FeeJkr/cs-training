@@ -92,7 +92,8 @@ final class FaceitMatchRepository implements FaceitMatchRepositoryInterface
                 fmtp.kd_ratio AS kd_ratio,
                 fmtp.kr_ratio AS kr_ratio,
                 fmt.is_win AS is_win,
-                fm.finished_at AS finished_at
+                fm.finished_at AS finished_at,
+                fm.faceit_url AS faceit_url
             FROM faceit_matches fm
             JOIN faceit_matches_teams fmt ON fmt.faceit_matches_id = fm.id
             JOIN faceit_matches_teams_players fmtp ON fmtp.faceit_matches_teams_id = fmt.id
