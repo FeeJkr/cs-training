@@ -97,7 +97,7 @@ final class FaceitPlayerRepository implements FaceitPlayerRepositoryInterface
         return FaceitPlayer::createFromRow($result);
     }
 
-    public function updateStatistics(Id $playerId, FaceitPlayerStatistics $statistics): void
+    public function addStatistics(Id $playerId, FaceitPlayerStatistics $statistics): void
     {
         try {
             $this->connection->beginTransaction();
@@ -139,7 +139,7 @@ final class FaceitPlayerRepository implements FaceitPlayerRepositoryInterface
             ])->fetchOne();
 
             foreach ($statistics->getSegmentsCollection()->getSegments() as $segment) {
-                $this->faceitPlayerStatisticsSegmentRepository->update($id, $segment);
+                $this->faceitPlayerStatisticsSegmentRepository->add($id, $segment);
             }
 
             $this->connection->commit();
@@ -155,13 +155,59 @@ final class FaceitPlayerRepository implements FaceitPlayerRepositoryInterface
         ")->fetchAllAssociative();
     }
 
-    public function updateGameInformation(Id $playerId, FaceitPlayerGame $game): void
+    public function addGameInformation(Id $playerId, FaceitPlayerGame $game): void
     {
-        $this->connection->executeQuery(
-            "DELETE FROM faceit_players_games WHERE faceit_players_id = :playerId",
-            ['playerId' => $playerId->toInt()]
-        );
-
         $this->gameRepository->add($playerId->toInt(), $game);
+    }
+
+    public function updateGameInformation(FaceitPlayer $player): void
+    {
+        $this->connection->executeQuery("
+            UPDATE faceit_players_games SET skill_level = :skillLevel, faceit_elo = :faceitElo WHERE id = :id
+        ", [
+            'id' => $player->getGame()->getId()->toInt(),
+            'skillLevel' => $player->getGame()->getSkillLevel(),
+            'faceitElo' => $player->getGame()->getFaceitElo(),
+        ]);
+    }
+
+    public function updateStatistics(FaceitPlayer $player): void
+    {
+        try {
+            $this->connection->beginTransaction();
+
+            $statisticsId = $player->getStatistics()->getId()->toInt();
+            $this->connection->executeQuery("
+                UPDATE faceit_players_statistics
+                SET 
+                    matches = :matches,
+                    wins = :wins,
+                    win_rate = :winRate,
+                    kd_ratio = :kdRatio,
+                    average_kd_ratio = :averageKdRatio,
+                    headshots = :headshots,
+                    average_headshots = :averageHeadshots
+                WHERE id = :id; 
+            ", [
+                'matches' => $player->getStatistics()->getMatches(),
+                'wins' => $player->getStatistics()->getWins(),
+                'winRate' => $player->getStatistics()->getWinRate(),
+                'kdRatio' => $player->getStatistics()->getKdRatio(),
+                'averageKdRatio' => $player->getStatistics()->getAverageKdRatio(),
+                'headshots' => $player->getStatistics()->getHeadshots(),
+                'averageHeadshots' => $player->getStatistics()->getAverageHeadshots(),
+                'id' => $statisticsId,
+            ]);
+
+            foreach ($player->getStatistics()->getSegmentsCollection()->getSegments() as $segment) {
+                $segment->getId()->isNull()
+                    ? $this->faceitPlayerStatisticsSegmentRepository->add($statisticsId, $segment)
+                    : $this->faceitPlayerStatisticsSegmentRepository->update($segment);
+            }
+
+            $this->connection->commit();
+        } catch (Exception $exception) {
+            $this->connection->rollBack();
+        }
     }
 }

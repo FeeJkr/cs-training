@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Faceit\Domain;
 
+use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use function array_sum;
@@ -71,12 +72,14 @@ final class FaceitPlayerMatchResultsCollection
 
     private function isTodayMatch(DateTimeInterface $today, DateTimeInterface $matchDay): bool
     {
-        return $matchDay->diff($today)->days === 0;
+        return $matchDay->format('dmy') === $today->format('dmy');
     }
 
     private function isYesterdayMatch(DateTimeInterface $today, DateTimeInterface $matchDay): bool
     {
-        return $matchDay->diff($today)->days === 1;
+        $cloneToday = clone $today;
+
+        return $cloneToday->sub(new DateInterval('P1D'))->format('dmy') === $matchDay->format('dmy');
     }
 
     private function isThisMonthMatch(DateTimeInterface $today, DateTimeInterface $matchDay): bool

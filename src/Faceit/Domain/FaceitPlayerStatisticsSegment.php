@@ -177,6 +177,39 @@ final class FaceitPlayerStatisticsSegment
         );
     }
 
+    public function updateFromApi(array $body): void
+    {
+        $this->type = $body['type'];
+        $this->mode = $body['mode'];
+        $this->image = $body['img_regular'];
+        $this->kills = (int) $body['stats']['Kills'];
+        $this->averageKills = (float) $body['stats']['Average Kills'];
+        $this->assists = (int) $body['stats']['Assists'];
+        $this->averageAssists = (float) $body['stats']['Average Assists'];
+        $this->deaths = (int) $body['stats']['Deaths'];
+        $this->averageDeaths = (float) $body['stats']['Average Deaths'];
+        $this->headshots = (int) $body['stats']['Headshots'];
+        $this->totalHeadshots = (int) $body['stats']['Total Headshots %'];
+        $this->averageHeadshots = (float) $body['stats']['Average Headshots %'];
+        $this->headshotsPerMatch = (float) $body['stats']['Headshots per Match'];
+        $this->krRatio = (float) $body['stats']['K/R Ratio'];
+        $this->averageKrRatio = (float) $body['stats']['Average K/R Ratio'];
+        $this->kdRatio = (float) $body['stats']['K/D Ratio'];
+        $this->averageKdRatio = (float) $body['stats']['Average K/D Ratio'];
+        $this->tripleKills = (int) $body['stats']['Triple Kills'];
+        $this->quadroKills = (int) $body['stats']['Quadro Kills'];
+        $this->pentaKills = (int) $body['stats']['Penta Kills'];
+        $this->averageTripleKills = (float) $body['stats']['Average Triple Kills'];
+        $this->averageQuadroKills = (float) $body['stats']['Average Quadro Kills'];
+        $this->averagePentaKills = (float) $body['stats']['Average Penta Kills'];
+        $this->mvps = (int) $body['stats']['MVPs'];
+        $this->averageMvps = (float) $body['stats']['Average MVPs'];
+        $this->matches = (int) $body['stats']['Matches'];
+        $this->rounds = (int) $body['stats']['Rounds'];
+        $this->wins = (int) $body['stats']['Wins'];
+        $this->winRate = (float) $body['stats']['Win Rate %'];
+    }
+
     public function getId(): Id
     {
         return $this->id;

@@ -34,6 +34,27 @@ final class FaceitPlayerStatisticsSegmentsCollection
         return new self(...$segments);
     }
 
+    public function updateFromApi(array $body): void
+    {
+        foreach ($body as $key => $segment) {
+            foreach ($this->getSegments() as $segmentInCollection) {
+                if ($segment['label'] === $segmentInCollection->getLabel()) {
+                    $segmentInCollection->updateFromApi($segment);
+                    unset($body[$key]);
+                }
+            }
+        }
+
+        foreach ($body as $segment) {
+            $this->add(FaceitPlayerStatisticsSegment::createFromApi($segment));
+        }
+    }
+
+    public function add(FaceitPlayerStatisticsSegment $segment): void
+    {
+        $this->segments[] = $segment;
+    }
+
     public function getSegments(): array
     {
         return $this->segments;

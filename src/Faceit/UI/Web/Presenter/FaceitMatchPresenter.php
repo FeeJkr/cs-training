@@ -56,7 +56,7 @@ final class FaceitMatchPresenter
                 'isWin' => $result->isWin(),
                 'isGoodKdRatio' => $result->isGoodKdRatio(),
                 'isGoodKrRatio' => $result->isGoodKrRatio(),
-                'finishedAt' => $result->getFinishedAt()->format('d-m-Y'),
+                'finishedAt' => $result->getFinishedAt()->format('d-m-Y H:i'),
             ];
         }, $resultsCollection->getMatches());
 

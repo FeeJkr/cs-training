@@ -8,6 +8,7 @@ use App\Faceit\Domain\FaceitPlayerGame;
 use App\Faceit\Domain\FaceitPlayerRepository;
 use App\Faceit\Domain\FaceitPlayerStatistics;
 use App\Faceit\Infrastructure\FaceitApiClient;
+use JsonException;
 
 final class FaceitService
 {
@@ -41,10 +42,10 @@ final class FaceitService
 
         $this->playerRepository->add($player);
 
-        $this->updatePlayerStatistics($nickname);
+        $this->addPlayerStatistics($nickname);
     }
 
-    public function updatePlayerStatistics(string $nickname): void
+    public function addPlayerStatistics(string $nickname): void
     {
         $player = $this->playerRepository->getByNickname($nickname);
         $statistics = FaceitPlayerStatistics::createFromApi(
@@ -54,7 +55,17 @@ final class FaceitService
             $this->apiClient->getPlayerInformationByNickname($nickname)['games']['csgo']
         );
 
-        $this->playerRepository->updateGameInformation($player->getId(), $playerGame);
-        $this->playerRepository->updateStatistics($player->getId(), $statistics);
+        $this->playerRepository->addGameInformation($player->getId(), $playerGame);
+        $this->playerRepository->addStatistics($player->getId(), $statistics);
+    }
+
+    public function updatePlayerStatistics(string $nickname): void
+    {
+        $player = $this->playerRepository->getByNickname($nickname);
+        $player->getStatistics()->updateFromApi($this->apiClient->getPlayerStatistics($player->getFaceitId()));
+        $player->getGame()->updateFromApi($this->apiClient->getPlayerInformationByNickname($nickname)['games']['csgo']);
+
+        $this->playerRepository->updateGameInformation($player);
+        $this->playerRepository->updateStatistics($player);
     }
 }

@@ -15,7 +15,78 @@ final class FaceitPlayerStatisticsSegmentRepository
         $this->connection = $connection;
     }
 
-    public function update(int $statisticsId, FaceitPlayerStatisticsSegment $segment): void
+    public function update(FaceitPlayerStatisticsSegment $segment): void
+    {
+        $this->connection->executeQuery("
+            UPDATE faceit_players_statistics_segments
+            SET
+                type = :type,
+                mode = :mode,
+                label = :label,
+                image = :image,
+                kills = :kills,
+                average_kills = :averageKills,
+                assists = :assists,
+                average_assists = :averageAssists,
+                deaths = :deaths,
+                average_deaths = :averageDeaths,
+                headshots = :headshots,
+                total_headshots = :totalHeadshots,
+                average_headshots = :averageHeadshots,
+                headshots_per_match = :headshotsPerMatch,
+                kr_ratio = :krRatio,
+                average_kr_ratio = :averageKrRatio,
+                kd_ratio = :kdRatio,
+                average_kd_ratio = :averageKdRatio,
+                triple_kills = :tripleKills,
+                quadro_kills = :quadroKills,
+                penta_kills = :pentaKills,
+                average_triple_kills = :averageTripleKills,
+                average_quadro_kills = :averageQuadroKills,
+                average_penta_kills = :averagePentaKills,
+                mvps = :mvps,
+                average_mvps = :averageMvps, 
+                matches = :matches,
+                rounds = :rounds,
+                wins = :wins,
+                win_rate = :winRate
+            WHERE id = :id
+        ", [
+            'id' => $segment->getId()->toInt(),
+            'type' => $segment->getType(),
+            'mode' => $segment->getMode(),
+            'label' => $segment->getLabel(),
+            'image' => $segment->getImage(),
+            'kills' => $segment->getKills(),
+            'averageKills' => $segment->getAverageKills(),
+            'assists' => $segment->getAssists(),
+            'averageAssists' => $segment->getAverageAssists(),
+            'deaths' => $segment->getDeaths(),
+            'averageDeaths' => $segment->getAverageDeaths(),
+            'headshots' => $segment->getHeadshots(),
+            'totalHeadshots' => $segment->getTotalHeadshots(),
+            'averageHeadshots' => $segment->getAverageHeadshots(),
+            'headshotsPerMatch' => $segment->getHeadshotsPerMatch(),
+            'krRatio' => $segment->getKrRatio(),
+            'averageKrRatio' => $segment->getAverageKrRatio(),
+            'kdRatio' => $segment->getKdRatio(),
+            'averageKdRatio' => $segment->getAverageKdRatio(),
+            'tripleKills' => $segment->getTripleKills(),
+            'quadroKills' => $segment->getQuadroKills(),
+            'pentaKills' => $segment->getPentaKills(),
+            'averageTripleKills' => $segment->getAverageTripleKills(),
+            'averageQuadroKills' => $segment->getAverageQuadroKills(),
+            'averagePentaKills' => $segment->getAveragePentaKills(),
+            'mvps' => $segment->getMvps(),
+            'averageMvps' => $segment->getAverageMvps(),
+            'matches' => $segment->getMatches(),
+            'rounds' => $segment->getRounds(),
+            'wins' => $segment->getWins(),
+            'winRate' => $segment->getWinRate(),
+        ]);
+    }
+
+    public function add(int $statisticsId, FaceitPlayerStatisticsSegment $segment): void
     {
         $this->connection->executeQuery("
             INSERT INTO faceit_players_statistics_segments

@@ -67,6 +67,19 @@ final class FaceitPlayerStatistics
         );
     }
 
+    public function updateFromApi(array $body): void
+    {
+        $this->matches = (int) $body['lifetime']['Matches'];
+        $this->wins = (int) $body['lifetime']['Wins'];
+        $this->winRate = (float) $body['lifetime']['Win Rate %'];
+        $this->kdRatio = (float) $body['lifetime']['K/D Ratio'];
+        $this->averageKdRatio = (float) $body['lifetime']['Average K/D Ratio'];
+        $this->headshots = (int) $body['lifetime']['Total Headshots %'];
+        $this->averageHeadshots = (float) $body['lifetime']['Average Headshots %'];
+
+        $this->segmentsCollection->updateFromApi($body['segments']);
+    }
+
     public function getMatches(): int
     {
         return $this->matches;

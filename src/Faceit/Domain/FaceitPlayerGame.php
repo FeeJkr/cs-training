@@ -62,6 +62,12 @@ final class FaceitPlayerGame
         );
     }
 
+    public function updateFromApi(array $body): void
+    {
+        $this->skillLevel = (int) $body['skill_level'];
+        $this->faceitElo = (int) $body['faceit_elo'];
+    }
+
     public function getId(): Id
     {
         return $this->id;
