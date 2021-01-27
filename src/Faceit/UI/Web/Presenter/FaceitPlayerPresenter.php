@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Faceit\UI\Web\Presenter;
 
 use App\Faceit\Domain\FaceitPlayer;
+use App\Faceit\Domain\FaceitPlayerStatistics;
 
 final class FaceitPlayerPresenter
 {
@@ -14,7 +15,7 @@ final class FaceitPlayerPresenter
         $this->statisticsPresenter = $statisticsPresenter;
     }
 
-    public function present(FaceitPlayer $player): array
+    public function present(FaceitPlayer $player, FaceitPlayerStatistics $monthStatistics): array
     {
         return [
             'id' => $player->getId()->toInt(),
@@ -29,7 +30,7 @@ final class FaceitPlayerPresenter
             'nickname' => $player->getNickname(),
             'avatar' => $player->getAvatar(),
             'faceitUrl' => $player->getFaceitUrl(),
-            'statistics' => $this->statisticsPresenter->present($player->getStatistics()),
+            'statistics' => $this->statisticsPresenter->present($player->getStatistics(), $monthStatistics),
         ];
     }
 }

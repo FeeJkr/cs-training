@@ -7,7 +7,10 @@ use App\Faceit\Domain\FaceitPlayer;
 use App\Faceit\Domain\FaceitPlayerGame;
 use App\Faceit\Domain\FaceitPlayerRepository as FaceitPlayerRepositoryInterface;
 use App\Faceit\Domain\FaceitPlayerStatistics;
+use App\Faceit\Domain\FaceitPlayerStatisticsSegment;
+use App\Faceit\Domain\FaceitPlayerStatisticsSegmentsCollection;
 use App\Faceit\Domain\Id;
+use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 
@@ -209,5 +212,304 @@ final class FaceitPlayerRepository implements FaceitPlayerRepositoryInterface
         } catch (Exception $exception) {
             $this->connection->rollBack();
         }
+    }
+
+    public function getMonthStatistics(FaceitPlayer $player): FaceitPlayerStatistics
+    {
+        $rows = $this->connection->executeQuery("
+            SELECT
+                fm.id AS match_id,
+                fmt.name AS team,
+                fm.map AS map,
+                fm.game_mode AS mode,
+                fmtp.kills AS kills,
+                fmtp.deaths AS deaths,
+                fmtp.assists AS assists,
+                fmtp.headshots AS headshots,
+                fmtp.headshots_percentage AS headshots_percentage,
+                fmtp.triple_kills AS triple_kills,
+                fmtp.quadro_kills AS quadro_kills,
+                fmtp.penta_kills AS penta_kills,
+                fmtp.mvps AS mvps,
+                fmtp.kd_ratio AS kd_ratio,
+                fmtp.kr_ratio AS kr_ratio,
+                fmt.is_win AS is_win,
+                fm.finished_at AS finished_at,
+                fm.faceit_url AS faceit_url,
+                fm.rounds AS rounds
+            FROM faceit_matches fm
+            JOIN faceit_matches_teams fmt ON fmt.faceit_matches_id = fm.id
+            JOIN faceit_matches_teams_players fmtp ON fmtp.faceit_matches_teams_id = fmt.id
+            WHERE fmtp.nickname = :nickname AND fm.finished_at >= :date
+        ", [
+            'nickname' => $player->getNickname(),
+            'date' => (new DateTime())->format('Y-m-01 00:00:00'),
+        ])->fetchAllAssociative();
+
+        return new FaceitPlayerStatistics(
+            Id::nullable(),
+            count($rows),
+            $this->getWins($rows),
+            $this->getWinRate($rows),
+            $this->getKdRatio($rows),
+            $this->getAverageKdRatio($rows),
+            $this->getHeadshots($rows),
+            $this->getAverageHeadshots($rows),
+            $this->getSegments($rows, $player->getStatistics()->getSegmentsCollection())
+        );
+    }
+
+    public function getWins(array $rows): int
+    {
+        $wins = 0;
+
+        foreach ($rows as $match) {
+            if ($match['is_win']) {
+                $wins++;
+            }
+        }
+
+        return $wins;
+    }
+
+    public function getWinRate(array $rows): float
+    {
+        return round(($this->getWins($rows) / count($rows)) * 100);
+    }
+
+    public function getKdRatio(array $rows): float
+    {
+        $kdRatio = 0;
+
+        foreach ($rows as $match) {
+            $kdRatio += $match['kd_ratio'];
+        }
+
+        return $kdRatio;
+    }
+
+    public function getAverageKdRatio(array $rows): float
+    {
+        return round($this->getKdRatio($rows) / count($rows), 2);
+    }
+
+    public function getHeadshots(array $rows): int
+    {
+        $headshots = 0;
+
+        foreach ($rows as $match) {
+            $headshots += $match['headshots'];
+        }
+
+        return $headshots;
+    }
+
+    public function getAverageHeadshots(array $rows): float
+    {
+        return round(($this->getHeadshots($rows) / $this->getKills($rows)) * 100);
+    }
+
+    private function getSegments(
+        array $rows,
+        FaceitPlayerStatisticsSegmentsCollection $collection
+    ): FaceitPlayerStatisticsSegmentsCollection {
+        $grouped = [];
+
+        foreach ($collection->getSegments() as $segment) {
+            foreach ($rows as $row) {
+                if ($row['map'] === $segment->getLabel()) {
+                    $grouped[$row['map']][] = $row;
+                }
+            }
+        }
+
+        $segments = [];
+
+        foreach ($grouped as $segment) {
+            $segments[] = $this->getSegment($segment);
+        }
+
+        return new FaceitPlayerStatisticsSegmentsCollection(...$segments);
+    }
+
+    private function getSegment(array $rows): FaceitPlayerStatisticsSegment
+    {
+        return new FaceitPlayerStatisticsSegment(
+            Id::nullable(),
+            'Map',
+            '5v5',
+            $rows[0]['map'],
+            'null',
+            $this->getKills($rows),
+            $this->getAverageKills($rows),
+            $this->getAssists($rows),
+            $this->getAverageAssists($rows),
+            $this->getDeaths($rows),
+            $this->averageDeaths($rows),
+            $this->getHeadshots($rows),
+            0,
+            $this->getAverageHeadshots($rows),
+            $this->getHeadshotsPerMatch($rows),
+            $this->getKrRatio($rows),
+            $this->averageKrRatio($rows),
+            $this->getKdRatio($rows),
+            $this->getAverageKdRatio($rows),
+            $this->getTripleKills($rows),
+            $this->getQuadroKills($rows),
+            $this->getPentaKills($rows),
+            $this->getAverageTripleKills($rows),
+            $this->getAverageQuadroKills($rows),
+            $this->getAveragePentaKills($rows),
+            $this->getMvps($rows),
+            $this->getAverageMvps($rows),
+            count($rows),
+            $this->getRounds($rows),
+            $this->getWins($rows),
+            $this->getWinRate($rows)
+        );
+    }
+
+    private function getRounds(array $rows): int
+    {
+        $rounds = 0;
+
+        foreach ($rows as $match) {
+            $rounds += $match['rounds'];
+        }
+
+        return $rounds;
+    }
+
+    private function getKills(array $rows): int
+    {
+        $kills = 0;
+
+        foreach ($rows as $match) {
+            $kills += $match['kills'];
+        }
+
+        return $kills;
+    }
+
+    private function getAverageKills(array $rows): float
+    {
+        return round($this->getKills($rows) / count($rows), 2);
+    }
+
+    private function getAssists(array $rows): int
+    {
+        $assists = 0;
+
+        foreach ($rows as $match) {
+            $assists += $match['assists'];
+        }
+
+        return $assists;
+    }
+
+    private function getAverageAssists(array $rows): float
+    {
+        return round($this->getAssists($rows) / count($rows), 2);
+    }
+
+    private function getDeaths(array $rows): int
+    {
+        $deaths = 0;
+
+        foreach ($rows as $match) {
+            $deaths += $match['deaths'];
+        }
+
+        return $deaths;
+    }
+
+    private function averageDeaths(array $rows): float
+    {
+        return round($this->getDeaths($rows) / count($rows), 2);
+    }
+
+    private function getHeadshotsPerMatch(array $rows): int
+    {
+        return (int) round($this->getHeadshots($rows) / count($rows));
+    }
+
+    private function getKrRatio(array $rows): float
+    {
+        $krRatio = 0;
+
+        foreach ($rows as $match) {
+            $krRatio += $match['kr_ratio'];
+        }
+
+        return $krRatio;
+    }
+
+    private function averageKrRatio(array $rows): float
+    {
+        return round($this->getKrRatio($rows) / count($rows), 2);
+    }
+
+    private function getTripleKills(array $rows): int
+    {
+        $counter = 0;
+
+        foreach ($rows as $match) {
+            $counter += $match['triple_kills'];
+        }
+
+        return $counter;
+    }
+
+    private function getQuadroKills(array $rows): int
+    {
+        $counter = 0;
+
+        foreach ($rows as $match) {
+            $counter += $match['quadro_kills'];
+        }
+
+        return $counter;
+    }
+
+    private function getPentaKills(array $rows): int
+    {
+        $counter = 0;
+
+        foreach ($rows as $match) {
+            $counter += $match['penta_kills'];
+        }
+
+        return $counter;
+    }
+
+    private function getAverageTripleKills(array $rows): float
+    {
+        return round($this->getTripleKills($rows) / count($rows), 2);
+    }
+
+    private function getAverageQuadroKills(array $rows): float
+    {
+        return round($this->getQuadroKills($rows) / count($rows), 2);
+    }
+
+    private function getAveragePentaKills(array $rows): float
+    {
+        return round($this->getPentaKills($rows) / count($rows), 2);
+    }
+
+    private function getMvps(array $rows): int
+    {
+        $counter = 0;
+
+        foreach ($rows as $match) {
+            $counter += $match['mvps'];
+        }
+
+        return $counter;
+    }
+
+    private function getAverageMvps(array $rows): float
+    {
+        return round($this->getMvps($rows) / count($rows), 2);
     }
 }

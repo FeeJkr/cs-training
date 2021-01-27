@@ -68,4 +68,9 @@ final class FaceitService
         $this->playerRepository->updateGameInformation($player);
         $this->playerRepository->updateStatistics($player);
     }
+
+    public function getMonthStatistics(FaceitPlayer $player): FaceitPlayerStatistics
+    {
+        return $this->playerRepository->getMonthStatistics($player);
+    }
 }
