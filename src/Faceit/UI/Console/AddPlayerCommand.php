@@ -8,6 +8,7 @@ use App\Faceit\Application\PlayerService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddPlayerCommand extends Command
@@ -25,13 +26,13 @@ final class AddPlayerCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('nickname', InputArgument::REQUIRED, 'Player nickname on Faceit');
+        $this->addOption('nickname', null, InputOption::VALUE_REQUIRED, 'Player nickname on Faceit');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $this->playerService->add($input->getArgument('nickname'));
+            $this->playerService->add($input->getOption('nickname'));
 
             return Command::SUCCESS;
         } catch (ApplicationException $exception) {
