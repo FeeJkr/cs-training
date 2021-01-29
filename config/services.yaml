@@ -27,13 +27,10 @@ services:
     App\Training\UI\Web\TrainingController:
         tags: ['controller.service_arguments']
 
-    App\Faceit\UI\Web\FaceitController:
+    App\Faceit\UI\Web\DashboardController:
         tags: ['controller.service_arguments']
 
-    App\Faceit\UI\Web\FaceitMatchController:
-        tags: ['controller.service_arguments']
-
-    App\Faceit\UI\Console\AddFaceitMatchesCommand:
+    App\Faceit\UI\Console\AddMatchesCommand:
         tags: ['console.command']
 
     Doctrine\DBAL\Connection:
@@ -50,7 +47,7 @@ services:
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
 
-    App\Faceit\Infrastructure\FaceitApiClient:
+    App\Faceit\Infrastructure\Adapter\FaceitAdapter:
         arguments:
             $httpClient: '@GuzzleHttp\Client'
             $faceitApiToken: '%faceitApiToken%'

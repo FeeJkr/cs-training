@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Common\UI\Web;
 
-use App\Faceit\Application\FaceitService;
+use App\Faceit\Application\PlayerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 final class IndexController extends AbstractController
 {
-    private FaceitService $faceitService;
+    private PlayerService $faceitService;
 
-    public function __construct(FaceitService $faceitService)
+    public function __construct(PlayerService $faceitService)
     {
         $this->faceitService = $faceitService;
     }
