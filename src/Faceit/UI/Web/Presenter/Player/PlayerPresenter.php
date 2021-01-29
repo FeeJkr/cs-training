@@ -4,9 +4,15 @@ declare(strict_types=1);
 namespace App\Faceit\UI\Web\Presenter\Player;
 
 use App\Faceit\Domain\Player\GetAll\PlayerElement;
+use App\Faceit\Domain\Player\GetAll\PlayerList;
 
 final class PlayerPresenter
 {
+    public function presentCollection(PlayerList $playerList): array
+    {
+        return array_map(fn(PlayerElement $element): array => $this->present($element), $playerList->toArray());
+    }
+
     public function present(PlayerElement $player): array
     {
         return [

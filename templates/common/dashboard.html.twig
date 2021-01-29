@@ -11,7 +11,9 @@
 
         <div class="list-group">
             {% for player in players %}
-                <a href="{{ path('faceit.dashboard', {'nickname': player.nickname}) }}" class="list-group-item list-group-item-action">{{ player.nickname }}</a>
+                <a  style="text-align: center; font-size: 20px;" href="{{ path('faceit.dashboard', {'nickname': player.nickname}) }}" class="list-group-item list-group-item-action">
+                    <span style="font-weight: bold;">{{ player.nickname }}</span> | Level: {{ player.skill.level }} | ELO: {{ player.skill.elo }}
+                </a>
             {% endfor %}
         </div>
 
