@@ -78,4 +78,24 @@ final class PlayerDbRepository implements PlayerRepository
             ...array_map(static fn(array $row): PlayerElement => PlayerElement::createFromRow($row), $rows)
         );
     }
+
+    /**
+     * @throws Exception
+     */
+    public function getByNickname(string $nickname): PlayerElement
+    {
+        $row = $this->connection->executeQuery("
+            SELECT
+                id,
+                faceit_id,
+                nickname,
+                avatar,
+                skill_level,
+                faceit_elo,
+                faceit_url
+            FROM faceit_players;
+        ")->fetchAssociative();
+
+        return PlayerElement::createFromRow($row);
+    }
 }

@@ -7,7 +7,9 @@ use App\Faceit\Application\Exception\ApplicationException;
 use App\Faceit\Application\Exception\PlayerException;
 use App\Faceit\Domain\Contract\Faceit;
 use App\Faceit\Domain\Contract\FaceitException;
+use App\Faceit\Domain\Player\GetAll\PlayerElement;
 use App\Faceit\Domain\Player\GetAll\PlayerList;
+use App\Faceit\Domain\Player\Player;
 use App\Faceit\Domain\Player\PlayerFactory;
 use App\Faceit\Domain\Player\PlayerRepository;
 
@@ -46,5 +48,10 @@ final class PlayerService
     public function getAll(): PlayerList
     {
         return $this->repository->getAll();
+    }
+
+    public function getByNickname(string $nickname): PlayerElement
+    {
+        return $this->repository->getByNickname($nickname);
     }
 }

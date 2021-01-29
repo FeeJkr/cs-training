@@ -4,16 +4,20 @@ declare(strict_types=1);
 namespace App\Faceit\Infrastructure\Statistics;
 
 use App\Faceit\Domain\Statistics\StatisticsSegment;
+use App\Faceit\Domain\Statistics\StatisticsSegmentFactory;
+use App\Faceit\Domain\Statistics\StatisticsSegmentsCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 
 final class StatisticsSegmentDbRepository
 {
     private Connection $connection;
+    private StatisticsSegmentFactory $factory;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, StatisticsSegmentFactory $factory)
     {
         $this->connection = $connection;
+        $this->factory = $factory;
     }
 
     /**
@@ -153,5 +157,17 @@ final class StatisticsSegmentDbRepository
             'wins' => $segment->getWins(),
             'winRate' => $segment->getWinRate(),
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getByStatisticsId(int $statisticsId): StatisticsSegmentsCollection
+    {
+        $rows = $this->connection->executeQuery("
+            SELECT * FROM faceit_players_statistics_segments WHERE faceit_players_statistics_id = :statisticsId
+        ", ['statisticsId' => $statisticsId])->fetchAllAssociative();
+
+        return $this->factory->createCollectionFromRows($rows);
     }
 }

@@ -108,4 +108,52 @@ final class StatisticsSegmentFactory
             $matchList->getWinRate()
         );
     }
+
+    public function createCollectionFromRows(array $rows): StatisticsSegmentsCollection
+    {
+        $segments = [];
+
+        foreach ($rows as $row) {
+            $segments[] = $this->createFromRow($row);
+        }
+
+        return new StatisticsSegmentsCollection(...$segments);
+    }
+
+    private function createFromRow(array $row): StatisticsSegment
+    {
+        return new StatisticsSegment(
+            Id::fromInt($row['id']),
+            $row['type'],
+            $row['mode'],
+            $row['label'],
+            $row['image'],
+            (int) $row['kills'],
+            (float) $row['average_kills'],
+            (int) $row['assists'],
+            (float) $row['average_assists'],
+            (int) $row['deaths'],
+            (float) $row['average_deaths'],
+            (int) $row['headshots'],
+            (int) $row['total_headshots'],
+            (float) $row['average_headshots'],
+            (float) $row['headshots_per_match'],
+            (float) $row['kr_ratio'],
+            (float) $row['average_kr_ratio'],
+            (float) $row['kd_ratio'],
+            (float) $row['average_kd_ratio'],
+            (int) $row['triple_kills'],
+            (int) $row['quadro_kills'],
+            (int) $row['penta_kills'],
+            (float) $row['average_triple_kills'],
+            (float) $row['average_quadro_kills'],
+            (float) $row['average_penta_kills'],
+            (int) $row['mvps'],
+            (float) $row['average_mvps'],
+            (int) $row['matches'],
+            (int) $row['rounds'],
+            (int) $row['wins'],
+            (float) $row['win_rate']
+        );
+    }
 }

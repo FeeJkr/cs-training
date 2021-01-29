@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Faceit\UI\Web\Presenter\Match;
 
+use App\Faceit\Domain\Match\GetByPlayer\MatchElement;
+use App\Faceit\Domain\Match\GetByPlayer\MatchList;
 use App\Faceit\Domain\Match\Match;
-use App\Faceit\Domain\Match\MatchesCollection;
 
 final class MatchPresenter
 {
@@ -15,35 +16,48 @@ final class MatchPresenter
         $this->teamPresenter = $teamPresenter;
     }
 
-    public function presentCollection(MatchesCollection $matches): array
+    public function presentCollection(MatchList $matches): array
     {
         return [
             'today' => $this->presentPeriodCollection($matches->getTodayMatches()),
             'yesterday' => $this->presentPeriodCollection($matches->getYesterdayMatches()),
             'month' => $this->presentPeriodCollection($matches->getMonthMatches()),
-            'matches' => array_map(fn(Match $match): array => $this->present($match), $matches->toArray()),
+            'matches' => array_map(fn(MatchElement $match): array => $this->present($match), $matches->toArray()),
         ];
     }
 
-    private function present(Match $match): array
+    private function present(MatchElement $match): array
     {
         return [
             'map' => $match->getMap(),
-            'mode' => $match->getGameMode(),
+            'mode' => $match->getMode(),
             'score' => $match->getScore(),
             'finishedAt' => $match->getFinishedAt()->format('d-m-Y H:i'),
             'faceitUrl' => $match->getFaceitUrl(),
-            'teams' => $this->teamPresenter->presentCollection($match->getTeams()),
+            'kills' => $match->getKills(),
+            'assists' => $match->getAssists(),
+            'deaths' => $match->getDeaths(),
+            'headshots' => $match->getHeadshots(),
+            'headshotsPercentage' => $match->getHeadshotsPercentage(),
+            'tripleKills' => $match->getTripleKills(),
+            'quadroKills' => $match->getQuadroKills(),
+            'pentaKills' => $match->getPentaKills(),
+            'mvps' => $match->getMvps(),
+            'kdRatio' => $match->getKdRatio(),
+            'krRatio' => $match->getKrRatio(),
+            'isWin' => $match->isWin(),
+            'isGoodKdRatio' => $match->isGoodKdRatio(),
+            'isGoodKrRatio' => $match->isGoodKrRatio(),
         ];
     }
 
-    private function presentPeriodCollection(MatchesCollection $matches): array
+    private function presentPeriodCollection(MatchList $matches): array
     {
         return [
             'total' => $matches->getTotalMatches(),
             'wins' => $matches->getWins(),
             'loses' => $matches->getLoses(),
-            'averageKd' => $matches->getAverageKd(),
+            'averageKd' => $matches->getAverageKdRatio(),
         ];
     }
 }

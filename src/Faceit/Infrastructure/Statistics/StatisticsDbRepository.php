@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace App\Faceit\Infrastructure\Statistics;
 
+use App\Faceit\Domain\Match\GetByPlayer\Scope;
 use App\Faceit\Domain\Statistics\Statistics;
+use App\Faceit\Domain\Statistics\StatisticsCollection;
+use App\Faceit\Domain\Statistics\StatisticsFactory;
 use App\Faceit\Domain\Statistics\StatisticsRepository;
+use App\Faceit\Domain\Statistics\StatisticsType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 
@@ -12,11 +16,16 @@ final class StatisticsDbRepository implements StatisticsRepository
 {
     private Connection $connection;
     private StatisticsSegmentDbRepository $statisticsSegmentRepository;
+    private StatisticsFactory $factory;
 
-    public function __construct(Connection $connection, StatisticsSegmentDbRepository $statisticsSegmentRepository)
-    {
+    public function __construct(
+        Connection $connection,
+        StatisticsSegmentDbRepository $statisticsSegmentRepository,
+        StatisticsFactory $factory
+    ) {
         $this->connection = $connection;
         $this->statisticsSegmentRepository = $statisticsSegmentRepository;
+        $this->factory = $factory;
     }
 
     /**
@@ -78,8 +87,27 @@ final class StatisticsDbRepository implements StatisticsRepository
 
             $this->connection->commit();
         } catch (Exception $exception) {
-            dd($exception);
             $this->connection->rollBack();
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getAllByPlayer(string $playerId): StatisticsCollection
+    {
+        $result = [];
+        $rows = $this->connection->executeQuery("
+            SELECT * FROM faceit_players_statistics WHERE faceit_player_id = :playerId
+        ", ['playerId' => $playerId])->fetchAllAssociative();
+
+        foreach ($rows as $row) {
+            $result[] = $this->factory->createFromRow(
+                $row,
+                $this->statisticsSegmentRepository->getByStatisticsId($row['id'])
+            );
+        }
+
+        return new StatisticsCollection(...$result);
     }
 }

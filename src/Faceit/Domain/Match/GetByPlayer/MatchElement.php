@@ -8,6 +8,9 @@ use DateTimeInterface;
 
 final class MatchElement
 {
+    private const GOOD_KD_RATIO = 1.0;
+    private const GOOD_KR_RATIO = 0.7;
+
     private string $playerId;
     private string $mode;
     private string $map;
@@ -188,5 +191,15 @@ final class MatchElement
     public function getFinishedAt(): DateTimeInterface
     {
         return $this->finishedAt;
+    }
+
+    public function isGoodKdRatio(): bool
+    {
+        return $this->getKdRatio() >= self::GOOD_KD_RATIO;
+    }
+
+    public function isGoodKrRatio(): bool
+    {
+        return $this->getKrRatio() >= self::GOOD_KR_RATIO;
     }
 }

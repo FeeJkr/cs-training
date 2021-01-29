@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Faceit\UI\Web\Presenter;
 
+use App\Faceit\Domain\Match\GetByPlayer\MatchList;
 use App\Faceit\Domain\Match\MatchesCollection;
+use App\Faceit\Domain\Player\GetAll\PlayerElement;
 use App\Faceit\Domain\Player\Player;
 use App\Faceit\Domain\Statistics\StatisticsCollection;
 use App\Faceit\UI\Web\Presenter\Match\MatchPresenter;
@@ -27,8 +29,8 @@ final class DashboardPresenter
     }
 
     public function present(
-        Player $player,
-        MatchesCollection $matches,
+        PlayerElement $player,
+        MatchList $matches,
         StatisticsCollection $statistics
     ): array {
         return [

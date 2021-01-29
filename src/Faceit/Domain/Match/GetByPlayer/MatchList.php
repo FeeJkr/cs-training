@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Faceit\Domain\Match\GetByPlayer;
 
+use DateInterval;
+use DateTime;
+
 final class MatchList
 {
     private array $elements;
@@ -25,6 +28,48 @@ final class MatchList
     public function toArray(): array
     {
         return $this->elements;
+    }
+
+    public function getTodayMatches(): self
+    {
+        $today = (new DateTime())->format('ymd');
+        $matches = [];
+
+        foreach ($this->elements as $match) {
+            if ($match->getFinishedAt()->format('ymd') === $today) {
+                $matches[] = $match;
+            }
+        }
+
+        return new self(...$matches);
+    }
+
+    public function getYesterdayMatches(): self
+    {
+        $yesterday = (new DateTime())->sub(new DateInterval('P1D'))->format('ymd');
+        $matches = [];
+
+        foreach ($this->elements as $match) {
+            if ($match->getFinishedAt()->format('ymd') === $yesterday) {
+                $matches[] = $match;
+            }
+        }
+
+        return new self(...$matches);
+    }
+
+    public function getMonthMatches(): self
+    {
+        $month = (new DateTime())->format('ym');
+        $matches = [];
+
+        foreach ($this->elements as $match) {
+            if ($match->getFinishedAt()->format('ym') === $month) {
+                $matches[] = $match;
+            }
+        }
+
+        return new self(...$matches);
     }
 
     /**
@@ -59,8 +104,17 @@ final class MatchList
         return $wins;
     }
 
+    public function getLoses(): int
+    {
+        return $this->getTotalMatches() - $this->getWins();
+    }
+
     public function getWinRate(): int
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return (int) round(($this->getWins() / $this->getTotalMatches()) * 100);
     }
 
@@ -77,6 +131,10 @@ final class MatchList
 
     public function getAverageKdRatio(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getTotalKdRatio() / $this->getTotalMatches(), 2);
     }
 
@@ -93,6 +151,10 @@ final class MatchList
 
     public function getAverageKrRatio(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getTotalKrRatio() / $this->getTotalMatches(), 2);
     }
 
@@ -109,6 +171,10 @@ final class MatchList
 
     public function getAverageHeadshotsPercentage(): int
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return (int) round($this->getTotalHeadshotsPercentage() / $this->getTotalMatches());
     }
 
@@ -147,16 +213,28 @@ final class MatchList
 
     public function getAverageKills(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getKills() / $this->getTotalMatches(), 2);
     }
 
     public function getAverageAssists(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getAssists() / $this->getTotalMatches(), 2);
     }
 
     public function getAverageDeaths(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getDeaths() / $this->getTotalMatches(), 2);
     }
 
@@ -173,6 +251,10 @@ final class MatchList
 
     public function getHeadshotsPerMatch(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getTotalHeadshots() / $this->getTotalMatches(), 2);
     }
 
@@ -211,16 +293,28 @@ final class MatchList
 
     public function getAverageTripleKills(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getTripleKills() / $this->getTotalMatches(), 2);
     }
 
     public function getAverageQuadroKills(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getQuadroKills() / $this->getTotalMatches(), 2);
     }
 
     public function getAveragePentaKills(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getPentaKills() / $this->getTotalMatches(), 2);
     }
 
@@ -237,6 +331,10 @@ final class MatchList
 
     public function getAverageMvps(): float
     {
+        if ($this->getTotalMatches() === 0) {
+            return 0;
+        }
+
         return round($this->getTotalMvps() / $this->getTotalMatches(), 2);
     }
 

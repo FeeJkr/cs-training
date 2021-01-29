@@ -7,6 +7,7 @@ use App\Faceit\Application\Exception\ApplicationException;
 use App\Faceit\Application\MatchService;
 use App\Faceit\Application\PlayerService;
 use App\Faceit\Application\StatisticsService;
+use App\Faceit\Domain\Match\GetByPlayer\Scope;
 use App\Faceit\UI\Web\Presenter\DashboardPresenter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +37,9 @@ final class DashboardController extends AbstractController
         try {
             $nickname = $request->get('nickname');
 
-            $player = $this->playerService->getPlayerByNickname($nickname);
-            $matches = $this->matchService->getMatchesByPlayer($player->getFaceitId());
-            $statistics = $this->statisticsService->getAllStatisticsByPlayer($nickname);
+            $player = $this->playerService->getByNickname($nickname);
+            $matches = $this->matchService->getByPlayer($player->getFaceitId());
+            $statistics = $this->statisticsService->getByPlayer($player->getFaceitId());
 
             return $this->render('faceit/dashboard.html.twig', $this->presenter->present($player, $matches, $statistics));
         } catch (ApplicationException $exception) {

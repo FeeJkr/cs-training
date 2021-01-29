@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Faceit\UI\Web\Presenter\Player;
 
-use App\Faceit\Domain\Player\Player;
+use App\Faceit\Domain\Player\GetAll\PlayerElement;
 
 final class PlayerPresenter
 {
-    public function present(Player $player): array
+    public function present(PlayerElement $player): array
     {
         return [
-            'id' => $player->getId()->toInt(),
+            'id' => $player->getId(),
             'skill' => [
                 'level' => $player->getSkillLevel(),
                 'elo' => $player->getFaceitElo(),

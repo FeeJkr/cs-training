@@ -70,4 +70,21 @@ final class StatisticsFactory
             new StatisticsSegmentsCollection(...[]),
         );
     }
+
+    public function createFromRow(array $row, StatisticsSegmentsCollection $statisticsSegments): Statistics
+    {
+        return new Statistics(
+            Id::fromInt($row['id']),
+            new StatisticsType($row['type']),
+            $row['faceit_player_id'],
+            (int) $row['matches'],
+            (int) $row['wins'],
+            (float) $row['win_rate'],
+            (float) $row['kd_ratio'],
+            (float) $row['average_kd_ratio'],
+            (int) $row['headshots'],
+            (int) $row['average_headshots'],
+            $statisticsSegments
+        );
+    }
 }

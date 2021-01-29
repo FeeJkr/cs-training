@@ -6,4 +6,5 @@ namespace App\Faceit\Domain\Statistics;
 interface StatisticsRepository
 {
     public function save(Statistics $statistics): void;
+    public function getAllByPlayer(string $playerId): StatisticsCollection;
 }

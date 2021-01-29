@@ -7,6 +7,19 @@ use App\Faceit\Domain\Id;
 
 final class PlayerElement
 {
+    private const LEVELS = [
+        1 => 1,
+        2 => 801,
+        3 => 951,
+        4 => 1101,
+        5 => 1251,
+        6 => 1401,
+        7 => 1551,
+        8 => 1701,
+        9 => 1851,
+        10 => 2001,
+    ];
+
     private int $id;
     private string $faceitId;
     private string $nickname;
@@ -79,5 +92,22 @@ final class PlayerElement
     public function getFaceitUrl(): string
     {
         return $this->faceitUrl;
+    }
+
+    public function getEloToNextLevel(): int
+    {
+        return self::LEVELS[$this->skillLevel + 1] - $this->faceitElo;
+    }
+
+    public function getEloToPrevisionLevel(): int
+    {
+        return self::LEVELS[$this->skillLevel] - $this->faceitElo - 1;
+    }
+
+    public function getEloPercentageToNextLevel(): float
+    {
+        $eloLevelDiff = self::LEVELS[$this->skillLevel + 1] - self::LEVELS[$this->skillLevel];
+
+        return 100 - round(($this->getEloToNextLevel() / $eloLevelDiff) * 100);
     }
 }

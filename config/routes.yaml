@@ -35,7 +35,7 @@ training.part.toggleIsEnded:
 
 faceit.dashboard:
     path: /faceit/{nickname}
-    controller: App\Faceit\UI\Web\FaceitController::dashboard
+    controller: App\Faceit\UI\Web\DashboardController::dashboard
     methods: GET
 
 faceit.player.add:

@@ -10,18 +10,18 @@
                     </div>
                     <div class="col-6">
                         <h3> {{ player.nickname }}</h3>
-                        <h5 style="font-size: 14px;">Level: <span class="h5" style="text-align: center">{{ player.game.skillLevel }}</span></h5>
-                        <h5 style="font-size: 14px;">Elo: <span class="h5" style="text-align: center">{{ player.game.elo }}</span></h5>
+                        <h5 style="font-size: 14px;">Level: <span class="h5" style="text-align: center">{{ player.skill.level }}</span></h5>
+                        <h5 style="font-size: 14px;">Elo: <span class="h5" style="text-align: center">{{ player.skill.elo }}</span></h5>
 
                         <hr>
-                        <h5 style="font-size: 14px; text-align: center;">To level {{ player.game.skillLevel + 1 }}:</h5>
+                        <h5 style="font-size: 14px; text-align: center;">To level {{ player.skill.level + 1 }}:</h5>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ player.game.eloPercentageToNextLevel }}%;" aria-valuenow="{{ player.game.eloPercentageToNextLevel }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" style="width: {{ player.skill.eloPercentageToNextLevel }}%;" aria-valuenow="{{ player.skill.eloPercentageToNextLevel }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="row">
-                            <div class="col-2">{{ player.game.eloToPrevisionLevel }}</div>
+                            <div class="col-2">{{ player.skill.eloToPrevisionLevel }}</div>
                             <div class="col-8"></div>
-                            <div class="col-2">+{{ player.game.eloToNextLevel }}</div>
+                            <div class="col-2">+{{ player.skill.eloToNextLevel }}</div>
                         </div>
                     </div>
                 </div>
@@ -33,45 +33,45 @@
                         <div class="card-body">
                             <div style="text-align: center">
                                 <h5 style="font-size: 14px;">Сыгранно матчей: </h5>
-                                <p style="font-size: 20px;">{{ matchesStatistics.today.total }}</p>
+                                <p style="font-size: 20px;">{{ matches.today.total }}</p>
                             </div>
                             <hr>
                             <div style="text-align: center">
                                 <h5 style="font-size: 14px;">Побед / Поражений</h5>
-                                <p style="font-size: 20px;">{{ matchesStatistics.today.wins }} / {{ matchesStatistics.today.loses }}</p>
+                                <p style="font-size: 20px;">{{ matches.today.wins }} / {{ matches.today.loses }}</p>
                             </div>
                         </div>
-                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matchesStatistics.today.averageKd }}</span></div>
+                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matches.today.averageKd }}</span></div>
                     </div>
                     <div class="card border-success mb-3" style="max-width: 18rem;">
                         <div class="card-header bg-transparent border-success" style="text-align: center; font-weight: bold;">Статистика (вчера)</div>
                         <div class="card-body">
                             <div style="text-align: center">
                                 <h5 style="font-size: 14px;">Сыгранно матчей: </h5>
-                                <p style="font-size: 20px;">{{ matchesStatistics.yesterday.total }}</p>
+                                <p style="font-size: 20px;">{{ matches.yesterday.total }}</p>
                             </div>
                             <hr>
                             <div style="text-align: center">
                                 <h5 style="font-size: 14px;">Побед / Поражений</h5>
-                                <p style="font-size: 20px;">{{ matchesStatistics.yesterday.wins }} / {{ matchesStatistics.yesterday.loses }}</p>
+                                <p style="font-size: 20px;">{{ matches.yesterday.wins }} / {{ matches.yesterday.loses }}</p>
                             </div>
                         </div>
-                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matchesStatistics.yesterday.averageKd }}</span></div>
+                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matches.yesterday.averageKd }}</span></div>
                     </div>
                     <div class="card border-success mb-3" style="max-width: 18rem;">
                         <div class="card-header bg-transparent border-success" style="text-align: center; font-weight: bold;">Статистика (месяц)</div>
                         <div class="card-body">
                             <div style="text-align: center">
                                 <h5 style="font-size: 14px;">Сыгранно матчей:</h5>
-                                <p style="font-size: 20px;">{{ matchesStatistics.month.total }}</p>
+                                <p style="font-size: 20px;">{{ matches.month.total }}</p>
                             </div>
                             <hr>
                             <div style="text-align: center">
                                 <h5 style="font-size: 14px;">Побед / Поражений</h5>
-                                <p style="font-size: 20px;">{{ matchesStatistics.month.wins }} / {{ matchesStatistics.month.loses }}</p>
+                                <p style="font-size: 20px;">{{ matches.month.wins }} / {{ matches.month.loses }}</p>
                             </div>
                         </div>
-                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matchesStatistics.month.averageKd }}</span></div>
+                        <div class="card-footer bg-transparent border-success">Средний рейтинг: <span style="font-weight: bold; font-size: 20px;">{{ matches.month.averageKd }}</span></div>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         <div class="card h-100 border-secondary">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Матчей</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.matches }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.global.matches }}</h1>
                             </div>
                         </div>
                     </div>
@@ -100,23 +100,23 @@
                         <div class="card h-100 border-secondary">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Побед</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.wins }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.global.wins }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100 {% if player.statistics.isGoodWinRate %} border-success {% else %} border-danger {% endif %}">
+                        <div class="card h-100 {% if statistics.global.isGoodWinRate %} border-success {% else %} border-danger {% endif %}">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Процент побед</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.winRate }} %</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.global.winRate }} %</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100 {% if player.statistics.isGoodAverageKdRatio %} border-success {% else %} border-danger {% endif %}">
+                        <div class="card h-100 {% if statistics.global.isGoodAverageKdRatio %} border-success {% else %} border-danger {% endif %}">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Средний КД</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.averageKdRatio }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.global.averageKdRatio }}</h1>
                             </div>
                         </div>
                     </div>
@@ -124,15 +124,15 @@
                         <div class="card h-100 border-secondary">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center; font-size: 16px;">Попаданий в голову</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.headshots }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.global.headshots }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100 {% if player.statistics.isGoodAverageHeadshots %} border-success {% else %} border-danger {% endif %}">
+                        <div class="card h-100 {% if statistics.global.isGoodAverageHeadshots %} border-success {% else %} border-danger {% endif %}">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center; font-size: 9px;">Средний процент попаданий в голову</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.averageHeadshots }} %</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.global.averageHeadshots }} %</h1>
                             </div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                         <div class="card h-100 border-secondary">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Матчей</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.month.matches }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.month.matches }}</h1>
                             </div>
                         </div>
                     </div>
@@ -152,23 +152,23 @@
                         <div class="card h-100 border-secondary">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Побед</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.month.wins }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.month.wins }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100 {% if player.statistics.month.isGoodWinRate %} border-success {% else %} border-danger {% endif %}">
+                        <div class="card h-100 {% if statistics.month.isGoodWinRate %} border-success {% else %} border-danger {% endif %}">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Процент побед</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.month.winRate }} %</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.month.winRate }} %</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100 {% if player.statistics.month.isGoodAverageKdRatio %} border-success {% else %} border-danger {% endif %}">
+                        <div class="card h-100 {% if statistics.month.isGoodAverageKdRatio %} border-success {% else %} border-danger {% endif %}">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center;">Средний КД</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.month.averageKdRatio }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.month.averageKdRatio }}</h1>
                             </div>
                         </div>
                     </div>
@@ -176,15 +176,15 @@
                         <div class="card h-100 border-secondary">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center; font-size: 16px;">Попаданий в голову</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.month.headshots }}</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.month.headshots }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100 {% if player.statistics.month.isGoodAverageHeadshots %} border-success {% else %} border-danger {% endif %}">
+                        <div class="card h-100 {% if statistics.month.isGoodAverageHeadshots %} border-success {% else %} border-danger {% endif %}">
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: center; font-size: 9px;">Средний процент попаданий в голову</h5>
-                                <h1 class="card-text" style="text-align: center;">{{ player.statistics.month.averageHeadshots }} %</h1>
+                                <h1 class="card-text" style="text-align: center;">{{ statistics.month.averageHeadshots }} %</h1>
                             </div>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for match in matchesStatistics.matches %}
+                {% for match in matches.matches %}
                     <tr>
                         <th style="font-size: 12px; border-left: 2px solid black; text-align: center;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center"><a style="color: black;" target="_blank" href="{{ match.faceitUrl }}">{{ match.finishedAt }}</a></th>
                         <td style="font-size: 12px; font-weight: bold;" class="{% if match.isWin %} table-success {% else %} table-danger {% endif %}" align="center">{{ match.map }}</td>
@@ -226,220 +226,132 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-3">
-                <div class="list-group" style="width: 100%" id="list-tab" role="tablist">
-                    {% for segment in player.statistics.segments %}
-                        <a style="text-align: center;" class="inline-block list-group-item list-group-item-action" id="list-{{ segment.total.id }}-list" data-bs-toggle="list" href="#list-{{ segment.total.id }}" role="tab" aria-controls="{{ segment.total.label }}">
-                            <img src="{{ segment.total.image }}" width="32px" height="24px"/>
-                            {{ segment.total.label }}
-                        </a>
-                    {% endfor %}
-                </div>
+            <div class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                {% for key, statistic in statistics  %}
+                    <a class="nav-link {% if loop.first %}active{% endif %}" id="nav-{{ key }}-tab" data-bs-toggle="tab" href="#nav-{{ key }}" role="tab" aria-controls="nav-{{ key }}" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                        {% if key == 'global' %}
+                            За все время
+                        {% elseif key == 'month' %}
+                            За месяц
+                        {% endif %}
+                    </a>
+                {% endfor %}
             </div>
-            <div class="col-9">
-                <div class="tab-content" id="nav-tabContent">
-                    {% for segment in player.statistics.segments %}
-                        <div class="tab-pane fade show" id="list-{{ segment.total.id }}" role="tabpanel" aria-labelledby="list-{{ segment.total.id }}-list">
-                            <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="all-tab-{{ segment.total.id }}" data-bs-toggle="tab" href="#all-{{ segment.total.id }}" role="tab" aria-controls="all-{{ segment.total.id }}" aria-selected="true">За все время</a>
-                                </li>
-                                {% if segment.month is defined %}
-                                    <li class="nav-item" role="presentation">
-                                        <a class="nav-link" id="month-tab-{{ segment.total.id }}" data-bs-toggle="tab" href="#month-{{ segment.total.id }}" role="tab" aria-controls="month-{{ segment.total.id }}" aria-selected="false">За месяц</a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="all-{{ segment.total.id }}" role="tabpanel" aria-labelledby="all-tab-{{ segment.total.id }}">
-                                    <div class="card-group">
-                                        <div class="card" style="border-bottom: 0; border-left: 0;">
-                                            <div class="card-body">
-                                                <p class="card-title"><span style="font-size: 12px;"> Статистика карты: </span> {{ segment.total.label }}</p>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Количество матчей:</span> <span class="alert-primary"> {{ segment.total.matches}} </span> </li>
-                                                    <li><span style="font-size: 10px;">Количество раундов:</span> <span class="alert-primary"> {{ segment.total.rounds }} </span></li>
-                                                    <li><span style="font-size: 10px;">Количетсво MVP:</span> <span class="alert-primary"> {{ segment.total.mvps }} </span></li>
-                                                    <li><span style="font-size: 10px;">среднее количество MVP за игру:</span> <span class="{% if segment.total.isGoodAverageMvps %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.averageMvps }} </span></li>
-                                                    <li><span style="font-size: 10px;">Количество побед:</span> <span class="alert-primary"> {{ segment.total.wins }} </span></li>
-                                                    <li><span style="font-size: 10px;">Общий процент побед:</span> <span class="{% if segment.total.isGoodWinRate %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.winRate }}%</span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Количество убийств</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее число убийств:</span> <span class="alert-primary"> {{ segment.total.kills}} </span> </li>
-                                                    <li><span style="font-size: 10px;">Среднее число убийств:</span> <span class="{% if segment.total.isGoodAverageKills %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.averageKills }} </span></li>
-                                                </ul>
-                                                <h6 class="card-title">Количество ассистов</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее число ассистов:</span> <span class="alert-primary">{{ segment.total.assists}}</span></li>
-                                                    <li><span style="font-size: 10px;">Среднее число ассистов:</span> <span class="{% if segment.total.isGoodAverageAssists %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.averageAssists }} </span></li>
-                                                </ul>
-                                                <h6 class="card-title">Количество смертей</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее число смертей:</span> <span class="alert-primary"> {{ segment.total.deaths }} </span> </li>
-                                                    <li><span style="font-size: 10px;">Среднее число смертей:</span> <span class="{% if segment.total.isGoodAverageDeaths %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.averageDeaths }} </span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Количество выстрелов в голову</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее число:</span> <span class="alert-primary"> {{ segment.total.headshots }} </span> </li>
-                                                    <li><span style="font-size: 10px;">Средний процент выстрелов в голову:</span> <span class="{% if segment.total.isGoodAverageHeadshots %} alert-success {% else %} alert-danger {% endif %}">{{ segment.total.averageHeadshots }} % </span></li>
-                                                    <li><span style="font-size: 10px;">Среднее кол-во попаданий в голову за матч:</span> <span class="alert-primary"> {{ segment.total.headshotsPerMatch }} </span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Убийств за раунд</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Разница в убийствах за раунд:</span> <span class="alert-primary"> {{ segment.total.krRatio }} </span> </li>
-                                                    <li><span style="font-size: 10px;">К/Р Рейтинг:</span> <span class="{% if segment.total.isGoodAverageKrRatio %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.averageKrRatio }} </span></li>
-                                                </ul>
-                                                <h6 class="card-title">Убийств к смертям</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Разница в убийствах и смертях:</span> <span class="alert-primary">{{ segment.total.kdRatio }}</span></li>
-                                                    <li><span style="font-size: 10px;">К/Д Рейтинг:</span> <span class="{% if segment.total.isGoodAverageKdRatio %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.total.averageKdRatio }} </span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="card-group">
-                                        <div class="card" style="border-top: 0; border-left: 0;"></div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Количество 3х убийств</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.total.tripleKills}} </span> </li>
-                                                    <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.total.averageTripleKills }} </span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Количество 4х убийств</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.total.quadroKills}} </span> </li>
-                                                    <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.total.averageQuadroKills }} </span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Количество 5х убийств</h6>
-                                                <ul class="card-text">
-                                                    <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.total.pentaKills}} </span> </li>
-                                                    <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.total.averagePentaKills }} </span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="tab-content" id="nav-tabContent">
+                {% for key, statistic in statistics %}
+                    <div class="tab-pane fade{% if loop.first %} show active{% endif %}" id="nav-{{ key }}" role="tabpanel" aria-labelledby="nav-{{ key }}-tab">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="list-group" style="width: 100%" id="list-tab-{{ key }}" role="tablist">
+                                    {% for segment in statistic.segments %}
+                                        <a style="text-align: center;" class="inline-block list-group-item list-group-item-action" id="list-{{ segment.id }}-list" data-bs-toggle="list" href="#list-{{ segment.id }}" role="tab" aria-controls="{{ segment.label }}">
+                                            <img src="{{ segment.image }}" width="32px" height="24px"/>
+                                            {{ segment.label }} <span style="font-size: 14px; {% if segment.isGoodWinRate %}color: green;{% else %}color: red;{% endif %}">({{ segment.winRate }}%)</span>
+                                        </a>
+                                    {% endfor %}
                                 </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="tab-content" id="myTabContent">
+                                    {% for segment in statistic.segments %}
+                                        <div class="tab-pane fade show" id="list-{{ segment.id }}" role="tabpanel" aria-labelledby="list-{{ segment.id }}-list">
+                                            <div class="card-group">
+                                                <div class="card" style="border-bottom: 0; border-left: 0;">
+                                                    <div class="card-body">
+                                                        <p class="card-title"><span style="font-size: 12px;"> Статистика карты: </span> {{ segment.label }}</p>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Количество матчей:</span> <span class="alert-primary"> {{ segment.matches}} </span> </li>
+                                                            <li><span style="font-size: 10px;">Количество раундов:</span> <span class="alert-primary"> {{ segment.rounds }} </span></li>
+                                                            <li><span style="font-size: 10px;">Количетсво MVP:</span> <span class="alert-primary"> {{ segment.mvps }} </span></li>
+                                                            <li><span style="font-size: 10px;">среднее количество MVP за игру:</span> <span class="{% if segment.isGoodAverageMvps %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.averageMvps }} </span></li>
+                                                            <li><span style="font-size: 10px;">Количество побед:</span> <span class="alert-primary"> {{ segment.wins }} </span></li>
+                                                            <li><span style="font-size: 10px;">Общий процент побед:</span> <span class="{% if segment.isGoodWinRate %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.winRate }}%</span></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">Количество убийств</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее число убийств:</span> <span class="alert-primary"> {{ segment.kills}} </span> </li>
+                                                            <li><span style="font-size: 10px;">Среднее число убийств:</span> <span class="{% if segment.isGoodAverageKills %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.averageKills }} </span></li>
+                                                        </ul>
+                                                        <h6 class="card-title">Количество ассистов</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее число ассистов:</span> <span class="alert-primary">{{ segment.assists}}</span></li>
+                                                            <li><span style="font-size: 10px;">Среднее число ассистов:</span> <span class="{% if segment.isGoodAverageAssists %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.averageAssists }} </span></li>
+                                                        </ul>
+                                                        <h6 class="card-title">Количество смертей</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее число смертей:</span> <span class="alert-primary"> {{ segment.deaths }} </span> </li>
+                                                            <li><span style="font-size: 10px;">Среднее число смертей:</span> <span class="{% if segment.isGoodAverageDeaths %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.averageDeaths }} </span></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">Количество выстрелов в голову</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее число:</span> <span class="alert-primary"> {{ segment.headshots }} </span> </li>
+                                                            <li><span style="font-size: 10px;">Средний процент выстрелов в голову:</span> <span class="{% if segment.isGoodAverageHeadshots %} alert-success {% else %} alert-danger {% endif %}">{{ segment.averageHeadshots }} % </span></li>
+                                                            <li><span style="font-size: 10px;">Среднее кол-во попаданий в голову за матч:</span> <span class="alert-primary"> {{ segment.headshotsPerMatch }} </span></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">Убийств за раунд</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Разница в убийствах за раунд:</span> <span class="alert-primary"> {{ segment.krRatio }} </span> </li>
+                                                            <li><span style="font-size: 10px;">К/Р Рейтинг:</span> <span class="{% if segment.isGoodAverageKrRatio %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.averageKrRatio }} </span></li>
+                                                        </ul>
+                                                        <h6 class="card-title">Убийств к смертям</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Разница в убийствах и смертях:</span> <span class="alert-primary">{{ segment.kdRatio }}</span></li>
+                                                            <li><span style="font-size: 10px;">К/Д Рейтинг:</span> <span class="{% if segment.isGoodAverageKdRatio %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.averageKdRatio }} </span></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                {% if segment.month is defined %}
-                                    <div class="tab-pane fade" id="month-{{ segment.total.id }}" role="tabpanel" aria-labelledby="month-tab-{{ segment.total.id }}">
-                                        <div class="card-group">
-                                            <div class="card" style="border-bottom: 0; border-left: 0;">
-                                                <div class="card-body">
-                                                    <p class="card-title"><span style="font-size: 12px;"> Статистика карты: </span> {{ segment.month.label }}</p>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Количество матчей:</span> <span class="alert-primary"> {{ segment.month.matches}} </span> </li>
-                                                        <li><span style="font-size: 10px;">Количество раундов:</span> <span class="alert-primary"> {{ segment.month.rounds }} </span></li>
-                                                        <li><span style="font-size: 10px;">Количетсво MVP:</span> <span class="alert-primary"> {{ segment.month.mvps }} </span></li>
-                                                        <li><span style="font-size: 10px;">среднее количество MVP за игру:</span> <span class="{% if segment.month.isGoodAverageMvps %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.averageMvps }} </span></li>
-                                                        <li><span style="font-size: 10px;">Количество побед:</span> <span class="alert-primary"> {{ segment.month.wins }} </span></li>
-                                                        <li><span style="font-size: 10px;">Общий процент побед:</span> <span class="{% if segment.month.isGoodWinRate %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.winRate }}%</span></li>
-                                                    </ul>
+                                            <div class="card-group">
+                                                <div class="card" style="border-top: 0; border-left: 0;"></div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">Количество 3х убийств</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.tripleKills}} </span> </li>
+                                                            <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.averageTripleKills }} </span></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Количество убийств</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее число убийств:</span> <span class="alert-primary"> {{ segment.month.kills}} </span> </li>
-                                                        <li><span style="font-size: 10px;">Среднее число убийств:</span> <span class="{% if segment.month.isGoodAverageKills %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.averageKills }} </span></li>
-                                                    </ul>
-                                                    <h6 class="card-title">Количество ассистов</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее число ассистов:</span> <span class="alert-primary">{{ segment.month.assists}}</span></li>
-                                                        <li><span style="font-size: 10px;">Среднее число ассистов:</span> <span class="{% if segment.month.isGoodAverageAssists %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.averageAssists }} </span></li>
-                                                    </ul>
-                                                    <h6 class="card-title">Количество смертей</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее число смертей:</span> <span class="alert-primary"> {{ segment.month.deaths }} </span> </li>
-                                                        <li><span style="font-size: 10px;">Среднее число смертей:</span> <span class="{% if segment.month.isGoodAverageDeaths %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.averageDeaths }} </span></li>
-                                                    </ul>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">Количество 4х убийств</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.quadroKills}} </span> </li>
+                                                            <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.averageQuadroKills }} </span></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Количество выстрелов в голову</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее число:</span> <span class="alert-primary"> {{ segment.month.headshots }} </span> </li>
-                                                        <li><span style="font-size: 10px;">Средний процент выстрелов в голову:</span> <span class="{% if segment.month.isGoodAverageHeadshots %} alert-success {% else %} alert-danger {% endif %}">{{ segment.month.averageHeadshots }} % </span></li>
-                                                        <li><span style="font-size: 10px;">Среднее кол-во попаданий в голову за матч:</span> <span class="alert-primary"> {{ segment.month.headshotsPerMatch }} </span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Убийств за раунд</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Разница в убийствах за раунд:</span> <span class="alert-primary"> {{ segment.month.krRatio }} </span> </li>
-                                                        <li><span style="font-size: 10px;">К/Р Рейтинг:</span> <span class="{% if segment.month.isGoodAverageKrRatio %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.averageKrRatio }} </span></li>
-                                                    </ul>
-                                                    <h6 class="card-title">Убийств к смертям</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Разница в убийствах и смертях:</span> <span class="alert-primary">{{ segment.month.kdRatio }}</span></li>
-                                                        <li><span style="font-size: 10px;">К/Д Рейтинг:</span> <span class="{% if segment.month.isGoodAverageKdRatio %} alert-success {% else %} alert-danger {% endif %}"> {{ segment.month.averageKdRatio }} </span></li>
-                                                    </ul>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">Количество 5х убийств</h6>
+                                                        <ul class="card-text">
+                                                            <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.pentaKills}} </span> </li>
+                                                            <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.averagePentaKills }} </span></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="card-group">
-                                            <div class="card" style="border-top: 0; border-left: 0;"></div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Количество 3х убийств</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.month.tripleKills}} </span> </li>
-                                                        <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.month.averageTripleKills }} </span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Количество 4х убийств</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.month.quadroKills}} </span> </li>
-                                                        <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.month.averageQuadroKills }} </span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Количество 5х убийств</h6>
-                                                    <ul class="card-text">
-                                                        <li><span style="font-size: 12px;">Общее количество:</span> <span class="alert-primary"> {{ segment.month.pentaKills}} </span> </li>
-                                                        <li><span style="font-size: 10px;">Среднее количество / матч:</span> <span class="alert-primary"> {{ segment.month.averagePentaKills }} </span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -449,8 +361,10 @@
 
 {% block javascripts %}
     <script>
-        (new bootstrap.Tab(document.querySelector('#list-tab a:first-child'))).show();
+        (new bootstrap.Tab(document.querySelector('#list-tab-global a:first-child'))).show();
+        (new bootstrap.Tab(document.querySelector('#list-tab-month a:first-child'))).show();
 
+        $('#nav-month').css('min-height', $('#nav-global').css('height'));
         $('#maps-table').DataTable({
             'searching': false,
             'lengthChange': false,
