@@ -6,6 +6,7 @@ namespace App\Faceit\Infrastructure\Player;
 use App\Faceit\Domain\Player\GetAll\PlayerElement;
 use App\Faceit\Domain\Player\GetAll\PlayerList;
 use App\Faceit\Domain\Player\Player;
+use App\Faceit\Domain\Player\PlayerFactory;
 use App\Faceit\Domain\Player\PlayerRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
@@ -13,10 +14,12 @@ use Doctrine\DBAL\Exception;
 final class PlayerDbRepository implements PlayerRepository
 {
     private Connection $connection;
+    private PlayerFactory $factory;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, PlayerFactory $factory)
     {
         $this->connection = $connection;
+        $this->factory = $factory;
     }
 
     /**
@@ -97,5 +100,46 @@ final class PlayerDbRepository implements PlayerRepository
         ")->fetchAssociative();
 
         return PlayerElement::createFromRow($row);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getByPlayerId(string $playerId): Player
+    {
+        $row = $this->connection->executeQuery("
+            SELECT
+                id,
+                faceit_id,
+                nickname,
+                avatar,
+                skill_level,
+                faceit_elo,
+                faceit_url
+            FROM faceit_players
+            WHERE faceit_id = :playerId;
+        ", ['playerId' => $playerId])->fetchAssociative();
+
+        return $this->factory->createFromRow($row);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function save(Player $player): void
+    {
+        $this->connection->executeQuery("
+            UPDATE faceit_players 
+            SET
+                avatar = :avatar,
+                skill_level = :skillLevel,
+                faceit_elo = :faceitElo
+            WHERE id = :id
+        ", [
+            'id' => $player->getId()->toInt(),
+            'avatar' => $player->getAvatar(),
+            'skillLevel' => $player->getSkillLevel(),
+            'faceitElo' => $player->getFaceitElo(),
+        ]);
     }
 }

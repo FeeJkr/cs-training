@@ -12,4 +12,6 @@ interface PlayerRepository
     public function add(Player $player): void;
     public function getAll(): PlayerList;
     public function getByNickname(string $nickname): PlayerElement;
+    public function getByPlayerId(string $playerId): Player;
+    public function save(Player $player): void;
 }

@@ -9,7 +9,6 @@ use App\Faceit\Domain\Contract\Faceit;
 use App\Faceit\Domain\Contract\FaceitException;
 use App\Faceit\Domain\Player\GetAll\PlayerElement;
 use App\Faceit\Domain\Player\GetAll\PlayerList;
-use App\Faceit\Domain\Player\Player;
 use App\Faceit\Domain\Player\PlayerFactory;
 use App\Faceit\Domain\Player\PlayerRepository;
 
@@ -53,5 +52,27 @@ final class PlayerService
     public function getByNickname(string $nickname): PlayerElement
     {
         return $this->repository->getByNickname($nickname);
+    }
+
+    /**
+     * @throws ApplicationException
+     */
+    public function update(string $playerId): void
+    {
+        try {
+            $player = $this->repository->getByPlayerId($playerId);
+            $playerResponse = $this->faceit->getPlayerByNickname($player->getNickname());
+
+            $player->update(
+                $playerResponse->getFaceitElo(),
+                $playerResponse->getSkillLevel(),
+                $playerResponse->getAvatar()
+            );
+
+            $this->repository->save($player);
+        } catch (FaceitException $exception) {
+            throw PlayerException::createFromDomainException($exception);
+        }
+
     }
 }

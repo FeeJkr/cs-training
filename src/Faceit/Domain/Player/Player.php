@@ -33,6 +33,13 @@ final class Player
         $this->faceitElo = $faceitElo;
     }
 
+    public function update(int $faceitElo, int $skillLevel, string $avatar): void
+    {
+        $this->faceitElo = $faceitElo;
+        $this->skillLevel = $skillLevel;
+        $this->avatar = $avatar;
+    }
+
     public function getId(): Id
     {
         return $this->id;

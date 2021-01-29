@@ -20,4 +20,17 @@ final class PlayerFactory
             $response->getFaceitElo()
         );
     }
+
+    public function createFromRow(array $row): Player
+    {
+        return new Player(
+            Id::fromInt($row['id']),
+            $row['faceit_id'],
+            $row['nickname'],
+            $row['avatar'],
+            $row['faceit_url'],
+            (int) $row['skill_level'],
+            (int) $row['faceit_elo']
+        );
+    }
 }
