@@ -96,8 +96,9 @@ final class PlayerDbRepository implements PlayerRepository
                 skill_level,
                 faceit_elo,
                 faceit_url
-            FROM faceit_players;
-        ")->fetchAssociative();
+            FROM faceit_players
+            WHERE nickname = :nickname;
+        ", ['nickname' => $nickname])->fetchAssociative();
 
         return PlayerElement::createFromRow($row);
     }
