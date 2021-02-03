@@ -5,6 +5,15 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    RewriteBase /build
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule . /index.html [L]
+
+
     RewriteCond %{REQUEST_URI} ^api/ [NC]
     RewriteRule ^(.*)$ index.php [QSA,L]
 
