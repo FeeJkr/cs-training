@@ -15,6 +15,8 @@ if ($_SERVER['APP_DEBUG']) {
     Debug::enable();
 }
 
+header('Access-Control-Allow-Origin: *');
+header('Vary: Origin');
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

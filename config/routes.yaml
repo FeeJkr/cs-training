@@ -38,12 +38,22 @@ faceit.dashboard:
     controller: App\Faceit\UI\Web\DashboardController::dashboard
     methods: GET
 
-faceit.player.add:
-    path: /faceit/player/{nickname}/add
-    controller: App\Faceit\UI\Web\FaceitController::addPlayer
-    methods: GET
+api.faceit.players:
+    path: /api/v1/faceit/players
+    controller: App\Faceit\UI\Api\PlayerController::getAll
+    methods: [GET, OPTIONS]
+
+api.faceit.player.information:
+    path: /api/v1/faceit/player
+    controller: App\Faceit\UI\Api\PlayerController::getPlayerInformation
+    methods: [GET, OPTIONS]
+
+api.faceit.player.statistics:
+    path: /api/v1/faceit/player/statistics
+    controller: App\Faceit\UI\Api\StatisticsController::getByPlayer
+    methods: [GET, OPTIONS]
 
 api.faceit.player.matches:
-    path: /api/faceit/{nickname}/matches
-    controller: App\Faceit\UI\Web\FaceitMatchController::getPlayerMatches
-    methods: GET
+    path: /api/v1/faceit/player/matches
+    controller: App\Faceit\UI\Api\MatchController::getByPlayer
+    methods: [GET, OPTIONS]
