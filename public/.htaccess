@@ -1,22 +1,37 @@
-DirectoryIndex index.php
-<IfModule mod_negotiation.c>
-    Options -MultiViews
-</IfModule>
+<VirtualHost *:80>
+    ProxyRequests Off
+    ProxyPreserveHost On
 
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
-    RewriteRule .* - [E=BASE:%1]
-    RewriteCond %{HTTP:Authorization} .+
-    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
-    RewriteCond %{ENV:REDIRECT_STATUS} =""
-    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ %{ENV:BASE}/index.php [L]
-</IfModule>
+    <Location /api>
+            DirectoryIndex index.php
+            <IfModule mod_negotiation.c>
+                Options -MultiViews
+            </IfModule>
 
-<IfModule !mod_rewrite.c>
-    <IfModule mod_alias.c>
-        RedirectMatch 307 ^/$ /index.php/
-    </IfModule>
-</IfModule>
+            <IfModule mod_rewrite.c>
+                RewriteEngine On
+                RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+                RewriteRule .* - [E=BASE:%1]
+                RewriteCond %{HTTP:Authorization} .+
+                RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+                RewriteCond %{ENV:REDIRECT_STATUS} =""
+                RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteRule ^ %{ENV:BASE}/index.php [L]
+            </IfModule>
+
+            <IfModule !mod_rewrite.c>
+                <IfModule mod_alias.c>
+                    RedirectMatch 307 ^/$ /index.php/
+                </IfModule>
+            </IfModule>
+    </Location>
+
+    <Location />
+        DocumentRoot /home/feejkr/domains/feejkr.usermd.net/build
+        DirectoryIndex index.html
+        Options Indexes FollowSymLinks
+        Order Allow,Deny
+        Allow from all
+    </Location>
+</VirtualHost>
