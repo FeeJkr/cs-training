@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Faceit\UI\Web\Presenter\Match;
+namespace App\Faceit\UI\Api\Presenter\Match;
 
 use App\Faceit\Domain\Match\Player;
 use App\Faceit\Domain\Match\PlayersCollection;

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Faceit\UI\Web\Presenter\Match;
+namespace App\Faceit\UI\Api\Presenter\Match;
 
 use App\Faceit\Domain\Match\GetByPlayer\MatchElement;
 use App\Faceit\Domain\Match\GetByPlayer\MatchList;
-use App\Faceit\Domain\Match\Match;
+use App\Faceit\Domain\Match\FaceitMatch;
 
 final class MatchPresenter
 {

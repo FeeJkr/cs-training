@@ -5,7 +5,7 @@ namespace App\Faceit\UI\Api;
 
 use App\Faceit\Application\MatchService;
 use App\Faceit\Application\PlayerService;
-use App\Faceit\UI\Web\Presenter\Match\MatchPresenter;
+use App\Faceit\UI\Api\Presenter\Match\MatchPresenter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

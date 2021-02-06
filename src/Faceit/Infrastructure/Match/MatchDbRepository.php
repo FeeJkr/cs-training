@@ -6,7 +6,7 @@ namespace App\Faceit\Infrastructure\Match;
 use App\Faceit\Domain\Match\GetByPlayer\MatchElement;
 use App\Faceit\Domain\Match\GetByPlayer\MatchList;
 use App\Faceit\Domain\Match\GetByPlayer\Scope;
-use App\Faceit\Domain\Match\Match;
+use App\Faceit\Domain\Match\FaceitMatch;
 use App\Faceit\Domain\Match\MatchRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
@@ -25,7 +25,7 @@ final class MatchDbRepository implements MatchRepository
     /**
      * @throws Exception
      */
-    public function add(Match $match): void
+    public function add(FaceitMatch $match): void
     {
         try {
             $this->connection->beginTransaction();

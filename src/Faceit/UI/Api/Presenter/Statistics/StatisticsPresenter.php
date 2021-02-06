@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Faceit\UI\Web\Presenter\Statistics;
+namespace App\Faceit\UI\Api\Presenter\Statistics;
 
 use App\Faceit\Domain\Statistics\Statistics;
 use App\Faceit\Domain\Statistics\StatisticsCollection;

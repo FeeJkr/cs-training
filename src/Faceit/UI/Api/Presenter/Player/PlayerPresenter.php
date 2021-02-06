@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Faceit\UI\Web\Presenter\Player;
+namespace App\Faceit\UI\Api\Presenter\Player;
 
 use App\Faceit\Domain\Player\GetAll\PlayerElement;
 use App\Faceit\Domain\Player\GetAll\PlayerList;

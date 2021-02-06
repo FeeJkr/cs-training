@@ -1,8 +1,3 @@
-dashboard:
-    path: /
-    controller: App\Common\UI\Web\IndexController::dashboard
-    methods: GET
-
 training.dashboard:
     path: /training
     controller: App\Training\UI\Web\TrainingController::dashboard
@@ -31,11 +26,6 @@ training.update:
 training.part.toggleIsEnded:
     path: /training/part/{id}/toggle
     controller: App\Training\UI\Web\TrainingPartController:toggleIsEnded
-    methods: GET
-
-faceit.dashboard:
-    path: /faceit/{nickname}
-    controller: App\Faceit\UI\Web\DashboardController::dashboard
     methods: GET
 
 api.faceit.players:

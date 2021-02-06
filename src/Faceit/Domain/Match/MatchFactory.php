@@ -28,9 +28,9 @@ final class MatchFactory
         return new MatchesCollection(...$matches);
     }
 
-    public function createFromResponse(MatchResponse $response): Match
+    public function createFromResponse(MatchResponse $response): FaceitMatch
     {
-        return new Match(
+        return new FaceitMatch(
             Id::nullable(),
             $this->teamFactory->createCollectionFromResponse($response->getTeams()),
             $response->getMatchId(),
@@ -46,9 +46,9 @@ final class MatchFactory
         );
     }
 
-    public function createFromRow(array $row): Match
+    public function createFromRow(array $row): FaceitMatch
     {
-        return new Match(
+        return new FaceitMatch(
             Id::fromInt($row['id']),
             new TeamsCollection(
                 ...array_map(fn(array $team): Team => $this->teamFactory->createFromRow($team), $row['teams'])

@@ -6,7 +6,7 @@ namespace App\Faceit\Domain\Match;
 use App\Faceit\Domain\Id;
 use DateTimeInterface;
 
-final class Match
+final class FaceitMatch
 {
     private const FINISHED_STATUS = 'finished';
 

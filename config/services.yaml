@@ -27,9 +27,6 @@ services:
     App\Training\UI\Web\TrainingController:
         tags: ['controller.service_arguments']
 
-    App\Faceit\UI\Web\DashboardController:
-        tags: ['controller.service_arguments']
-
     App\Faceit\UI\Console\AddMatchesCommand:
         tags: ['console.command']
 

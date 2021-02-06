@@ -5,7 +5,7 @@ namespace App\Faceit\UI\Api;
 
 use App\Faceit\Application\PlayerService;
 use App\Faceit\Application\StatisticsService;
-use App\Faceit\UI\Web\Presenter\Statistics\StatisticsPresenter;
+use App\Faceit\UI\Api\Presenter\Statistics\StatisticsPresenter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

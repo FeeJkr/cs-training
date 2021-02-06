@@ -8,7 +8,7 @@ use App\Faceit\Domain\Match\GetByPlayer\Scope;
 
 interface MatchRepository
 {
-    public function add(Match $match): void;
+    public function add(FaceitMatch $match): void;
     public function exists(string $faceitId): bool;
     public function getByPlayer(string $playerId, Scope $scope): MatchList;
 }

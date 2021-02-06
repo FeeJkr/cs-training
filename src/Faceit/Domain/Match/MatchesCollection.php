@@ -10,7 +10,7 @@ final class MatchesCollection
 {
     private array $matches;
 
-    public function __construct(Match ...$matches)
+    public function __construct(FaceitMatch ...$matches)
     {
         $this->matches = $matches;
     }

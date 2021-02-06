@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Faceit\UI\Api;
 
 use App\Faceit\Application\PlayerService;
-use App\Faceit\UI\Web\Presenter\Player\PlayerPresenter;
+use App\Faceit\UI\Api\Presenter\Player\PlayerPresenter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
