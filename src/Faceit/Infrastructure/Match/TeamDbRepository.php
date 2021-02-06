@@ -9,14 +9,7 @@ use Doctrine\DBAL\Exception;
 
 final class TeamDbRepository
 {
-    private Connection $connection;
-    private PlayerDbRepository $playerRepository;
-
-    public function __construct(Connection $connection, PlayerDbRepository $playerRepository)
-    {
-        $this->connection = $connection;
-        $this->playerRepository = $playerRepository;
-    }
+    public function __construct(private Connection $connection, private PlayerDbRepository $playerRepository){}
 
     /**
      * @throws Exception

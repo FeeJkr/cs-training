@@ -19,14 +19,7 @@ final class FaceitAdapter implements Faceit
     private const MATCH_INFO_URI = 'https://open.faceit.com/data/v4/matches/%s/stats';
     private const PLAYER_STATISTICS_URI = 'https://open.faceit.com/data/v4/players/%s/stats/csgo';
 
-    private Client $httpClient;
-    private string $faceitApiToken;
-
-    public function __construct(Client $httpClient, string $faceitApiToken)
-    {
-        $this->httpClient = $httpClient;
-        $this->faceitApiToken = $faceitApiToken;
-    }
+    public function __construct(private Client $httpClient, private string $faceitApiToken){}
 
     /**
      * @throws FaceitException

@@ -13,16 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class MatchController extends AbstractController
 {
-    private PlayerService $playerService;
-    private MatchService $service;
-    private MatchPresenter $presenter;
-
-    public function __construct(PlayerService $playerService, MatchService $service, MatchPresenter $presenter)
-    {
-        $this->playerService = $playerService;
-        $this->service = $service;
-        $this->presenter = $presenter;
-    }
+    public function __construct(
+        private PlayerService $playerService,
+        private MatchService $service,
+        private MatchPresenter $presenter
+    ){}
 
     public function getByPlayer(Request $request): Response
     {

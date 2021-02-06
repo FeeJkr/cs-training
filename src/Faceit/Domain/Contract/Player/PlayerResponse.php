@@ -5,34 +5,16 @@ namespace App\Faceit\Domain\Contract\Player;
 
 final class PlayerResponse
 {
-    private string $playerId;
-    private string $nickname;
-    private string $avatar;
-    private string $faceitUrl;
-    private int $skillLevel;
-    private int $faceitElo;
-    private string $gamePlayerId;
-    private string $gameProfileId;
-
     public function __construct(
-        string $playerId,
-        string $nickname,
-        string $avatar,
-        string $faceitUrl,
-        int $skillLevel,
-        int $faceitElo,
-        string $gamePlayerId,
-        string $gameProfileId
-    ) {
-        $this->playerId = $playerId;
-        $this->nickname = $nickname;
-        $this->avatar = $avatar;
-        $this->faceitUrl = $faceitUrl;
-        $this->skillLevel = $skillLevel;
-        $this->faceitElo = $faceitElo;
-        $this->gamePlayerId = $gamePlayerId;
-        $this->gameProfileId = $gameProfileId;
-    }
+        private string $playerId,
+        private string $nickname,
+        private string $avatar,
+        private string $faceitUrl,
+        private int $skillLevel,
+        private int $faceitElo,
+        private string $gamePlayerId,
+        private string $gameProfileId
+    ){}
 
     public static function createFromResponse(array $response): self
     {

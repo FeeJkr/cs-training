@@ -16,15 +16,9 @@ final class AddMatchesCommand extends Command
     private const DEFAULT_LIMIT = 30;
     protected static $defaultName = 'faceit:add-matches';
 
-    private PlayerService $playerService;
-    private MatchService $matchService;
-
-    public function __construct(PlayerService $playerService, MatchService $matchService)
+    public function __construct(private PlayerService $playerService, private MatchService $matchService)
     {
         parent::__construct();
-
-        $this->playerService = $playerService;
-        $this->matchService = $matchService;
     }
 
     protected function configure(): void

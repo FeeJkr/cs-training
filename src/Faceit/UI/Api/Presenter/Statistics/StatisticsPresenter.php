@@ -8,12 +8,7 @@ use App\Faceit\Domain\Statistics\StatisticsCollection;
 
 final class StatisticsPresenter
 {
-    private StatisticsSegmentPresenter $segmentPresenter;
-
-    public function __construct(StatisticsSegmentPresenter $segmentPresenter)
-    {
-        $this->segmentPresenter = $segmentPresenter;
-    }
+    public function __construct(private StatisticsSegmentPresenter $segmentPresenter){}
 
     public function presentCollection(StatisticsCollection $statistics): array
     {

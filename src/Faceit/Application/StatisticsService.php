@@ -15,22 +15,12 @@ use App\Faceit\Domain\Statistics\StatisticsType;
 
 final class StatisticsService
 {
-    private StatisticsRepository $repository;
-    private StatisticsFactory $factory;
-    private Faceit $faceit;
-    private MatchService $matchService;
-
     public function __construct(
-        StatisticsRepository $repository,
-        StatisticsFactory $factory,
-        Faceit $faceit,
-        MatchService $matchService
-    ) {
-        $this->repository = $repository;
-        $this->factory = $factory;
-        $this->faceit = $faceit;
-        $this->matchService = $matchService;
-    }
+        private StatisticsRepository $repository,
+        private StatisticsFactory $factory,
+        private Faceit $faceit,
+        private MatchService $matchService
+    ){}
 
     /**
      * @throws ApplicationException

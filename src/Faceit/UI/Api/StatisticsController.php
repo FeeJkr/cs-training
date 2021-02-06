@@ -13,16 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class StatisticsController extends AbstractController
 {
-    private StatisticsService $service;
-    private StatisticsPresenter $presenter;
-    private PlayerService $playerService;
-
-    public function __construct(PlayerService $playerService, StatisticsService $service, StatisticsPresenter $presenter)
-    {
-        $this->playerService = $playerService;
-        $this->service = $service;
-        $this->presenter = $presenter;
-    }
+    public function __construct(
+        private PlayerService $playerService,
+        private StatisticsService $service,
+        private StatisticsPresenter $presenter
+    ){}
 
     public function getByPlayer(Request $request): Response
     {

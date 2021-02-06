@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Faceit\Domain\Player\GetAll;
 
-use App\Faceit\Domain\Id;
-
 final class PlayerElement
 {
     private const LEVELS = [
@@ -20,31 +18,15 @@ final class PlayerElement
         10 => 2001,
     ];
 
-    private int $id;
-    private string $faceitId;
-    private string $nickname;
-    private string $avatar;
-    private int $skillLevel;
-    private int $faceitElo;
-    private string $faceitUrl;
-
     public function __construct(
-        int $id,
-        string $faceitId,
-        string $nickname,
-        string $avatar,
-        int $skillLevel,
-        int $faceitElo,
-        string $faceitUrl
-    ) {
-        $this->id = $id;
-        $this->faceitId = $faceitId;
-        $this->nickname = $nickname;
-        $this->avatar = $avatar;
-        $this->skillLevel = $skillLevel;
-        $this->faceitElo = $faceitElo;
-        $this->faceitUrl = $faceitUrl;
-    }
+        private int $id,
+        private string $faceitId,
+        private string $nickname,
+        private string $avatar,
+        private int $skillLevel,
+        private int $faceitElo,
+        private string $faceitUrl
+    ){}
 
     public static function createFromRow(array $row): self
     {

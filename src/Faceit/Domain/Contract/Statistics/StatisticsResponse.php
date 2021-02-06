@@ -5,37 +5,17 @@ namespace App\Faceit\Domain\Contract\Statistics;
 
 final class StatisticsResponse
 {
-    private SegmentsCollectionResponse $segments;
-    private string $playerId;
-    private int $matches;
-    private int $wins;
-    private float $winRate;
-    private float $totalKdRatio;
-    private float $averageKdRatio;
-    private int $totalHeadshotsPercentage;
-    private int $averageHeadshotsPercentage;
-
     public function __construct(
-        SegmentsCollectionResponse $segments,
-        string $playerId,
-        int $matches,
-        int $wins,
-        float $winRate,
-        float $totalKdRatio,
-        float $averageKdRatio,
-        int $totalHeadshotsPercentage,
-        int $averageHeadshotsPercentage
-    ) {
-        $this->segments = $segments;
-        $this->playerId = $playerId;
-        $this->matches = $matches;
-        $this->wins = $wins;
-        $this->winRate = $winRate;
-        $this->totalKdRatio = $totalKdRatio;
-        $this->averageKdRatio = $averageKdRatio;
-        $this->totalHeadshotsPercentage = $totalHeadshotsPercentage;
-        $this->averageHeadshotsPercentage = $averageHeadshotsPercentage;
-    }
+        private SegmentsCollectionResponse $segments,
+        private string $playerId,
+        private int $matches,
+        private int $wins,
+        private float $winRate,
+        private float $totalKdRatio,
+        private float $averageKdRatio,
+        private int $totalHeadshotsPercentage,
+        private int $averageHeadshotsPercentage
+    ){}
 
     public static function createFromResponse(array $response): self
     {

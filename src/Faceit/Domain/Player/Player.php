@@ -7,31 +7,15 @@ use App\Faceit\Domain\Id;
 
 final class Player
 {
-    private Id $id;
-    private string $faceitId;
-    private string $nickname;
-    private string $avatar;
-    private string $faceitUrl;
-    private int $skillLevel;
-    private int $faceitElo;
-
     public function __construct(
-        Id $id,
-        string $faceitId,
-        string $nickname,
-        string $avatar,
-        string $faceitUrl,
-        int $skillLevel,
-        int $faceitElo
-    ) {
-        $this->id = $id;
-        $this->faceitId = $faceitId;
-        $this->nickname = $nickname;
-        $this->avatar = $avatar;
-        $this->faceitUrl = $faceitUrl;
-        $this->skillLevel = $skillLevel;
-        $this->faceitElo = $faceitElo;
-    }
+        private Id $id,
+        private string $faceitId,
+        private string $nickname,
+        private string $avatar,
+        private string $faceitUrl,
+        private int $skillLevel,
+        private int $faceitElo
+    ){}
 
     public function update(int $faceitElo, int $skillLevel, string $avatar): void
     {

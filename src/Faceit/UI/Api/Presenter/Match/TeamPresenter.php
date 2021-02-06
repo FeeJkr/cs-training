@@ -8,12 +8,7 @@ use App\Faceit\Domain\Match\TeamsCollection;
 
 final class TeamPresenter
 {
-    private PlayerPresenter $playerPresenter;
-
-    public function __construct(PlayerPresenter $playerPresenter)
-    {
-        $this->playerPresenter = $playerPresenter;
-    }
+    public function __construct(private PlayerPresenter $playerPresenter){}
 
     public function presentCollection(TeamsCollection $teams): array
     {

@@ -14,16 +14,11 @@ use App\Faceit\Domain\Match\MatchRepository;
 
 final class MatchService
 {
-    private MatchRepository $repository;
-    private Faceit $faceit;
-    private MatchFactory $factory;
-
-    public function __construct(MatchRepository $repository, Faceit $faceit, MatchFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->faceit = $faceit;
-        $this->factory = $factory;
-    }
+    public function __construct(
+        private MatchRepository $repository,
+        private Faceit $faceit,
+        private MatchFactory $factory
+    ) {}
 
     /**
      * @throws ApplicationException

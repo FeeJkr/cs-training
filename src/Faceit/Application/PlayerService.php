@@ -14,16 +14,11 @@ use App\Faceit\Domain\Player\PlayerRepository;
 
 final class PlayerService
 {
-    private Faceit $faceit;
-    private PlayerRepository $repository;
-    private PlayerFactory $factory;
-
-    public function __construct(Faceit $faceit, PlayerRepository $repository, PlayerFactory $factory)
-    {
-        $this->faceit = $faceit;
-        $this->repository = $repository;
-        $this->factory = $factory;
-    }
+    public function __construct(
+        private Faceit $faceit,
+        private PlayerRepository $repository,
+        private PlayerFactory $factory
+    ){}
 
     /**
      * @throws ApplicationException

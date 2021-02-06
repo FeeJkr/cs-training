@@ -11,67 +11,27 @@ final class MatchElement
     private const GOOD_KD_RATIO = 1.0;
     private const GOOD_KR_RATIO = 0.7;
 
-    private string $playerId;
-    private string $mode;
-    private string $map;
-    private string $score;
-    private int $kills;
-    private int $assists;
-    private int $deaths;
-    private int $headshots;
-    private float $headshotsPercentage;
-    private float $krRatio;
-    private float $kdRatio;
-    private int $tripleKills;
-    private int $quadroKills;
-    private int $pentaKills;
-    private int $mvps;
-    private int $rounds;
-    private string $faceitUrl;
-    private bool $isWin;
-    private DateTimeInterface $finishedAt;
-
     public function __construct(
-        string $playerId,
-        string $mode,
-        string $map,
-        string $score,
-        int $kills,
-        int $assists,
-        int $deaths,
-        int $headshots,
-        float $headshotsPercentage,
-        float $krRatio,
-        float $kdRatio,
-        int $tripleKills,
-        int $quadroKills,
-        int $pentaKills,
-        int $mvps,
-        int $rounds,
-        string $faceitUrl,
-        bool $isWin,
-        DateTimeInterface $finishedAt
-    ) {
-        $this->playerId = $playerId;
-        $this->mode = $mode;
-        $this->map = $map;
-        $this->score = $score;
-        $this->kills = $kills;
-        $this->assists = $assists;
-        $this->deaths = $deaths;
-        $this->headshots = $headshots;
-        $this->headshotsPercentage = $headshotsPercentage;
-        $this->krRatio = $krRatio;
-        $this->kdRatio = $kdRatio;
-        $this->tripleKills = $tripleKills;
-        $this->quadroKills = $quadroKills;
-        $this->pentaKills = $pentaKills;
-        $this->mvps = $mvps;
-        $this->rounds = $rounds;
-        $this->faceitUrl = $faceitUrl;
-        $this->isWin = $isWin;
-        $this->finishedAt = $finishedAt;
-    }
+        private string $playerId,
+        private string $mode,
+        private string $map,
+        private string $score,
+        private int $kills,
+        private int $assists,
+        private int $deaths,
+        private int $headshots,
+        private float $headshotsPercentage,
+        private float $krRatio,
+        private float $kdRatio,
+        private int $tripleKills,
+        private int $quadroKills,
+        private int $pentaKills,
+        private int $mvps,
+        private int $rounds,
+        private string $faceitUrl,
+        private bool $isWin,
+        private DateTimeInterface $finishedAt
+    ){}
 
     public static function createFromRow(array $row): self
     {

@@ -9,12 +9,7 @@ use Doctrine\DBAL\Exception;
 
 final class PlayerDbRepository
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-    }
+    public function __construct(private Connection $connection){}
 
     /**
      * @throws Exception

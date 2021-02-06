@@ -5,34 +5,16 @@ namespace App\Faceit\Domain\Contract\Match;
 
 final class MatchTeamResponse
 {
-    private string $name;
-    private bool $isWinner;
-    private int $firstHalfScore;
-    private int $secondHalfScore;
-    private int $overtimeScore;
-    private int $finalScore;
-    private float $teamHeadshots;
-    private MatchPlayersCollectionResponse $players;
-
     public function __construct(
-        string $name,
-        bool $isWinner,
-        int $firstHalfScore,
-        int $secondHalfScore,
-        int $overtimeScore,
-        int $finalScore,
-        float $teamHeadshots,
-        MatchPlayersCollectionResponse $players
-    ) {
-        $this->name = $name;
-        $this->isWinner = $isWinner;
-        $this->firstHalfScore = $firstHalfScore;
-        $this->secondHalfScore = $secondHalfScore;
-        $this->overtimeScore = $overtimeScore;
-        $this->finalScore = $finalScore;
-        $this->teamHeadshots = $teamHeadshots;
-        $this->players = $players;
-    }
+        private string $name,
+        private bool $isWinner,
+        private int $firstHalfScore,
+        private int $secondHalfScore,
+        private int $overtimeScore,
+        private int $finalScore,
+        private float $teamHeadshots,
+        private MatchPlayersCollectionResponse $players
+    ){}
 
     public static function createFromResponse(array $response): self
     {

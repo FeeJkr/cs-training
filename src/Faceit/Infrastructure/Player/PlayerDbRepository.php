@@ -13,14 +13,7 @@ use Doctrine\DBAL\Exception;
 
 final class PlayerDbRepository implements PlayerRepository
 {
-    private Connection $connection;
-    private PlayerFactory $factory;
-
-    public function __construct(Connection $connection, PlayerFactory $factory)
-    {
-        $this->connection = $connection;
-        $this->factory = $factory;
-    }
+    public function __construct(private Connection $connection, private PlayerFactory $factory){}
 
     /**
      * @throws Exception

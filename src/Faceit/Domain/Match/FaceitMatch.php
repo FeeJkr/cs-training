@@ -10,46 +10,20 @@ final class FaceitMatch
 {
     private const FINISHED_STATUS = 'finished';
 
-    private Id $id;
-    private TeamsCollection $teams;
-    private string $faceitId;
-    private string $gameMode;
-    private string $competitionType;
-    private string $status;
-    private string $map;
-    private int $rounds;
-    private string $score;
-    private string $faceitUrl;
-    private DateTimeInterface $startedAt;
-    private DateTimeInterface $finishedAt;
-
     public function __construct(
-        Id $id,
-        TeamsCollection $teams,
-        string $faceitId,
-        string $gameMode,
-        string $competitionType,
-        string $status,
-        string $map,
-        int $rounds,
-        string $score,
-        string $faceitUrl,
-        DateTimeInterface $startedAt,
-        DateTimeInterface $finishedAt
-    ) {
-        $this->id = $id;
-        $this->teams = $teams;
-        $this->faceitId = $faceitId;
-        $this->gameMode = $gameMode;
-        $this->competitionType = $competitionType;
-        $this->status = $status;
-        $this->map = $map;
-        $this->rounds = $rounds;
-        $this->score = $score;
-        $this->faceitUrl = $faceitUrl;
-        $this->startedAt = $startedAt;
-        $this->finishedAt = $finishedAt;
-    }
+        private Id $id,
+        private TeamsCollection $teams,
+        private string $faceitId,
+        private string $gameMode,
+        private string $competitionType,
+        private string $status,
+        private string $map,
+        private int $rounds,
+        private string $score,
+        private string $faceitUrl,
+        private DateTimeInterface $startedAt,
+        private DateTimeInterface $finishedAt
+    ){}
 
     public function getId(): Id
     {

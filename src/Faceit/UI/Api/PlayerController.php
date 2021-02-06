@@ -12,14 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class PlayerController extends AbstractController
 {
-    private PlayerService $playerService;
-    private PlayerPresenter $playerPresenter;
-
-    public function __construct(PlayerService $playerService, PlayerPresenter $playerPresenter)
-    {
-        $this->playerService = $playerService;
-        $this->playerPresenter = $playerPresenter;
-    }
+    public function __construct(private PlayerService $playerService, private PlayerPresenter $playerPresenter){}
 
     public function getAll(): Response
     {

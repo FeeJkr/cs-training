@@ -9,12 +9,7 @@ use App\Faceit\Domain\Id;
 
 final class TeamFactory
 {
-    private PlayerFactory $playerFactory;
-
-    public function __construct(PlayerFactory $playerFactory)
-    {
-        $this->playerFactory = $playerFactory;
-    }
+    public function __construct(private PlayerFactory $playerFactory){}
 
     public function createCollectionFromResponse(MatchTeamsCollectionResponse $response): TeamsCollection
     {

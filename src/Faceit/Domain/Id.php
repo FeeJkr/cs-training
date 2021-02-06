@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Faceit\Domain;
 
+use JetBrains\PhpStorm\Pure;
+
 final class Id
 {
     private const NULLABLE_VALUE = 0;
@@ -14,11 +16,13 @@ final class Id
         $this->id = $id;
     }
 
+    #[Pure]
     public static function fromInt(int $id): self
     {
         return new self($id);
     }
 
+    #[Pure]
     public static function nullable(): self
     {
         return new self(self::NULLABLE_VALUE);
@@ -27,10 +31,5 @@ final class Id
     public function toInt(): int
     {
         return $this->id;
-    }
-
-    public function isNull(): bool
-    {
-        return $this->id === self::NULLABLE_VALUE;
     }
 }

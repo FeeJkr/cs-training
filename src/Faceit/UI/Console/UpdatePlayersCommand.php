@@ -13,13 +13,9 @@ final class UpdatePlayersCommand extends Command
 {
     protected static $defaultName = 'faceit:update-players';
 
-    private PlayerService $playerService;
-
-    public function __construct(PlayerService $playerService)
+    public function __construct(private PlayerService $playerService)
     {
         parent::__construct();
-
-        $this->playerService = $playerService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

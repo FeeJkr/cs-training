@@ -10,52 +10,22 @@ final class Player
     private const GOOD_KR_RATIO = 0.8;
     private const GOOD_KD_RATIO = 1.0;
 
-    private Id $id;
-    private string $faceitId;
-    private string $nickname;
-    private int $kills;
-    private int $deaths;
-    private int $assists;
-    private int $headshots;
-    private float $headshotsPercentage;
-    private int $tripleKills;
-    private int $quadroKills;
-    private int $pentaKills;
-    private int $mvps;
-    private float $kdRatio;
-    private float $krRatio;
-
     public function __construct(
-        Id $id,
-        string $faceitId,
-        string $nickname,
-        int $kills,
-        int $deaths,
-        int $assists,
-        int $headshots,
-        float $headshotsPercentage,
-        int $tripleKills,
-        int $quadroKills,
-        int $pentaKills,
-        int $mvps,
-        float $kdRatio,
-        float $krRatio
-    ) {
-        $this->id = $id;
-        $this->faceitId = $faceitId;
-        $this->nickname = $nickname;
-        $this->kills = $kills;
-        $this->deaths = $deaths;
-        $this->assists = $assists;
-        $this->headshots = $headshots;
-        $this->headshotsPercentage = $headshotsPercentage;
-        $this->tripleKills = $tripleKills;
-        $this->quadroKills = $quadroKills;
-        $this->pentaKills = $pentaKills;
-        $this->mvps = $mvps;
-        $this->kdRatio = $kdRatio;
-        $this->krRatio = $krRatio;
-    }
+        private Id $id,
+        private string $faceitId,
+        private string $nickname,
+        private int $kills,
+        private int $deaths,
+        private int $assists,
+        private int $headshots,
+        private float $headshotsPercentage,
+        private int $tripleKills,
+        private int $quadroKills,
+        private int $pentaKills,
+        private int $mvps,
+        private float $kdRatio,
+        private float $krRatio
+    ){}
 
     public function getId(): Id
     {

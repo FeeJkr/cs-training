@@ -8,43 +8,19 @@ use DateTimeInterface;
 
 final class MatchResponse
 {
-    private string $matchId;
-    private MatchTeamsCollectionResponse $teams;
-    private string $gameMode;
-    private string $competitionType;
-    private string $status;
-    private DateTimeInterface $startedAt;
-    private DateTimeInterface $finishedAt;
-    private string $score;
-    private string $faceitUrl;
-    private string $map;
-    private int $rounds;
-
     public function __construct(
-        string $matchId,
-        MatchTeamsCollectionResponse $teams,
-        string $gameMode,
-        string $competitionType,
-        string $status,
-        DateTimeInterface $startedAt,
-        DateTimeInterface $finishedAt,
-        string $score,
-        string $faceitUrl,
-        string $map,
-        int $rounds
-    ) {
-        $this->matchId = $matchId;
-        $this->teams = $teams;
-        $this->gameMode = $gameMode;
-        $this->competitionType = $competitionType;
-        $this->status = $status;
-        $this->startedAt = $startedAt;
-        $this->finishedAt = $finishedAt;
-        $this->score = $score;
-        $this->faceitUrl = $faceitUrl;
-        $this->map = $map;
-        $this->rounds = $rounds;
-    }
+        private string $matchId,
+        private MatchTeamsCollectionResponse $teams,
+        private string $gameMode,
+        private string $competitionType,
+        private string $status,
+        private DateTimeInterface $startedAt,
+        private DateTimeInterface $finishedAt,
+        private string $score,
+        private string $faceitUrl,
+        private string $map,
+        private int $rounds
+    ){}
 
     public static function createFromResponse(array $response): self
     {

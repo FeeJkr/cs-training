@@ -13,14 +13,7 @@ use Doctrine\DBAL\Exception;
 
 final class MatchDbRepository implements MatchRepository
 {
-    private Connection $connection;
-    private TeamDbRepository $teamRepository;
-
-    public function __construct(Connection $connection, TeamDbRepository $teamRepository)
-    {
-        $this->connection = $connection;
-        $this->teamRepository = $teamRepository;
-    }
+    public function __construct(private Connection $connection, private TeamDbRepository $teamRepository){}
 
     /**
      * @throws Exception

@@ -5,16 +5,10 @@ namespace App\Faceit\UI\Api\Presenter\Match;
 
 use App\Faceit\Domain\Match\GetByPlayer\MatchElement;
 use App\Faceit\Domain\Match\GetByPlayer\MatchList;
-use App\Faceit\Domain\Match\FaceitMatch;
 
 final class MatchPresenter
 {
-    private TeamPresenter $teamPresenter;
-
-    public function __construct(TeamPresenter $teamPresenter)
-    {
-        $this->teamPresenter = $teamPresenter;
-    }
+    public function __construct(private TeamPresenter $teamPresenter){}
 
     public function presentCollection(MatchList $matches): array
     {

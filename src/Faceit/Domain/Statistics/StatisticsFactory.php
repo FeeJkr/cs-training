@@ -9,12 +9,7 @@ use App\Faceit\Domain\Match\GetByPlayer\MatchList;
 
 final class StatisticsFactory
 {
-    private StatisticsSegmentFactory $statisticsSegmentFactory;
-
-    public function __construct(StatisticsSegmentFactory $statisticsSegmentFactory)
-    {
-        $this->statisticsSegmentFactory = $statisticsSegmentFactory;
-    }
+    public function __construct(private StatisticsSegmentFactory $statisticsSegmentFactory){}
 
     public function createFromResponse(StatisticsResponse $response): Statistics
     {

@@ -7,103 +7,39 @@ use App\Faceit\Domain\Id;
 
 final class StatisticsSegment
 {
-    private Id $id;
-    private string $type;
-    private string $mode;
-    private string $label;
-    private string $image;
-    private int $kills;
-    private float $averageKills;
-    private int $assists;
-    private float $averageAssists;
-    private int $deaths;
-    private float $averageDeaths;
-    private int $headshots;
-    private int $totalHeadshots;
-    private float $averageHeadshots;
-    private float $headshotsPerMatch;
-    private float $krRatio;
-    private float $averageKrRatio;
-    private float $kdRatio;
-    private float $averageKdRatio;
-    private int $tripleKills;
-    private int $quadroKills;
-    private int $pentaKills;
-    private float $averageTripleKills;
-    private float $averageQuadroKills;
-    private float $averagePentaKills;
-    private int $mvps;
-    private float $averageMvps;
-    private int $matches;
-    private int $rounds;
-    private int $wins;
-    private float $winRate;
-
     public function __construct(
-        Id $id,
-        string $type,
-        string $mode,
-        string $label,
-        string $image,
-        int $kills,
-        float $averageKills,
-        int $assists,
-        float $averageAssists,
-        int $deaths,
-        float $averageDeaths,
-        int $headshots,
-        int $totalHeadshots,
-        float $averageHeadshots,
-        float $headshotsPerMatch,
-        float $krRatio,
-        float $averageKrRatio,
-        float $kdRatio,
-        float $averageKdRatio,
-        int $tripleKills,
-        int $quadroKills,
-        int $pentaKills,
-        float $averageTripleKills,
-        float $averageQuadroKills,
-        float $averagePentaKills,
-        int $mvps,
-        float $averageMvps,
-        int $matches,
-        int $rounds,
-        int $wins,
-        float $winRate
-    ) {
-        $this->id = $id;
-        $this->type = $type;
-        $this->mode = $mode;
-        $this->label = $label;
-        $this->image = $image;
-        $this->kills = $kills;
-        $this->averageKills = $averageKills;
-        $this->assists = $assists;
-        $this->averageAssists = $averageAssists;
-        $this->deaths = $deaths;
-        $this->averageDeaths = $averageDeaths;
-        $this->headshots = $headshots;
-        $this->totalHeadshots = $totalHeadshots;
-        $this->averageHeadshots = $averageHeadshots;
-        $this->headshotsPerMatch = $headshotsPerMatch;
-        $this->krRatio = $krRatio;
-        $this->averageKrRatio = $averageKrRatio;
-        $this->kdRatio = $kdRatio;
-        $this->averageKdRatio = $averageKdRatio;
-        $this->tripleKills = $tripleKills;
-        $this->quadroKills = $quadroKills;
-        $this->pentaKills = $pentaKills;
-        $this->averageTripleKills = $averageTripleKills;
-        $this->averageQuadroKills = $averageQuadroKills;
-        $this->averagePentaKills = $averagePentaKills;
-        $this->mvps = $mvps;
-        $this->averageMvps = $averageMvps;
-        $this->matches = $matches;
-        $this->rounds = $rounds;
-        $this->wins = $wins;
-        $this->winRate = $winRate;
-    }
+        private Id $id,
+        private string $type,
+        private string $mode,
+        private string $label,
+        private string $image,
+        private int $kills,
+        private float $averageKills,
+        private int $assists,
+        private float $averageAssists,
+        private int $deaths,
+        private float $averageDeaths,
+        private int $headshots,
+        private int $totalHeadshots,
+        private float $averageHeadshots,
+        private float $headshotsPerMatch,
+        private float $krRatio,
+        private float $averageKrRatio,
+        private float $kdRatio,
+        private float $averageKdRatio,
+        private int $tripleKills,
+        private int $quadroKills,
+        private int $pentaKills,
+        private float $averageTripleKills,
+        private float $averageQuadroKills,
+        private float $averagePentaKills,
+        private int $mvps,
+        private float $averageMvps,
+        private int $matches,
+        private int $rounds,
+        private int $wins,
+        private float $winRate
+    ) {}
 
     public function getId(): Id
     {

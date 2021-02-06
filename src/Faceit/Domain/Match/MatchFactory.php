@@ -10,12 +10,7 @@ use DateTime;
 
 final class MatchFactory
 {
-    private TeamFactory $teamFactory;
-
-    public function __construct(TeamFactory $teamFactory)
-    {
-        $this->teamFactory = $teamFactory;
-    }
+    public function __construct(private TeamFactory $teamFactory){}
 
     public function createCollectionFromResponse(MatchesCollectionResponse $response): MatchesCollection
     {

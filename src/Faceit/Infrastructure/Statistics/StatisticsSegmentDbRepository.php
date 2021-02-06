@@ -11,14 +11,7 @@ use Doctrine\DBAL\Exception;
 
 final class StatisticsSegmentDbRepository
 {
-    private Connection $connection;
-    private StatisticsSegmentFactory $factory;
-
-    public function __construct(Connection $connection, StatisticsSegmentFactory $factory)
-    {
-        $this->connection = $connection;
-        $this->factory = $factory;
-    }
+    public function __construct(private Connection $connection, private StatisticsSegmentFactory $factory){}
 
     /**
      * @throws Exception

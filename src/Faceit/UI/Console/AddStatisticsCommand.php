@@ -14,15 +14,9 @@ final class AddStatisticsCommand extends Command
 {
     protected static $defaultName = 'faceit:add-statistics';
 
-    private StatisticsService $statisticsService;
-    private PlayerService $playerService;
-
-    public function __construct(StatisticsService $statisticsService, PlayerService $playerService)
+    public function __construct(private StatisticsService $statisticsService, private PlayerService $playerService)
     {
         parent::__construct();
-
-        $this->statisticsService = $statisticsService;
-        $this->playerService = $playerService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

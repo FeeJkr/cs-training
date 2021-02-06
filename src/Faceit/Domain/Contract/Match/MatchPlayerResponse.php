@@ -5,49 +5,21 @@ namespace App\Faceit\Domain\Contract\Match;
 
 final class MatchPlayerResponse
 {
-    private string $playerId;
-    private string $nickname;
-    private int $kills;
-    private int $deaths;
-    private int $assists;
-    private int $headshots;
-    private float $headshotsPercentage;
-    private int $tripleKills;
-    private int $quadroKills;
-    private int $pentaKills;
-    private int $mvps;
-    private float $kdRatio;
-    private float $krRatio;
-
     public function __construct(
-        string $playerId,
-        string $nickname,
-        int $kills,
-        int $deaths,
-        int $assists,
-        int $headshots,
-        float $headshotsPercentage,
-        int $tripleKills,
-        int $quadroKills,
-        int $pentaKills,
-        int $mvps,
-        float $kdRatio,
-        float $krRatio
-    ) {
-        $this->playerId = $playerId;
-        $this->nickname = $nickname;
-        $this->kills = $kills;
-        $this->deaths = $deaths;
-        $this->assists = $assists;
-        $this->headshots = $headshots;
-        $this->headshotsPercentage = $headshotsPercentage;
-        $this->tripleKills = $tripleKills;
-        $this->quadroKills = $quadroKills;
-        $this->pentaKills = $pentaKills;
-        $this->mvps = $mvps;
-        $this->kdRatio = $kdRatio;
-        $this->krRatio = $krRatio;
-    }
+        private string $playerId,
+        private string $nickname,
+        private int $kills,
+        private int $deaths,
+        private int $assists,
+        private int $headshots,
+        private float $headshotsPercentage,
+        private int $tripleKills,
+        private int $quadroKills,
+        private int $pentaKills,
+        private int $mvps,
+        private float $kdRatio,
+        private float $krRatio
+    ){}
     
     public static function createFromResponse(array $response): self
     {

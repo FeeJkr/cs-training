@@ -15,13 +15,9 @@ final class AddPlayerCommand extends Command
 {
     protected static $defaultName = 'faceit:add-player';
 
-    private PlayerService $playerService;
-
-    public function __construct(PlayerService $playerService)
+    public function __construct(private PlayerService $playerService)
     {
         parent::__construct();
-
-        $this->playerService = $playerService;
     }
 
     protected function configure(): void
