@@ -28,7 +28,7 @@ final class StatisticsFactory
         );
     }
 
-    public function createFromMatchList(string $playerId, MatchList $matches, StatisticsType $type): Statistics
+    public function createFromMatchList(string $playerId, PlayerMatches $matches, StatisticsType $type): Statistics
     {
         if ($matches->isEmpty()) {
             return $this->createEmpty($playerId, $type);

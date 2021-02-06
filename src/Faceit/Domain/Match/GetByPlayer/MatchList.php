@@ -91,261 +91,51 @@ final class MatchList
         return count($this->elements);
     }
 
-    public function getWins(): int
+    public function getWins(string $playerFaceitId): int
     {
         $wins = 0;
 
         foreach ($this->elements as $element) {
-            if ($element->isWin()) {
-                $wins++;
+            foreach ($element->getTeams()->toArray() as $team) {
+                foreach ($team->getPlayers()->toArray() as $player) {
+                    if ($player->getFaceitId() === $playerFaceitId && $team->isWinner()) {
+                        $wins++;
+                    }
+                }
             }
         }
 
         return $wins;
     }
 
-    public function getLoses(): int
+    public function getLoses(string $playerFaceitId): int
     {
-        return $this->getTotalMatches() - $this->getWins();
+        return $this->getTotalMatches() - $this->getWins($playerFaceitId);
     }
 
-    public function getWinRate(): int
+    public function getAverageKdRatio(string $playerFaceitId): float
     {
         if ($this->getTotalMatches() === 0) {
             return 0;
         }
 
-        return (int) round(($this->getWins() / $this->getTotalMatches()) * 100);
+        return round($this->getTotalKdRatio($playerFaceitId) / $this->getTotalMatches(), 2);
     }
 
-    public function getTotalKdRatio(): float
+    private function getTotalKdRatio(string $playerFaceitId): float
     {
         $kdRatio = 0.0;
 
-        foreach ($this->elements as $element) {
-            $kdRatio += $element->getKdRatio();
+        foreach ($this->elements as $match) {
+            foreach ($match->getTeams()->toArray() as $teams) {
+                foreach ($teams->getPlayers()->toArray() as $player) {
+                    if ($player->getFaceitId() === $playerFaceitId) {
+                        $kdRatio += $player->getKdRatio();
+                    }
+                }
+            }
         }
 
         return $kdRatio;
-    }
-
-    public function getAverageKdRatio(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getTotalKdRatio() / $this->getTotalMatches(), 2);
-    }
-
-    public function getTotalKrRatio(): float
-    {
-        $krRatio = 0.0;
-
-        foreach ($this->elements as $element) {
-            $krRatio += $element->getKrRatio();
-        }
-
-        return $krRatio;
-    }
-
-    public function getAverageKrRatio(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getTotalKrRatio() / $this->getTotalMatches(), 2);
-    }
-
-    public function getTotalHeadshotsPercentage(): int
-    {
-        $headshotsPercentage = 0;
-
-        foreach ($this->elements as $element) {
-            $headshotsPercentage += $element->getHeadshotsPercentage();
-        }
-
-        return (int) round($headshotsPercentage);
-    }
-
-    public function getAverageHeadshotsPercentage(): int
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return (int) round($this->getTotalHeadshotsPercentage() / $this->getTotalMatches());
-    }
-
-    public function getKills(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getKills();
-        }
-
-        return $counter;
-    }
-
-    public function getAssists(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getAssists();
-        }
-
-        return $counter;
-    }
-
-    public function getDeaths(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getDeaths();
-        }
-
-        return $counter;
-    }
-
-    public function getAverageKills(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getKills() / $this->getTotalMatches(), 2);
-    }
-
-    public function getAverageAssists(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getAssists() / $this->getTotalMatches(), 2);
-    }
-
-    public function getAverageDeaths(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getDeaths() / $this->getTotalMatches(), 2);
-    }
-
-    public function getTotalHeadshots(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getHeadshots();
-        }
-
-        return $counter;
-    }
-
-    public function getHeadshotsPerMatch(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getTotalHeadshots() / $this->getTotalMatches(), 2);
-    }
-
-    public function getTripleKills(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getTripleKills();
-        }
-
-        return $counter;
-    }
-
-    public function getQuadroKills(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getQuadroKills();
-        }
-
-        return $counter;
-    }
-
-    public function getPentaKills(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getPentaKills();
-        }
-
-        return $counter;
-    }
-
-    public function getAverageTripleKills(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getTripleKills() / $this->getTotalMatches(), 2);
-    }
-
-    public function getAverageQuadroKills(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getQuadroKills() / $this->getTotalMatches(), 2);
-    }
-
-    public function getAveragePentaKills(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getPentaKills() / $this->getTotalMatches(), 2);
-    }
-
-    public function getTotalMvps(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getMvps();
-        }
-
-        return $counter;
-    }
-
-    public function getAverageMvps(): float
-    {
-        if ($this->getTotalMatches() === 0) {
-            return 0;
-        }
-
-        return round($this->getTotalMvps() / $this->getTotalMatches(), 2);
-    }
-
-    public function getTotalRounds(): int
-    {
-        $counter = 0;
-
-        foreach ($this->elements as $element) {
-            $counter += $element->getRounds();
-        }
-
-        return $counter;
     }
 }

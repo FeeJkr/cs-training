@@ -7,4 +7,5 @@ interface StatisticsRepository
 {
     public function save(Statistics $statistics): void;
     public function getAllByPlayer(string $playerId): StatisticsCollection;
+    public function getPlayerMatchesByMonth(string $playerId): PlayerMatches;
 }

@@ -5,62 +5,50 @@ namespace App\Faceit\Domain\Match\GetByPlayer;
 
 use DateTime;
 use DateTimeInterface;
+use Exception;
 
 final class MatchElement
 {
-    private const GOOD_KD_RATIO = 1.0;
-    private const GOOD_KR_RATIO = 0.7;
-
     public function __construct(
-        private string $playerId,
+        private int $id,
+        private string $faceitId,
+        private TeamList $teams,
         private string $mode,
         private string $map,
         private string $score,
-        private int $kills,
-        private int $assists,
-        private int $deaths,
-        private int $headshots,
-        private float $headshotsPercentage,
-        private float $krRatio,
-        private float $kdRatio,
-        private int $tripleKills,
-        private int $quadroKills,
-        private int $pentaKills,
-        private int $mvps,
-        private int $rounds,
         private string $faceitUrl,
-        private bool $isWin,
         private DateTimeInterface $finishedAt
     ){}
 
     public static function createFromRow(array $row): self
     {
+        $matchInformation = array_values($row['teams'])[0][0];
+
         return new self(
-            $row['player_id'],
-            $row['mode'],
-            $row['map'],
-            $row['score'],
-            (int) $row['kills'],
-            (int) $row['assists'],
-            (int) $row['deaths'],
-            (int) $row['headshots'],
-            (float) $row['headshots_percentage'],
-            (float) $row['kr_ratio'],
-            (float) $row['kd_ratio'],
-            (int) $row['triple_kills'],
-            (int) $row['quadro_kills'],
-            (int) $row['penta_kills'],
-            (int) $row['mvps'],
-            (int) $row['rounds'],
-            $row['faceit_url'],
-            $row['is_win'],
-            DateTime::createFromFormat('Y-m-d H:i:s', $row['finished_at'])
+            $matchInformation['match_id'],
+            $matchInformation['match_faceit_id'],
+            TeamList::createFromRows($row['teams']),
+            $matchInformation['match_game_mode'],
+            $matchInformation['match_map'],
+            $matchInformation['match_score'],
+            $matchInformation['match_url'],
+            DateTime::createFromFormat('Y-m-d H:i:s', $matchInformation['match_finished_at'])
         );
     }
 
-    public function getPlayerId(): string
+    public function getId(): int
     {
-        return $this->playerId;
+        return $this->id;
+    }
+
+    public function getFaceitId(): string
+    {
+        return $this->faceitId;
+    }
+
+    public function getTeams(): TeamList
+    {
+        return $this->teams;
     }
 
     public function getMode(): string
@@ -78,74 +66,9 @@ final class MatchElement
         return $this->score;
     }
 
-    public function getKills(): int
-    {
-        return $this->kills;
-    }
-
-    public function getAssists(): int
-    {
-        return $this->assists;
-    }
-
-    public function getDeaths(): int
-    {
-        return $this->deaths;
-    }
-
-    public function getHeadshots(): int
-    {
-        return $this->headshots;
-    }
-
-    public function getHeadshotsPercentage(): float
-    {
-        return $this->headshotsPercentage;
-    }
-
-    public function getKrRatio(): float
-    {
-        return $this->krRatio;
-    }
-
-    public function getKdRatio(): float
-    {
-        return $this->kdRatio;
-    }
-
-    public function getTripleKills(): int
-    {
-        return $this->tripleKills;
-    }
-
-    public function getQuadroKills(): int
-    {
-        return $this->quadroKills;
-    }
-
-    public function getPentaKills(): int
-    {
-        return $this->pentaKills;
-    }
-
-    public function getMvps(): int
-    {
-        return $this->mvps;
-    }
-
-    public function getRounds(): int
-    {
-        return $this->rounds;
-    }
-
     public function getFaceitUrl(): string
     {
         return $this->faceitUrl;
-    }
-
-    public function isWin(): bool
-    {
-        return $this->isWin;
     }
 
     public function getFinishedAt(): DateTimeInterface
@@ -153,13 +76,29 @@ final class MatchElement
         return $this->finishedAt;
     }
 
-    public function isGoodKdRatio(): bool
+    public function getRequestedPlayer(string $playerFaceitId): PlayerElement
     {
-        return $this->getKdRatio() >= self::GOOD_KD_RATIO;
+        foreach ($this->teams->toArray() as $team) {
+            foreach ($team->getPlayers()->toArray() as $player) {
+                if ($player->getFaceitId() === $playerFaceitId) {
+                    return $player;
+                }
+            }
+        }
+
+        throw new Exception('Player not found');
     }
 
-    public function isGoodKrRatio(): bool
+    public function isWin(string $faceitPlayerId): bool
     {
-        return $this->getKrRatio() >= self::GOOD_KR_RATIO;
+        foreach ($this->teams->toArray() as $team) {
+            foreach ($team->getPlayers()->toArray() as $player) {
+                if ($player->getFaceitId() === $faceitPlayerId) {
+                    return $team->isWinner();
+                }
+            }
+        }
+
+        return false;
     }
 }

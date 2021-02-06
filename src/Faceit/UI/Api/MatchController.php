@@ -24,7 +24,10 @@ final class MatchController extends AbstractController
         $player = $this->playerService->getByNickname($request->get('nickname'));
 
         return new JsonResponse(
-            $this->presenter->presentCollection($this->service->getByPlayer($player->getFaceitId()))
+            $this->presenter->presentCollection(
+                $this->service->getByPlayer($player->getFaceitId()),
+                $player->getFaceitId()
+            )
         );
     }
 }

@@ -97,33 +97,59 @@ final class MatchDbRepository implements MatchRepository
 
         $rows = $this->connection->executeQuery("
             SELECT
-                fmtp.faceit_player_id AS player_id,
-                fm.game_mode AS mode,
-                fm.map AS map,
-                fm.score AS score,
-                fmtp.kills AS kills,
-                fmtp.assists AS assists,
-                fmtp.deaths AS deaths,
-                fmtp.headshots AS headshots,
-                fmtp.headshots_percentage AS headshots_percentage,
-                fmtp.kr_ratio AS kr_ratio,
-                fmtp.kd_ratio AS kd_ratio,
-                fmtp.triple_kills AS triple_kills,
-                fmtp.quadro_kills AS quadro_kills,
-                fmtp.penta_kills AS penta_kills,
-                fmtp.mvps AS mvps,
-                fmt.final_rounds AS rounds,
-                fm.faceit_url AS faceit_url,
-                fmt.is_win AS is_win,
-                fm.finished_at AS finished_at
+                fm.id AS match_id,
+                fm.faceit_id AS match_faceit_id,
+                fm.game_mode AS match_game_mode,
+                fm.map AS match_map,
+                fm.score AS match_score,
+                fm.faceit_url AS match_url,
+                fm.finished_at AS match_finished_at,
+                fmt.id AS team_id,
+                fmt.name AS team_name,
+                fmt.is_win AS team_is_win,
+                fmt.first_half_rounds AS team_first_half_rounds,
+                fmt.second_half_rounds AS team_second_half_rounds,
+                fmt.overtime_rounds AS team_overtime_rounds,
+                fmt.final_rounds AS team_final_rounds,
+                fmtp.faceit_player_id AS player_faceit_id,
+                fmtp.nickname AS player_nickname,
+                fmtp.kills AS player_kills,
+                fmtp.assists AS player_assists,
+                fmtp.deaths AS player_deaths,
+                fmtp.headshots AS player_headshots,
+                fmtp.headshots_percentage AS player_headshots_percentage,
+                fmtp.triple_kills AS player_triple_kills,
+                fmtp.quadro_kills AS player_quadro_kills,
+                fmtp.penta_kills AS player_penta_kills,
+                fmtp.mvps AS player_mvps,
+                fmtp.kd_ratio AS player_kd_ratio,
+                fmtp.kr_ratio AS player_kr_ratio
             FROM faceit_matches fm
             JOIN faceit_matches_teams fmt ON fmt.faceit_matches_id = fm.id
             JOIN faceit_matches_teams_players fmtp ON fmtp.faceit_matches_teams_id = fmt.id
-            WHERE fmtp.faceit_player_id = :playerId
+            WHERE fm.id IN (
+                SELECT faceit_matches.id FROM faceit_matches
+                JOIN faceit_matches_teams ON faceit_matches_teams.faceit_matches_id = faceit_matches.id
+                JOIN faceit_matches_teams_players ON faceit_matches_teams_players.faceit_matches_teams_id = faceit_matches_teams.id
+                WHERE faceit_matches_teams_players.faceit_player_id = :playerId
+            )
         " . $where . ' ORDER BY fm.finished_at DESC', ['playerId' => $playerId])->fetchAllAssociative();
 
+        $matches = [];
+
+        foreach ($rows as $row) {
+            $matches[$row['match_id']][] = $row;
+        }
+
+        foreach ($matches as $match) {
+            foreach ($match as $key => $player) {
+                $matches[$player['match_id']]['teams'][$player['team_id']][] = $player;
+                unset($matches[$player['match_id']][$key]);
+            }
+        }
+
         return new MatchList(
-            ...array_map(static fn(array $row): MatchElement => MatchElement::createFromRow($row), $rows)
+            ...array_map(static fn(array $row): MatchElement => MatchElement::createFromRow($row), $matches)
         );
     }
 }

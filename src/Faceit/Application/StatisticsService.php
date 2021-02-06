@@ -18,8 +18,7 @@ final class StatisticsService
     public function __construct(
         private StatisticsRepository $repository,
         private StatisticsFactory $factory,
-        private Faceit $faceit,
-        private MatchService $matchService
+        private Faceit $faceit
     ){}
 
     /**
@@ -48,7 +47,7 @@ final class StatisticsService
 
     private function recalculateMonthStatistics(string $playerId): void
     {
-        $matches = $this->matchService->getByPlayer($playerId, Scope::MONTH());
+        $matches = $this->repository->getPlayerMatchesByMonth($playerId);
         $statistics = $this->factory->createFromMatchList($playerId, $matches, StatisticsType::MONTH());
 
         $this->repository->save($statistics);

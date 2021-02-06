@@ -60,7 +60,7 @@ final class StatisticsSegmentFactory
         );
     }
 
-    public function createCollectionFromMatchList(MatchList $matches): StatisticsSegmentsCollection
+    public function createCollectionFromMatchList(PlayerMatches $matches): StatisticsSegmentsCollection
     {
         $newSegments = [];
         $segments = $matches->groupByMap();
@@ -72,7 +72,7 @@ final class StatisticsSegmentFactory
         return new StatisticsSegmentsCollection(...$newSegments);
     }
 
-    private function createFromMatchList(MatchList $matchList): StatisticsSegment
+    private function createFromMatchList(PlayerMatches $matchList): StatisticsSegment
     {
         return new StatisticsSegment(
             Id::nullable(),
@@ -87,7 +87,7 @@ final class StatisticsSegmentFactory
             $matchList->getDeaths(),
             $matchList->getAverageDeaths(),
             $matchList->getTotalHeadshots(),
-            (int) $matchList->getTotalHeadshotsPercentage(),
+            $matchList->getTotalHeadshotsPercentage(),
             $matchList->getAverageHeadshotsPercentage(),
             $matchList->getHeadshotsPerMatch(),
             $matchList->getTotalKrRatio(),
